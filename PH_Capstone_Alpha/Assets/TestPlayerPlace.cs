@@ -9,6 +9,7 @@ public class TestPlayerPlace : MonoBehaviour {
     GameObject curr_player;
     int player_coord_x = 0;
     int player_coord_y = 0;
+    int player_facing = 0;
 
     // Use this for initialization
     void Start () {
@@ -22,64 +23,67 @@ public class TestPlayerPlace : MonoBehaviour {
 
         bool changed = false;
 
-        if (Input.GetKeyDown(KeyCode.W) && (player_coord_y < GetComponent<BuildBoard>().GetArrayWidth() - 1))
+        int try_x = 0;
+        int try_y = 0;
+        int try_turn = 0;
+        bool control_input = false;
+
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            if ((Mathf.Abs(GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y + 1)) < 1.5) && (GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y + 1) != 0))
+            control_input = true;
+            try_x = player_coord_x + Mathf.FloorToInt(Mathf.Sin(player_facing * Mathf.Deg2Rad) + 0.5f);
+            try_y = player_coord_y + Mathf.FloorToInt(Mathf.Cos(player_facing * Mathf.Deg2Rad) + 0.5f);
+            try_turn = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            control_input = true;
+            try_x = player_coord_x - Mathf.FloorToInt(Mathf.Sin(player_facing * Mathf.Deg2Rad) + 0.5f);
+            try_y = player_coord_y - Mathf.FloorToInt(Mathf.Cos(player_facing * Mathf.Deg2Rad) + 0.5f);
+            try_turn = 180;
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            control_input = true;
+            try_x = player_coord_x - Mathf.FloorToInt(Mathf.Cos(player_facing * Mathf.Deg2Rad) + 0.5f);
+            try_y = player_coord_y + Mathf.FloorToInt(Mathf.Sin(player_facing * Mathf.Deg2Rad) + 0.5f);
+            try_turn = 270;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            control_input = true;
+            try_x = player_coord_x + Mathf.FloorToInt(Mathf.Cos(player_facing * Mathf.Deg2Rad) + 0.5f);
+            try_y = player_coord_y - Mathf.FloorToInt(Mathf.Sin(player_facing * Mathf.Deg2Rad) + 0.5f);
+            try_turn = 90;
+        }
+        if (control_input)
+        {
+            if ((try_x >= 0) && (try_x < GetComponent<BuildBoard>().GetArrayHeight()) && (try_y >= 0) && (try_y < GetComponent<BuildBoard>().GetArrayWidth()))
             {
-                if (GetComponent<MarkerControl>().CanMove(player_coord_x, player_coord_y + 1))
+                if ((Mathf.Abs(GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - GetComponent<BuildBoard>().GetArrayValue(try_x, try_y)) < 1.5) && (GetComponent<BuildBoard>().GetArrayValue(try_x, try_y) != 0))
                 {
-                    player_coord_y += 1;
-                    changed = true;
+                    if (GetComponent<MarkerControl>().CanMove(try_x, try_y))
+                    {
+                        player_coord_x = try_x;
+                        player_coord_y = try_y;
+                        changed = true;
+
+                        player_facing = (player_facing + try_turn) % 360;
+                    }
+                    else
+                    {
+                        Debug.Log("Target (" + try_x + ", " + try_y + ") Already Marked");
+                        // Damage self
+                    }
                 }
                 else
                 {
-                    // Damage self
+                    Debug.Log("Target (" + try_x + ", " + try_y + ") Height Difference Too Large");
                 }
             }
-        }
-        else if (Input.GetKeyDown(KeyCode.S) && (player_coord_y > 0))
-        {
-            if ((Mathf.Abs(GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y - 1)) < 1.5) && (GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y - 1) != 0))
+            else
             {
-                if (GetComponent<MarkerControl>().CanMove(player_coord_x, player_coord_y - 1))
-                {
-                    player_coord_y -= 1;
-                    changed = true;
-                }
-                else
-                {
-                    // Damage self
-                }
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.A) && (player_coord_x > 0))
-        {
-            if ((Mathf.Abs(GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - GetComponent<BuildBoard>().GetArrayValue(player_coord_x - 1, player_coord_y)) < 1.5) && (GetComponent<BuildBoard>().GetArrayValue(player_coord_x - 1, player_coord_y) != 0))
-            {
-                if (GetComponent<MarkerControl>().CanMove(player_coord_x - 1, player_coord_y))
-                {
-                    player_coord_x -= 1;
-                    changed = true;
-                }
-                else
-                {
-                    // Damage self
-                }
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.D) && (player_coord_x < GetComponent<BuildBoard>().GetArrayHeight() - 1))
-        {
-            if ((Mathf.Abs(GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - GetComponent<BuildBoard>().GetArrayValue(player_coord_x + 1, player_coord_y)) < 1.5) && (GetComponent<BuildBoard>().GetArrayValue(player_coord_x + 1, player_coord_y) != 0))
-            {
-                if (GetComponent<MarkerControl>().CanMove(player_coord_x + 1, player_coord_y))
-                {
-                    player_coord_x += 1;
-                    changed = true;
-                }
-                else
-                {
-                    // Damage self
-                }
+                Debug.Log("Target (" + try_x + ", " + try_y + ") Out Of Range");
             }
         }
 
@@ -87,7 +91,7 @@ public class TestPlayerPlace : MonoBehaviour {
         {
             GameObject.Destroy(curr_player);
 
-            curr_player = GameObject.Instantiate(mock_player, new Vector3(player_coord_x - (GetComponent<BuildBoard>().GetArrayHeight() / 2), GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y), player_coord_y - (GetComponent<BuildBoard>().GetArrayWidth() / 2)), Quaternion.identity);
+            curr_player = GameObject.Instantiate(mock_player, new Vector3(player_coord_x - (GetComponent<BuildBoard>().GetArrayHeight() / 2), GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y), player_coord_y - (GetComponent<BuildBoard>().GetArrayWidth() / 2)), Quaternion.Euler( 0, player_facing, 0));
 
             GetComponent<MarkerControl>().MarkSpace(player_coord_x, player_coord_y);
         }
