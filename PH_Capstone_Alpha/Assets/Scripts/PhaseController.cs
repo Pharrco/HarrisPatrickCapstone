@@ -12,29 +12,43 @@ public class PhaseController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        // Initial phase is player turn
         curr_phase = GamePhase.PlayerTurn;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        // If the current game phase is the timed test phase
 		if (curr_phase == GamePhase.TimedTestPhase)
         {
+            // Increment timer
             time_elapsed_test += Time.deltaTime;
 
+            // If time elapsed is greater than target time
             if (time_elapsed_test > test_timer)
             {
+                // Reset the timer
                 time_elapsed_test = 0;
+
+                // Move to the player's turn
                 curr_phase = GamePhase.PlayerTurn;
             }
         }
 	}
 
+    // End the player turn and move to the player animation phase
     public static void EndPlayerTurn()
     {
-        curr_phase = GamePhase.TimedTestPhase;
-        time_elapsed_test = 0;
+        curr_phase = GamePhase.PlayerAnimation;   
     }
 
+    // End the player animation phase and move to the player turn phase
+    public static void EndPlayerAnimation()
+    {
+        curr_phase = GamePhase.PlayerTurn;
+    }
+
+    // Return the current game phase for testing from any object
     public static GamePhase GetCurrPhase()
     {
         return curr_phase;

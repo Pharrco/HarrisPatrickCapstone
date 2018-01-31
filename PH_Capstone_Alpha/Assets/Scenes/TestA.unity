@@ -717,8 +717,8 @@ GameObject:
   - component: {fileID: 2036554537}
   - component: {fileID: 2036554536}
   - component: {fileID: 2036554535}
-  - component: {fileID: 2036554538}
   - component: {fileID: 2036554539}
+  - component: {fileID: 2036554538}
   m_Layer: 0
   m_Name: BoardBuilder
   m_TagString: Untagged
@@ -773,10 +773,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2036554534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f40c5246e3c98d24ca603e780cddea76, type: 3}
+  m_Script: {fileID: 11500000, guid: 450d45da3e46d5b468a948d3d024ed15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mock_player: {fileID: 152728, guid: 1d1c331e691bc6d47b3351547c46fe76, type: 2}
+  prefab_player: {fileID: 1895917689588842, guid: 20c62591f0cdf6b45b632cab77db4238,
+    type: 2}
+  player_start_coord_x: 0
+  player_start_coord_y: 0
+  player_facing: 0
 --- !u!114 &2036554539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,11 +792,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a965c82f953ec25418a761fd64bdd8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active_marker: {fileID: 1259657712933928, guid: 19d7372b52ad83648a4ebc06df32aae0,
+  n_active_marker: {fileID: 1259657712933928, guid: 19d7372b52ad83648a4ebc06df32aae0,
     type: 2}
-  inactive_marker: {fileID: 1259657712933928, guid: 7305131dc7c8b1641a3f7a533ddb75a2,
+  n_inactive_marker: {fileID: 1259657712933928, guid: 7305131dc7c8b1641a3f7a533ddb75a2,
     type: 2}
-  markers_text: {fileID: 106112640}
+  n_markers_text: {fileID: 106112640}
 --- !u!1 &2078233345
 GameObject:
   m_ObjectHideFlags: 0

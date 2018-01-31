@@ -14,7 +14,7 @@ public class TestPlayerPlace : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        curr_player = GameObject.Instantiate(mock_player, new Vector3((player_coord_x - (GetComponent<BuildBoard>().GetArrayHeight() / 2)) * 5, GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (GetComponent<BuildBoard>().GetArrayWidth() / 2)) * 5), Quaternion.identity);
+        curr_player = GameObject.Instantiate(mock_player, new Vector3((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
         ControlView.SetFocus(curr_player);
     }
 
@@ -61,11 +61,11 @@ public class TestPlayerPlace : MonoBehaviour {
             }
             if (control_input)
             {
-                if ((try_x >= 0) && (try_x < GetComponent<BuildBoard>().GetArrayHeight()) && (try_y >= 0) && (try_y < GetComponent<BuildBoard>().GetArrayWidth()))
+                if ((try_x >= 0) && (try_x < BuildBoard.GetArrayHeight()) && (try_y >= 0) && (try_y < BuildBoard.GetArrayWidth()))
                 {
-                    if ((Mathf.Abs(GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - GetComponent<BuildBoard>().GetArrayValue(try_x, try_y)) < 1.5) && (GetComponent<BuildBoard>().GetArrayValue(try_x, try_y) != 0))
+                    if ((Mathf.Abs(BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - BuildBoard.GetArrayValue(try_x, try_y)) < 1.5) && (BuildBoard.GetArrayValue(try_x, try_y) != 0))
                     {
-                        if (GetComponent<MarkerControl>().CanMove(try_x, try_y))
+                        if (MarkerControl.CanMove(try_x, try_y))
                         {
                             player_coord_x = try_x;
                             player_coord_y = try_y;
@@ -95,9 +95,9 @@ public class TestPlayerPlace : MonoBehaviour {
             {
                 GameObject.Destroy(curr_player);
 
-                curr_player = GameObject.Instantiate(mock_player, new Vector3((player_coord_x - (GetComponent<BuildBoard>().GetArrayHeight() / 2)) * 5, GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (GetComponent<BuildBoard>().GetArrayWidth() / 2)) * 5), Quaternion.Euler(0, player_facing, 0));
+                curr_player = GameObject.Instantiate(mock_player, new Vector3((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(0, player_facing, 0));
 
-                GetComponent<MarkerControl>().MarkSpace(player_coord_x, player_coord_y);
+                MarkerControl.MarkSpace(player_coord_x, player_coord_y);
 
                 ControlView.SetFocus(curr_player);
             }
@@ -112,7 +112,7 @@ public class TestPlayerPlace : MonoBehaviour {
         player_coord_y = 0;
         player_facing = 0;
 
-        curr_player = GameObject.Instantiate(mock_player, new Vector3((player_coord_x - (GetComponent<BuildBoard>().GetArrayHeight() / 2)) * 5, GetComponent<BuildBoard>().GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (GetComponent<BuildBoard>().GetArrayWidth() / 2)) * 5), Quaternion.identity);
+        curr_player = GameObject.Instantiate(mock_player, new Vector3((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
         ControlView.SetFocus(curr_player);
     }
 }
