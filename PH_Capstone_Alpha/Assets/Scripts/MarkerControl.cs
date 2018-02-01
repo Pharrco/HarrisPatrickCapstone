@@ -17,44 +17,71 @@ public class MarkerControl : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        // Make serialized objects to static
         active_marker = n_active_marker;
         inactive_marker = n_inactive_marker;
         markers_text = n_markers_text;
 
+        // Initialize the integer and object array
         board_marker_array = new int[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
         marker_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
 
-        board_marker_array[8, 1] = -1;
+        // TEMP: Add unmarked spaces
         board_marker_array[0, 0] = -1;
+        board_marker_array[0, 2] = -1;
+        board_marker_array[1, 2] = -1;
+        board_marker_array[2, 0] = -1;
+        board_marker_array[2, 1] = -1;
+        board_marker_array[2, 2] = -1;
+        board_marker_array[2, 3] = -1;
+        board_marker_array[3, 1] = -1;
 
+        // For each column
         for (int i = 0; i < BuildBoard.GetArrayHeight(); i++)
         {
+            // For each entry in the column
             for (int j = 0; j < BuildBoard.GetArrayWidth(); j++)
             {
+                // If space has not been designated as empty or special
                 if (board_marker_array[i, j] == 0)
                 {
+                    // Add to the total pre-marker count
                     markers_total += 1;
-                    marker_array[i, j] = GameObject.Instantiate(inactive_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.4f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
 
+                    // Instantiate the pre-marker
+                    marker_array[i, j] = GameObject.Instantiate(inactive_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.9f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler( 90, 0, 0));
+
+                    // Update the marker text
                     markers_text.text = markers_passed.ToString("00") + " / " + markers_total.ToString("00");
                 }
             }
         }
 	}
 	
+    // Mark the specified space, showing that a player has passed through the space and is no longer allowed to enter this space
 	public static void MarkSpace(int x, int y)
     {
+        // If space was occupied by a pre-marker
         if (board_marker_array[x,y] == 0)
         {
+            // Add to the marked space total
             markers_passed += 1;
+
+            // Update the marker text
             markers_text.text = markers_passed.ToString("00") + " / " + markers_total.ToString("00");
 
+            // Destroy the pre-marker
             GameObject.Destroy(marker_array[x, y]);
+
+            // Update the int array to show the space has been marked
             board_marker_array[x, y] = 1;
-            marker_array[x,y] = GameObject.Instantiate(active_marker, new Vector3((x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(x, y) - 0.4f,( y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
+
+            // Instantiate the marker
+            marker_array[x,y] = GameObject.Instantiate(active_marker, new Vector3((x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(x, y) - 1f,( y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
         }
     }
 
+    // Returns whether the player can move to the space based on the marker state. Returns false if a space has been marked.
     public static bool CanMove(int x, int y)
     {
         if (board_marker_array[x,y] <= 0)
@@ -67,32 +94,51 @@ public class MarkerControl : MonoBehaviour {
         }
     }
 
+    // Reset the level
     public void ResetMarkers()
     {
+        // Set initial marker counts
         markers_total = 0;
         markers_passed = 0;
 
+        // Rebuild the array
         board_marker_array = new int[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
 
-        board_marker_array[8, 1] = -1;
+        // TEMP: Add unmarked spaces
         board_marker_array[0, 0] = -1;
+        board_marker_array[0, 2] = -1;
+        board_marker_array[1, 2] = -1;
+        board_marker_array[2, 0] = -1;
+        board_marker_array[2, 1] = -1;
+        board_marker_array[2, 2] = -1;
+        board_marker_array[2, 3] = -1;
+        board_marker_array[3, 1] = -1;
 
+        // For each column
         for (int i = 0; i < BuildBoard.GetArrayHeight(); i++)
         {
+            // For each entry in the column
             for (int j = 0; j < BuildBoard.GetArrayWidth(); j++)
             {
+                // If the space is not specially marked as empty
                 if (board_marker_array[i, j] == 0)
                 {
+                    // Destroy the current object in this space
                     GameObject.Destroy(marker_array[i, j]);
 
+                    // Add to the pre-marker total
                     markers_total += 1;
-                    marker_array[i, j] = GameObject.Instantiate(inactive_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.4f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
 
+                    // Instantiate the pre-marker
+                    marker_array[i, j] = GameObject.Instantiate(inactive_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.9f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
+
+                    // Update the marker text
                     markers_text.text = markers_passed.ToString("00") + " / " + markers_total.ToString("00");
                 }
             }
         }
 
+        // Reset the player's position and facing
         GetComponent<PlacePlayerCharacter>().ResetPlayer();
     }
 }

@@ -93,6 +93,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Purchased\DAX\Shields Collection\Scripts\DAX_Rotator.cs" />
+    <Compile Include="Assets\Purchased\DAX\Shields Collection\Scripts\DAX_Rotator_XYZ.cs" />
     <Compile Include="Assets\Purchased\ErbGameArt\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\Purchased\ErbGameArt\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\Purchased\ErbGameArt\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -221,21 +223,23 @@
     <Compile Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Utility\WaypointProgressTracker.cs" />
     <Compile Include="Assets\Scripts\BuildBoard.cs" />
     <Compile Include="Assets\Scripts\ControlView.cs" />
+    <Compile Include="Assets\Scripts\LevelStateMove.cs" />
     <Compile Include="Assets\Scripts\MarkerControl.cs" />
     <Compile Include="Assets\Scripts\PhaseController.cs" />
     <Compile Include="Assets\Scripts\PlacePlayerCharacter.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\RandomSeqGen.cs" />
-    <Compile Include="Assets\Scripts\TestPlayerPlace.cs" />
+    <Compile Include="Assets\Scripts\TestMenuControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon effect pack\Prefabs\ReadMe.txt" />
-    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon effect pack\Readme.txt" />
-    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon effect pack\Shaders\AlphaBlendedLighting.shader" />
-    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon effect pack\Shaders\Blood.shader" />
-    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon effect pack\Shaders\ErbAlphaBlended.shader" />
-    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon effect pack\Shaders\LightningStrike.shader" />
-    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon effect pack\Shaders\Tornado.shader" />
+    <None Include="Assets\Purchased\DAX\Shields Collection\Shaders\DAX_AlphaBlend+Add.shader" />
+    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon VFX\Prefabs\ReadMe.txt" />
+    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon VFX\Readme.txt" />
+    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon VFX\Shaders\AlphaBlendedLighting.shader" />
+    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon VFX\Shaders\Blood.shader" />
+    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon VFX\Shaders\ErbAlphaBlended.shader" />
+    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon VFX\Shaders\LightningStrike.shader" />
+    <None Include="Assets\Purchased\ErbGameArt\Fantastic cartoon VFX\Shaders\Tornado.shader" />
     <None Include="Assets\Purchased\ErbGameArt\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\Purchased\ErbGameArt\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\Purchased\ErbGameArt\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />

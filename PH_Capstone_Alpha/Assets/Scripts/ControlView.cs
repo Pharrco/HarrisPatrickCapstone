@@ -12,9 +12,9 @@ public class ControlView : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
         // Get the main camera
         camera_main = Camera.main.gameObject;
-
 	}
 	
 	// Update is called once per frame
@@ -49,6 +49,7 @@ public class ControlView : MonoBehaviour {
         // Set the focus to the provided target
         current_focus = new_target;
 
+        // If focus target and camera exist
         if ((current_focus.transform != null) && (camera_main != null))
         {
             // Look at the focus target
