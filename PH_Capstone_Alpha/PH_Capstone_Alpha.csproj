@@ -223,6 +223,8 @@
     <Compile Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Utility\WaypointProgressTracker.cs" />
     <Compile Include="Assets\Scripts\BuildBoard.cs" />
     <Compile Include="Assets\Scripts\ControlView.cs" />
+    <Compile Include="Assets\Scripts\Levels\LevelBase.cs" />
+    <Compile Include="Assets\Scripts\Levels\LevelDat_1_1.cs" />
     <Compile Include="Assets\Scripts\LevelStateMove.cs" />
     <Compile Include="Assets\Scripts\MarkerControl.cs" />
     <Compile Include="Assets\Scripts\PhaseController.cs" />

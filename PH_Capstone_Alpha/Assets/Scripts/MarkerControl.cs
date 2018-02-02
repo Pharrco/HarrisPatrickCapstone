@@ -16,7 +16,7 @@ public class MarkerControl : MonoBehaviour {
     static int markers_total, markers_passed;
 
     // Use this for initialization
-    void Start () {
+    public void Start ( ) {
         // Make serialized objects to static
         active_marker = n_active_marker;
         inactive_marker = n_inactive_marker;
@@ -26,15 +26,20 @@ public class MarkerControl : MonoBehaviour {
         board_marker_array = new int[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
         marker_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
 
-        // TEMP: Add unmarked spaces
-        board_marker_array[0, 0] = -1;
-        board_marker_array[0, 2] = -1;
-        board_marker_array[1, 2] = -1;
-        board_marker_array[2, 0] = -1;
-        board_marker_array[2, 1] = -1;
-        board_marker_array[2, 2] = -1;
-        board_marker_array[2, 3] = -1;
-        board_marker_array[3, 1] = -1;
+        // For each column
+        for (int i = 0; i < BuildBoard.GetArrayHeight(); i++)
+        {
+            // For each entry in the column
+            for (int j = 0; j < BuildBoard.GetArrayWidth(); j++)
+            {
+                board_marker_array[i, j] = -1;
+            }
+        }
+
+        foreach (Vector2 coordinate in GetComponent<LevelBase>().Marker_list)
+        {
+            board_marker_array[(int)coordinate.x, (int)coordinate.y] = 0;
+        }
 
         // For each column
         for (int i = 0; i < BuildBoard.GetArrayHeight(); i++)
@@ -95,7 +100,7 @@ public class MarkerControl : MonoBehaviour {
     }
 
     // Reset the level
-    public void ResetMarkers()
+    public void ResetMarkers( )
     {
         // Set initial marker counts
         markers_total = 0;
@@ -104,15 +109,20 @@ public class MarkerControl : MonoBehaviour {
         // Rebuild the array
         board_marker_array = new int[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
 
-        // TEMP: Add unmarked spaces
-        board_marker_array[0, 0] = -1;
-        board_marker_array[0, 2] = -1;
-        board_marker_array[1, 2] = -1;
-        board_marker_array[2, 0] = -1;
-        board_marker_array[2, 1] = -1;
-        board_marker_array[2, 2] = -1;
-        board_marker_array[2, 3] = -1;
-        board_marker_array[3, 1] = -1;
+        // For each column
+        for (int i = 0; i < BuildBoard.GetArrayHeight(); i++)
+        {
+            // For each entry in the column
+            for (int j = 0; j < BuildBoard.GetArrayWidth(); j++)
+            {
+                board_marker_array[i, j] = -1;
+            }
+        }
+
+        foreach (Vector2 coordinate in GetComponent<LevelBase>().Marker_list)
+        {
+            board_marker_array[(int)coordinate.x, (int)coordinate.y] = 0;
+        }
 
         // For each column
         for (int i = 0; i < BuildBoard.GetArrayHeight(); i++)

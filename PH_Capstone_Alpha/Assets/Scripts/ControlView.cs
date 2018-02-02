@@ -5,10 +5,14 @@ using UnityEngine;
 public class ControlView : MonoBehaviour {
 
     static GameObject camera_main;
-    int rotation = 225;
+    float rotation = 225;
     public float slope = 0;
     public float zoom = 0;
     static GameObject current_focus;
+    static bool force_turn = true;
+    [SerializeField]
+    float force_speed;
+    static float force_total;
 
     // Use this for initialization
     void Start () {
@@ -20,8 +24,26 @@ public class ControlView : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        // Force the camera to rotate if feature is turned on and some forced rotation remains
+        if ((force_turn) && (force_total > 0))
+        {
+            // Add the remianing rotation or max forced rotations speed, whichever is less, to the rotation
+            rotation += Mathf.Min(force_total, force_speed);
+
+            // Subtract the remianing rotation or max forced rotations speed, whichever is less, from the remaining rotation
+            force_total -= Mathf.Min(force_total, force_speed);
+        }
+        else if ((force_turn) && (force_total < 0)) // Negative protection
+        {
+            // Subtract the remianing rotation or max forced rotations speed, whichever is less, from the rotation
+            rotation += Mathf.Max(force_total, -force_speed);
+
+            // Add the remianing rotation or max forced rotations speed, whichever is less, to the remaining rotation
+            force_total -= Mathf.Max(force_total, -force_speed);
+        }
+
         // Update rotation based on player input
-        rotation -= (int)Input.GetAxisRaw("ViewHorizontal");
+        rotation -= Input.GetAxisRaw("ViewHorizontal");
 
         // Fix rotation within 360
         rotation = (int)rotation % 360;
@@ -56,5 +78,17 @@ public class ControlView : MonoBehaviour {
             camera_main.transform.LookAt(current_focus.transform.position);
         }
 
+    }
+
+    // Adds a total of amount of rotation to force the camera to do, allows matching of camera to player rotation for more control clarity
+    // Calling this replaces the current value, so it will cancel any other forced camera rotation already in progress
+    public static void AddForcedRotation(float n_rotation)
+    {
+        // Checks to see if the feature is enabled
+        if (force_turn)
+        {
+            // Change the total amount of rotation to the new value
+            force_total = n_rotation;
+        }
     }
 }

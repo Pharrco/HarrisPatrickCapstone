@@ -13,7 +13,14 @@ public class BuildBoard : MonoBehaviour {
 
         // Test array holding the board to be built
         // [Column (Left to Right), Row (Front to Back)]
-        board_array = new int[,] { { 1, 1, 2, 1 } , { 3, 2, 0, 1 } , { 4, 0, 2, 2 }, { 4, 4, 3, 3 } };
+        if (GetComponent<LevelBase>() != null)
+        {
+            board_array = GetComponent<LevelBase>().Level_array;
+        }
+        else
+        {
+            board_array = new int[,] { { 1, 1, 2, 1 }, { 3, 2, 3, 1 }, { 4, 3, 0, 2 }, { 4, 4, 3, 3 } };
+        }
 
         // For each column
         for (int i = 0; i < board_array.GetLength(0); i++)

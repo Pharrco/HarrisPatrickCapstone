@@ -23,10 +23,14 @@ public class PlayerController : MonoBehaviour {
     int move_phase = 0;
 
 
-    // Use this for initialization
-    void Start () {
-		
-	}
+    // Set's the player's position, called from the character spawner
+    public void SetPosition( int start_x, int start_y , int n_facing)
+    {
+        player_coord_x = start_x;
+        player_coord_y = start_y;
+        player_facing = n_facing;
+        player_curr_height = BuildBoard.GetArrayValue(start_x, start_y);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -142,6 +146,16 @@ public class PlayerController : MonoBehaviour {
                             // Start run animation
                             GetComponent<Animator>().SetBool("Run", true);
 
+                            // Add forced camera rotation
+                            if (try_turn <= 180)
+                            {
+                                ControlView.AddForcedRotation(try_turn);
+                            }
+                            else
+                            {
+                                ControlView.AddForcedRotation(try_turn - 360);
+                            }
+
                             // Set move phase
                             move_phase = 0;
 
@@ -215,8 +229,6 @@ public class PlayerController : MonoBehaviour {
             // If near final destination
             if (Vector3.Distance(transform.position, new Vector3((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_target_x, player_target_y) - 1f, (player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5)) < error_dist)
             {
-                Debug.Log("Jump to destination");
-
                 // Move to destination
                 transform.position = new Vector3((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_target_x, player_target_y) - 1f, (player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5);
 
