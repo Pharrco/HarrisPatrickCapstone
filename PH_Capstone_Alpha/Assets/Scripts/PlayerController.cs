@@ -162,10 +162,40 @@ public class PlayerController : MonoBehaviour {
                             // End the player input phase, begin the player animation phase
                             PhaseController.EndPlayerTurn();
                         }
-                        else
+                        else if (BuildBoard.GetArrayValue(try_x, try_y) > 0)
                         {
-                            Debug.Log("Target (" + try_x + ", " + try_y + ") Already Marked");
-                            // Damage self
+                            // Set the target space
+                            player_target_x = try_x;
+                            player_target_y = try_y;
+
+                            // Set the first temp target
+                            temp_target_x = ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5) + (1f / 3f) * (((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5));
+                            temp_target_y = ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5) + (1f / 3f) * (((player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5));
+                            temp_target_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f;
+
+                            // Set the temp origin
+                            temp_origin_x = transform.position.x;
+                            temp_origin_y = transform.position.z;
+                            temp_origin_height = transform.position.y;
+
+                            // Update the player's facing
+                            player_facing = (player_facing + try_turn) % 360;
+
+                            // Rotate the player character
+                            transform.rotation = Quaternion.Euler(0, player_facing, 0);
+
+                            // Set the current and destination heights
+                            player_curr_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y);
+                            player_target_height = BuildBoard.GetArrayValue(try_x, try_y);
+
+                            // Start run animation
+                            GetComponent<Animator>().SetBool("Run", true);
+
+                            // Set move phase
+                            move_phase = 0;
+
+                            // End the player input phase, begin the player animation phase
+                            PhaseController.PlayerError();
                         }
                     }
                     else
@@ -247,6 +277,72 @@ public class PlayerController : MonoBehaviour {
 
                 // Advance to next player turn
                 PhaseController.EndPlayerAnimation();
+            }
+        }
+        // Animate the player character's movement between spaces
+        else if (PhaseController.GetCurrPhase() == PhaseController.GamePhase.PlayerError)
+        {
+            // Update progress
+            progress += move_speed * Time.deltaTime;
+
+            // Lerp to temporary destination
+            transform.position = Vector3.Lerp(new Vector3(temp_origin_x, temp_origin_height, temp_origin_y), new Vector3(temp_target_x, temp_target_height, temp_target_y), Mathf.Min(1f, progress));
+
+            // If near temporary destination
+            if ((move_phase < 2) && (Vector3.Distance(transform.position, new Vector3(temp_target_x, temp_target_height, temp_target_y)) < error_dist))
+            {
+                // If approaching first temporary destination
+                if (move_phase == 0)
+                {
+                    // Set the temp origin
+                    temp_origin_x = transform.position.x;
+                    temp_origin_y = transform.position.z;
+                    temp_origin_height = transform.position.y;
+
+                    // Set the second temp target
+                    temp_target_x = ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5) + (2f / 3f) * (((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5));
+                    temp_target_y = ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5) + (2f / 3f) * (((player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5));
+                    temp_target_height = BuildBoard.GetArrayValue(player_target_x, player_target_y) - 1f;
+                    move_phase = 1;
+
+                    // Reset progress
+                    progress = 0;
+                }
+                else
+                {
+                    // Set the temp origin
+                    temp_origin_x = transform.position.x;
+                    temp_origin_y = transform.position.z;
+                    temp_origin_height = transform.position.y;
+
+                    // Set the final target
+                    temp_target_x = (player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5;
+                    temp_target_y = (player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5;
+                    temp_target_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f;
+                    move_phase = 2;
+
+                    // Reset progress
+                    progress = 0;
+
+                    // Take damage
+                    PlayerHealth.PlayerTakeDamage();
+                }
+            }
+
+            // If near final destination
+            if ((move_phase == 2) && (Vector3.Distance(transform.position, new Vector3((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5)) < error_dist))
+            {
+                // Move to destination
+                transform.position = new Vector3((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5);
+
+                // Reset progress
+                progress = 0;
+
+                // End run animation
+                GetComponent<Animator>().SetBool("Run", false);
+
+                // Advance to next player turn
+                PhaseController.EndPlayerError();
             }
         }
     }

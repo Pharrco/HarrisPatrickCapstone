@@ -5,7 +5,7 @@ using UnityEngine;
 public class ControlView : MonoBehaviour {
 
     static GameObject camera_main;
-    float rotation = 225;
+    public float rotation = 225;
     public float slope = 0;
     public float zoom = 0;
     static GameObject current_focus;
@@ -13,6 +13,8 @@ public class ControlView : MonoBehaviour {
     [SerializeField]
     float force_speed;
     static float force_total;
+    [SerializeField]
+    GameObject WallN, WallE, WallS, WallW;
 
     // Use this for initialization
     void Start () {
@@ -46,7 +48,7 @@ public class ControlView : MonoBehaviour {
         rotation -= Input.GetAxisRaw("ViewHorizontal");
 
         // Fix rotation within 360
-        rotation = (int)rotation % 360;
+        rotation = ((int)rotation + 360) % 360;
 
         // Update slope based on player input
         slope = Mathf.Max(0, Mathf.Min(6, slope + (Input.GetAxisRaw("ViewVertical") / 10)));
@@ -62,6 +64,47 @@ public class ControlView : MonoBehaviour {
 
             // Look at the focus target
             camera_main.transform.LookAt(current_focus.transform.position);
+        }
+
+
+        // Set South wall based on visibility
+        if ((rotation < 320) && (rotation > 210))
+        {
+            WallS.SetActive(false);
+        }
+        else
+        {
+            WallS.SetActive(true);
+        }
+
+        // Set North wall based on visibility
+        if ((rotation < 140) && (rotation > 30))
+        {
+            WallN.SetActive(false);
+        }
+        else
+        {
+            WallN.SetActive(true);
+        }
+
+        // Set East wall based on visibility
+        if ((rotation < 230) && (rotation > 120))
+        {
+            WallE.SetActive(false);
+        }
+        else
+        {
+            WallE.SetActive(true);
+        }
+
+        // Set East wall based on visibility
+        if ((rotation < 50) || (rotation > 300))
+        {
+            WallW.SetActive(false);
+        }
+        else
+        {
+            WallW.SetActive(true);
         }
     }
 

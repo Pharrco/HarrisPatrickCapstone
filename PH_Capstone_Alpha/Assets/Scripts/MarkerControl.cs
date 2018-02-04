@@ -83,6 +83,9 @@ public class MarkerControl : MonoBehaviour {
 
             // Instantiate the marker
             marker_array[x,y] = GameObject.Instantiate(active_marker, new Vector3((x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(x, y) - 1f,( y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
+
+            // Test for victory
+            PhaseController.TestVictory();
         }
     }
 
@@ -150,5 +153,20 @@ public class MarkerControl : MonoBehaviour {
 
         // Reset the player's position and facing
         GetComponent<PlacePlayerCharacter>().ResetPlayer();
+
+        // Reset the phase state
+        PhaseController.ResetPhaseState();
+    }
+
+    public static bool LevelComplete()
+    {
+        if (markers_passed == markers_total)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

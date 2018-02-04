@@ -34,7 +34,10 @@ public class PlacePlayerCharacter : MonoBehaviour {
         GameObject.Destroy(curr_player);
 
         // Instantiate a new player character
-        curr_player = GameObject.Instantiate(prefab_player, new Vector3((player_start_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_start_coord_x, player_start_coord_y) - 1f, (player_start_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
+        curr_player = GameObject.Instantiate(prefab_player, new Vector3((player_start_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_start_coord_x, player_start_coord_y) - 1f, (player_start_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(0, (int)GetComponent<LevelBase>().Facing_start, 0));
+
+        // Set the player character's initial data
+        curr_player.GetComponent<PlayerController>().SetPosition((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y, (int)GetComponent<LevelBase>().Facing_start);
 
         // Set the camera focus on the new player
         ControlView.SetFocus(curr_player);
