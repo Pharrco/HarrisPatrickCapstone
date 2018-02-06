@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PhaseController : MonoBehaviour {
 
@@ -26,6 +27,9 @@ public class PhaseController : MonoBehaviour {
 
         // Get the menu canvas
         menu_panel = GameObject.Find("PausePanel").GetComponent<Canvas>();
+
+        // Unpause the game
+        paused = false;
     }
 	
 	// Update is called once per frame
@@ -98,7 +102,11 @@ public class PhaseController : MonoBehaviour {
             // Make the win panel visible
             win_panel.planeDistance = 0.5f;
 
-            Debug.Log("Victory");
+            // If this level has not been completed before
+            if (SceneSelectCameraControl.levels_complete < GameObject.Find("BoardBuilder").GetComponent<LevelBase>().Level_id)
+            {
+                SceneSelectCameraControl.levels_complete = GameObject.Find("BoardBuilder").GetComponent<LevelBase>().Level_id;
+            }
         }
     }
 
@@ -126,15 +134,49 @@ public class PhaseController : MonoBehaviour {
         menu_panel.planeDistance = -0.5f;
     }
 
-    public static void PauseGame()
+    static void PauseGame()
     {
         paused = true;
         menu_panel.planeDistance = 0.5f;
     }
 
-    public static void UnpauseGame()
+    static void UnpauseGame()
     {
         paused = false;
         menu_panel.planeDistance = -0.5f;
+    }
+
+    public void TogglePause()
+    {
+        if (paused)
+        {
+            UnpauseGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
+
+    // Go to scene select
+    public void GoToSceneSelect()
+    {
+        SceneManager.LoadScene("SceneSelect_Area1");
+    }
+
+
+    // Go to main menu
+    public void GoToSceneMenuMain()
+    {
+        SceneManager.LoadScene("Menu_Main");
+    }
+
+    // Go to next level
+    public void GoToSceneNext()
+    {
+        if (GameObject.Find("BoardBuilder").GetComponent<LevelBase>().next_level != "")
+        {
+            SceneManager.LoadScene(GameObject.Find("BoardBuilder").GetComponent<LevelBase>().next_level);
+        }
     }
 }

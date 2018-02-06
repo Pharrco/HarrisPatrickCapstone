@@ -5,14 +5,14 @@ using UnityEngine;
 public class ControlView : MonoBehaviour {
 
     static GameObject camera_main;
-    public float rotation = 225;
-    public float slope = 0;
-    public float zoom = 0;
+    public static float rotation = 225;
+    public static float slope = 0;
+    public static float zoom = 0;
     static GameObject current_focus;
-    static bool force_turn = true;
-    [SerializeField]
-    float force_speed;
-    static float force_total;
+    static bool force_to_target = true;
+    static bool has_target = false;
+    static float temp_origin, temp_target;
+    static float rotation_status = 0;
     [SerializeField]
     GameObject WallN, WallE, WallS, WallW;
 
@@ -26,22 +26,34 @@ public class ControlView : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        // Force the camera to rotate if feature is turned on and some forced rotation remains
-        if ((force_turn) && (force_total > 0))
+        // Force the camera to roate to a target angle if feature is turned on and a target exists
+        if ((force_to_target) && (has_target))
         {
-            // Add the remianing rotation or max forced rotations speed, whichever is less, to the rotation
-            rotation += Mathf.Min(force_total, force_speed);
+            // Update time
+            rotation_status = Mathf.Min(1.0f, rotation_status + Time.deltaTime);
 
-            // Subtract the remianing rotation or max forced rotations speed, whichever is less, from the remaining rotation
-            force_total -= Mathf.Min(force_total, force_speed);
-        }
-        else if ((force_turn) && (force_total < 0)) // Negative protection
-        {
-            // Subtract the remianing rotation or max forced rotations speed, whichever is less, from the rotation
-            rotation += Mathf.Max(force_total, -force_speed);
+            // Update rotation
+            rotation = Mathf.LerpAngle(temp_origin, temp_target, rotation_status);
 
-            // Add the remianing rotation or max forced rotations speed, whichever is less, to the remaining rotation
-            force_total -= Mathf.Max(force_total, -force_speed);
+            // If rotation is complete
+            if (rotation_status >= 1.0f)
+            {
+                // No longer has a target
+                has_target = false;
+
+                // Reset rotation status
+                rotation_status = 0;
+            }
+
+            // If player has started to adjust angle on their own
+            if (Mathf.Abs(Input.GetAxisRaw("ViewHorizontal")) > 0)
+            {
+                // Cancel target
+                has_target = false;
+
+                // Reset rotation status
+                rotation_status = 0;
+            }
         }
 
         // Update rotation based on player input
@@ -128,10 +140,17 @@ public class ControlView : MonoBehaviour {
     public static void AddForcedRotation(float n_rotation)
     {
         // Checks to see if the feature is enabled
-        if (force_turn)
+        if (force_to_target)
         {
-            // Change the total amount of rotation to the new value
-            force_total = n_rotation;
+            // Set the origin and destination of the rotation
+            temp_origin = rotation;
+            temp_target = (int)(rotation + n_rotation) % 360;
+
+            // Set that a target is present
+            has_target = true;
+
+            // Reset progress
+            rotation_status = 0;
         }
     }
 }

@@ -22,6 +22,10 @@ public class MarkerControl : MonoBehaviour {
         inactive_marker = n_inactive_marker;
         markers_text = n_markers_text;
 
+        // Reset marker counts
+        markers_passed = 0;
+        markers_total = 0;
+
         // Initialize the integer and object array
         board_marker_array = new int[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
         marker_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];

@@ -5,18 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class TestMenuControl : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void StartTestLevel()
     {
-        SceneManager.LoadScene("TestA");
+        SceneManager.LoadScene("SceneSelect_Area1");
     }
 }

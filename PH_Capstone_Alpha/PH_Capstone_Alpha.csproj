@@ -225,6 +225,10 @@
     <Compile Include="Assets\Scripts\ControlView.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelBase.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_1.cs" />
+    <Compile Include="Assets\Scripts\Levels\LevelDat_1_2.cs" />
+    <Compile Include="Assets\Scripts\Levels\LevelDat_1_3.cs" />
+    <Compile Include="Assets\Scripts\Levels\LevelDat_1_4.cs" />
+    <Compile Include="Assets\Scripts\Levels\LevelDat_1_5.cs" />
     <Compile Include="Assets\Scripts\LevelStateMove.cs" />
     <Compile Include="Assets\Scripts\MarkerControl.cs" />
     <Compile Include="Assets\Scripts\PhaseController.cs" />
@@ -232,6 +236,7 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\RandomSeqGen.cs" />
+    <Compile Include="Assets\Scripts\SceneSelectCameraControl.cs" />
     <Compile Include="Assets\Scripts\TestMenuControl.cs" />
   </ItemGroup>
   <ItemGroup>
