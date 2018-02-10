@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44359365, g: 0.49291003, b: 0.5724847, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -3846,9 +3846,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a965c82f953ec25418a761fd64bdd8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  n_active_marker: {fileID: 1224319608098842, guid: 28a45f1473306d143bef08661a472ce3,
+  n_active_marker: {fileID: 1369477901872936, guid: e1d891c4e4533f54a801954fb43808b6,
     type: 2}
-  n_inactive_marker: {fileID: 1859389092795384, guid: d9a272598e6c2cd4884ab521e6006ded,
+  n_inactive_marker: {fileID: 1859257414539776, guid: 372e3899b623e5c4fb1059f5c513298f,
+    type: 2}
+  n_simple_marker: {fileID: 1234544064822320, guid: a1e64de3bb4cf554ba016ca5f7ead68e,
     type: 2}
   n_markers_text: {fileID: 106112640}
 --- !u!114 &2036554540
