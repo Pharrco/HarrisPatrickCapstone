@@ -222,7 +222,12 @@
     <Compile Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Utility\WaypointCircuit.cs" />
     <Compile Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Utility\WaypointProgressTracker.cs" />
     <Compile Include="Assets\Scripts\BuildBoard.cs" />
+    <Compile Include="Assets\Scripts\CinematicControllers\CinematicCameraControl.cs" />
+    <Compile Include="Assets\Scripts\CinematicControllers\CinematicCharAnimator.cs" />
+    <Compile Include="Assets\Scripts\CinematicControllers\CinematicController.cs" />
+    <Compile Include="Assets\Scripts\CinematicControllers\CinematicDialogueController.cs" />
     <Compile Include="Assets\Scripts\ControlView.cs" />
+    <Compile Include="Assets\Scripts\Levels\CineDat_1_1.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelBase.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_1.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_2.cs" />

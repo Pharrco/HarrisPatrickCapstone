@@ -69,7 +69,7 @@ public class ControlView : MonoBehaviour {
         zoom = Mathf.Max(0, Mathf.Min(3, zoom + (Input.GetAxisRaw("Zoom") / 6)));
 
         // If the current focus target is set
-        if (current_focus.transform != null)
+        if ((current_focus != null) && (current_focus.transform != null))
         {
             // Position the camera
             camera_main.transform.position = new Vector3(current_focus.transform.position.x + (10 - slope - zoom) * Mathf.Sin(rotation * Mathf.Deg2Rad), current_focus.transform.position.y + 6 + slope - zoom, current_focus.transform.position.z + (10 - slope - zoom) * Mathf.Cos(rotation * Mathf.Deg2Rad));
