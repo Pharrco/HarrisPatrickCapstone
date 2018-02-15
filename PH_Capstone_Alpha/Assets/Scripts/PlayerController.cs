@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour {
         player_coord_y = start_y;
         player_facing = n_facing;
         player_curr_height = BuildBoard.GetArrayValue(start_x, start_y);
+        GameObject.Find("MiniMap").GetComponent<MinimapController>().SetPlayerPosition(player_coord_x, player_coord_y);
     }
 	
 	// Update is called once per frame
@@ -267,6 +268,8 @@ public class PlayerController : MonoBehaviour {
 
                 // Mark the new space
                 MarkerControl.MarkSpace(player_target_x, player_target_y);
+
+                GameObject.Find("MiniMap").GetComponent<MinimapController>().SetPlayerPosition(player_target_x, player_target_y);
 
                 // Set the player's new position
                 player_coord_x = player_target_x;

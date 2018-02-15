@@ -9,4 +9,14 @@ public class TestMenuControl : MonoBehaviour {
     {
         SceneManager.LoadScene("SceneSelect_Area1");
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ChangeLevel(string n_level)
+    {
+        SceneManager.LoadScene(n_level);
+    }
 }

@@ -25,6 +25,8 @@ public class SceneSelectCameraControl : MonoBehaviour {
         // Move to first camera anchor
         transform.position = camera_anchors[0].position;
         transform.rotation = camera_anchors[0].rotation;
+
+        GameObject.Find("LevelTitleText").GetComponent<Text>().text = "Level 1-" + (curr_position + 1).ToString();
     }
 	
 	// Update is called once per frame
@@ -57,6 +59,27 @@ public class SceneSelectCameraControl : MonoBehaviour {
 
                 // Reset move progress
                 move_progress = 0;
+            }
+        }
+        else
+        {
+            // Get keyboard input left
+            if ((Input.GetKeyDown(KeyCode.A)) || (Input.GetKeyDown(KeyCode.LeftArrow)))
+            {
+                MoveSceneSelLeft();
+            }
+            // Get keyboard input right
+            else if ((Input.GetKeyDown(KeyCode.D)) || (Input.GetKeyDown(KeyCode.RightArrow)))
+            {
+                MoveSceneSelRight();
+            }
+            else if (Input.GetKeyDown(KeyCode.Return))
+            {
+                StartLevel();
+            }
+            else if ((Input.GetKeyDown(KeyCode.Escape)) || (Input.GetKeyDown(KeyCode.Backspace)))
+            {
+                ReturnToMenu();
             }
         }
 	}
@@ -107,11 +130,19 @@ public class SceneSelectCameraControl : MonoBehaviour {
     {
         select_canvas.SetActive(true);
         data_canvas.SetActive(true);
+
+        GameObject.Find("LevelTitleText").GetComponent<Text>().text = "Level 1-" + (curr_position + 1).ToString();
     }
 
     // Open the level currently selected
     public void StartLevel()
     {
         SceneManager.LoadScene(scene_refs[curr_position]);
+    }
+
+    // Return to the main menu
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("Menu_Main");
     }
 }

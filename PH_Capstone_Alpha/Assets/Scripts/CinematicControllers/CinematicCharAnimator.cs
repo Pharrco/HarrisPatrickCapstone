@@ -29,8 +29,7 @@ public class CinematicCharAnimator : MonoBehaviour {
     void Start () {
         // Move is not complete
         Move_complete = false;
-        transform.position = new Vector3((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5);
-        StartMove(0, 1);
+        transform.position = new Vector3((player_coord_x - (BuildCinematic.GetArrayHeight() / 2)) * 5, BuildCinematic.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildCinematic.GetArrayWidth() / 2)) * 5);
 	}
 	
 	// Update is called once per frame
@@ -55,9 +54,9 @@ public class CinematicCharAnimator : MonoBehaviour {
                     temp_origin_height = transform.position.y;
 
                     // Set the second temp target
-                    temp_target_x = ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5) + (2f / 3f) * (((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5));
-                    temp_target_y = ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5) + (2f / 3f) * (((player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5));
-                    temp_target_height = BuildBoard.GetArrayValue(player_target_x, player_target_y) - 1f;
+                    temp_target_x = ((player_coord_x - (BuildCinematic.GetArrayHeight() / 2)) * 5) + (2f / 3f) * (((player_target_x - (BuildCinematic.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildCinematic.GetArrayHeight() / 2)) * 5));
+                    temp_target_y = ((player_coord_y - (BuildCinematic.GetArrayWidth() / 2)) * 5) + (2f / 3f) * (((player_target_y - (BuildCinematic.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildCinematic.GetArrayWidth() / 2)) * 5));
+                    temp_target_height = BuildCinematic.GetArrayValue(player_target_x, player_target_y) - 1f;
                     move_phase = 1;
 
                     // Reset progress
@@ -71,9 +70,9 @@ public class CinematicCharAnimator : MonoBehaviour {
                     temp_origin_height = transform.position.y;
 
                     // Set the final target
-                    temp_target_x = (player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5;
-                    temp_target_y = (player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5;
-                    temp_target_height = BuildBoard.GetArrayValue(player_target_x, player_target_y) - 1f;
+                    temp_target_x = (player_target_x - (BuildCinematic.GetArrayHeight() / 2)) * 5;
+                    temp_target_y = (player_target_y - (BuildCinematic.GetArrayWidth() / 2)) * 5;
+                    temp_target_height = BuildCinematic.GetArrayValue(player_target_x, player_target_y) - 1f;
                     move_phase = 2;
 
                     // Reset progress
@@ -82,12 +81,10 @@ public class CinematicCharAnimator : MonoBehaviour {
             }
 
             // If near final destination
-            if (Vector3.Distance(transform.position, new Vector3((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_target_x, player_target_y) - 1f, (player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5)) < error_dist)
+            if (Vector3.Distance(transform.position, new Vector3((player_target_x - (BuildCinematic.GetArrayHeight() / 2)) * 5, BuildCinematic.GetArrayValue(player_target_x, player_target_y) - 1f, (player_target_y - (BuildCinematic.GetArrayWidth() / 2)) * 5)) < error_dist)
             {
-                Debug.Log("Finish");
-
                 // Move to destination
-                transform.position = new Vector3((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(player_target_x, player_target_y) - 1f, (player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5);
+                transform.position = new Vector3((player_target_x - (BuildCinematic.GetArrayHeight() / 2)) * 5, BuildCinematic.GetArrayValue(player_target_x, player_target_y) - 1f, (player_target_y - (BuildCinematic.GetArrayWidth() / 2)) * 5);
 
                 // Reset progress
                 progress = 0;
@@ -109,9 +106,9 @@ public class CinematicCharAnimator : MonoBehaviour {
         player_target_y = try_y;
 
         // Set the first temp target
-        temp_target_x = ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5) + (1f / 3f) * (((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5));
-        temp_target_y = ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5) + (1f / 3f) * (((player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5));
-        temp_target_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f;
+        temp_target_x = ((player_coord_x - (BuildCinematic.GetArrayHeight() / 2)) * 5) + (1f / 3f) * (((player_target_x - (BuildCinematic.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildCinematic.GetArrayHeight() / 2)) * 5));
+        temp_target_y = ((player_coord_y - (BuildCinematic.GetArrayWidth() / 2)) * 5) + (1f / 3f) * (((player_target_y - (BuildCinematic.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildCinematic.GetArrayWidth() / 2)) * 5));
+        temp_target_height = BuildCinematic.GetArrayValue(player_coord_x, player_coord_y) - 1f;
 
         // Set the temp origin
         temp_origin_x = transform.position.x;
@@ -125,8 +122,8 @@ public class CinematicCharAnimator : MonoBehaviour {
         transform.rotation = Quaternion.Euler(0, player_facing, 0);
 
         // Set the current and destination heights
-        player_curr_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y);
-        player_target_height = BuildBoard.GetArrayValue(try_x, try_y);
+        player_curr_height = BuildCinematic.GetArrayValue(player_coord_x, player_coord_y);
+        player_target_height = BuildCinematic.GetArrayValue(try_x, try_y);
 
         // Start run animation
         GetComponent<Animator>().SetBool("Run", true);
@@ -136,5 +133,24 @@ public class CinematicCharAnimator : MonoBehaviour {
 
         active = true;
         Move_complete = false;
+    }
+
+    public void ForceComplete()
+    {
+        // Move to destination
+        transform.position = new Vector3((player_target_x - (BuildCinematic.GetArrayHeight() / 2)) * 5, BuildCinematic.GetArrayValue(player_target_x, player_target_y) - 1f, (player_target_y - (BuildCinematic.GetArrayWidth() / 2)) * 5);
+
+        // Reset progress
+        progress = 0;
+
+        // Set the player's new position
+        player_coord_x = player_target_x;
+        player_coord_y = player_target_y;
+
+        // Set movement complete
+        Move_complete = true;
+
+        // Stop run animation
+        GetComponent<Animator>().SetBool("Run", false);
     }
 }
