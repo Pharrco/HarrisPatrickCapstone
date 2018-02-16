@@ -15,7 +15,8 @@ public class LevelDat_1_5 : LevelBase
         };
 
         Marker_list = new List<Vector2>() {
-            new Vector2(3, 0),
+            new Vector2(0, 3),
+            new Vector2(0, 0),
         };
 
         Player_start = new Vector2(3, 3);

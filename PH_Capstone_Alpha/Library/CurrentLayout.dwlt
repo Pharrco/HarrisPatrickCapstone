@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 521}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -43,7 +43,7 @@ MonoBehaviour:
     y: 0
     width: 1280
     height: 637
-  m_MinSize: {x: 950, y: 521}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -107,10 +107,10 @@ MonoBehaviour:
     y: 30
     width: 1280
     height: 587
-  m_MinSize: {x: 611, y: 471}
-  m_MaxSize: {x: 18006, y: 14021}
+  m_MinSize: {x: 607, y: 471}
+  m_MaxSize: {x: 18002, y: 14021}
   vertical: 0
-  controlID: 280
+  controlID: 72
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_MinSize: {x: 232, y: 471}
   m_MaxSize: {x: 10002, y: 14021}
   vertical: 1
-  controlID: 299
+  controlID: 94
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -206,8 +206,8 @@ MonoBehaviour:
     y: 0
     width: 628
     height: 587
-  m_MinSize: {x: 104, y: 121}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 17}
@@ -297,9 +297,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: da76f7ff
-    m_LastClickedID: -559398
-    m_ExpandedIDs: da76f7ff2082f7ffb41dfaff029cfeff14bbfeff72f9feffd2f9feff02fafeff04fafeff3047fffffa47fffffe4bffff564effffac50ffff3253ffffee56fffff256ffff0a60ffffd660ffffda64ffff3267ffff8869ffff0e6cffffca6fffffce6ffffff276ffffc077ffff147affff6a7cffffc07effff3881fffff284fffff684ffff768bffff448cffff4890ffffa092fffff694ffff7c97ffff389bffff3c9bffff5eb9ffff28baffff2cbeffff84c0ffffdac2ffff60c5ffff1cc9ffff20c9ffff1afcffff000000007a3b01009e3b01002c800100cc86010016890100
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: 9c9cfeff789dfeffb8a0feff3aa1feffc0a1feff02a2feffc2a5feffcca5fefffcaafefffeaffeff50c7feff5ad7feffa6effeff5019ffff326efffff27fffff8890ffffcc9affffcea1ffff90aeffff88deffff9efbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -318,7 +318,7 @@ MonoBehaviour:
       m_ClientGUIView: {fileID: 7}
     m_SearchString: 
   m_ExpandedScenes:
-  - TestA
+  - PlayLevel_1_3
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -433,19 +433,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scenes
+    - Assets/Scenes/PlayLevels
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Scenes/PlayLevels
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Patrick\Documents\GitHub\HarrisPatrickCapstone\PH_Capstone_Alpha
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 085b0000
-    m_LastClickedID: 23304
-    m_ExpandedIDs: 00000000c4570000085b0000b06a0000687200004ec50000b2cb000098d60000d0db0000000a010058210100762701008a480100a850010094530100186b01001a6b01005a89010000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 59}
+    m_SelectedIDs: 9c820000
+    m_LastClickedID: 33436
+    m_ExpandedIDs: 00000000b22b0000fa2e0000ee3e0000c2460000209e0000dea4000016b000006eb5000016e500000efd0000500301003c1101001c250100422d01004e30010018350100244d0100264d010000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -473,7 +473,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c4570000085b00008a630000b06a000068720000668d00004ec50000b2cb000098d60000d0db0000cef20000000a0100020b01005821010076270100242a01002a3501008a480100a850010094530100186b01001a6b010000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000b22b0000fa2e0000ee3e0000c2460000209e0000dea4000016b000006eb5000016e500000efd0000500301001c250100422d01004e30010018350100244d0100264d0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
