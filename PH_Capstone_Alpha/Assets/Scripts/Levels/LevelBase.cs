@@ -14,6 +14,7 @@ public class LevelBase : MonoBehaviour
     public int Facing_start { get; protected set; }
     public int Level_id { get; protected set; }
     public List<InanimateSpawn> Prop_list { get; protected set; }
+    public List<EnemySpawn> Enemy_Spawn_List { get; protected set; }
 
 }
 

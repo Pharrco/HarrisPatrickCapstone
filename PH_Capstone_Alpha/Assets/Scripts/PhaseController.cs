@@ -67,11 +67,17 @@ public class PhaseController : MonoBehaviour {
     // End the player animation phase and move to the player turn phase
     public static void EndPlayerAnimation()
     {
-        curr_phase = GamePhase.PlayerTurn;
+        curr_phase = GamePhase.PlayerResult;
     }
 
     // End the player error phase and return to the player move phase
     public static void EndPlayerError()
+    {
+        curr_phase = GamePhase.PlayerResult;
+    }
+
+    // End the player result phase and return to the player move phase
+    public static void EndPlayerResult()
     {
         curr_phase = GamePhase.PlayerTurn;
     }

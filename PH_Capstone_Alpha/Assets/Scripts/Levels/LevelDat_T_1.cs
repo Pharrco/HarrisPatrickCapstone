@@ -6,6 +6,8 @@ public class LevelDat_T_1 : LevelBase {
 
     [SerializeField]
     GameObject tutorial_marker;
+    [SerializeField]
+    GameObject true_chest;
 
     public LevelDat_T_1()
     {
@@ -27,11 +29,16 @@ public class LevelDat_T_1 : LevelBase {
         Level_id = 1;
     }
 
-    public void Start()
+    public void Awake()
     {
         Prop_list = new List<InanimateSpawn>()
         {
             new InanimateSpawn( 0, 0, tutorial_marker, 3.0f)
+        };
+
+        Enemy_Spawn_List = new List<EnemySpawn>()
+        {
+            new EnemySpawn( 2, 0, true_chest, Vector3.zero, 0)
         };
     }
 

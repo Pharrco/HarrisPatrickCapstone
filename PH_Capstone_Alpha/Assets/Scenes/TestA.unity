@@ -7259,6 +7259,7 @@ GameObject:
   - component: {fileID: 2036554539}
   - component: {fileID: 2036554538}
   - component: {fileID: 2036554540}
+  - component: {fileID: 2036554541}
   m_Layer: 0
   m_Name: BoardBuilder
   m_TagString: Untagged
@@ -7353,6 +7354,18 @@ MonoBehaviour:
   next_level: 
   tutorial_marker: {fileID: 1000010211179758, guid: 88bd9514dca963941bdd25787e651835,
     type: 2}
+  true_chest: {fileID: 1806146324260482, guid: b2beadd3715be8748933779c7e31066a, type: 2}
+--- !u!114 &2036554541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2036554534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fde277aa4116504288ea01f6a9edb38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2085129848
 GameObject:
   m_ObjectHideFlags: 0

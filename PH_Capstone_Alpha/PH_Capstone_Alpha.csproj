@@ -442,13 +442,18 @@
     <Compile Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Utility\WaypointProgressTracker.cs" />
     <Compile Include="Assets\Scripts\BuildBoard.cs" />
     <Compile Include="Assets\Scripts\BuildCinematic.cs" />
+    <Compile Include="Assets\Scripts\CashControl.cs" />
     <Compile Include="Assets\Scripts\CinematicControllers\CinematicCameraControl.cs" />
     <Compile Include="Assets\Scripts\CinematicControllers\CinematicCharAnimator.cs" />
     <Compile Include="Assets\Scripts\CinematicControllers\CinematicController.cs" />
     <Compile Include="Assets\Scripts\CinematicControllers\CinematicDialogueController.cs" />
+    <Compile Include="Assets\Scripts\CinematicControllers\Cinematics\CineDat_1_1.cs" />
+    <Compile Include="Assets\Scripts\CinematicControllers\Cinematics\CinematicBase.cs" />
     <Compile Include="Assets\Scripts\ControlView.cs" />
-    <Compile Include="Assets\Scripts\Levels\CineDat_1_1.cs" />
-    <Compile Include="Assets\Scripts\Levels\CinematicBase.cs" />
+    <Compile Include="Assets\Scripts\EnemyControllers\BaseEnemyController.cs" />
+    <Compile Include="Assets\Scripts\EnemyControllers\TrueTreasureController.cs" />
+    <Compile Include="Assets\Scripts\EnemyGridControl.cs" />
+    <Compile Include="Assets\Scripts\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelBase.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_1.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_2.cs" />
@@ -457,6 +462,7 @@
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_5.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_T_1.cs" />
     <Compile Include="Assets\Scripts\LevelStateMove.cs" />
+    <Compile Include="Assets\Scripts\LightResourceControl.cs" />
     <Compile Include="Assets\Scripts\MarkerControl.cs" />
     <Compile Include="Assets\Scripts\MenuBackButton.cs" />
     <Compile Include="Assets\Scripts\MinimapController.cs" />
@@ -464,6 +470,7 @@
     <Compile Include="Assets\Scripts\PlacePlayerCharacter.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\PlayerLocator.cs" />
     <Compile Include="Assets\Scripts\RandomSeqGen.cs" />
     <Compile Include="Assets\Scripts\SceneSelectCameraControl.cs" />
     <Compile Include="Assets\Scripts\TestMenuControl.cs" />

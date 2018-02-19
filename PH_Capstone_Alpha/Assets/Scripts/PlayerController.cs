@@ -22,12 +22,12 @@ public class PlayerController : MonoBehaviour {
     float move_speed, error_dist;
     int move_phase = 0;
 
-
     // Set's the player's position, called from the character spawner
     public void SetPosition( int start_x, int start_y , int n_facing)
     {
         player_coord_x = start_x;
         player_coord_y = start_y;
+        PlayerLocator.SetPlayerCoord(player_coord_x, player_coord_y);
         player_facing = n_facing;
         player_curr_height = BuildBoard.GetArrayValue(start_x, start_y);
         GameObject.Find("MiniMap").GetComponent<MinimapController>().SetPlayerPosition(player_coord_x, player_coord_y);
@@ -274,6 +274,8 @@ public class PlayerController : MonoBehaviour {
                 // Set the player's new position
                 player_coord_x = player_target_x;
                 player_coord_y = player_target_y;
+
+                PlayerLocator.SetPlayerCoord(player_coord_x, player_coord_y);
 
                 // End run animation
                 GetComponent<Animator>().SetBool("Run", false);

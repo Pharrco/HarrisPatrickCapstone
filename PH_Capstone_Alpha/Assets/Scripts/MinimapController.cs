@@ -57,7 +57,6 @@ public class MinimapController : MonoBehaviour {
 	// Set the player position
     public void SetPlayerPosition(int x, int y)
     {
-        Debug.Log("Set minimap");
         player_marker.transform.localPosition = new Vector3(separation * (x - (BuildBoard.GetArrayWidth() / 2f) + 0.5f), separation * (y - (BuildBoard.GetArrayHeight() / 2f) + 0.5f), 0);
         player_marker.transform.localRotation = Quaternion.identity;
     }

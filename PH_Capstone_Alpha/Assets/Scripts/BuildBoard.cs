@@ -116,6 +116,18 @@ public class BuildBoard : MonoBehaviour {
                 GameObject.Instantiate(prop_spawn.Spawn_prefab, new Vector3((prop_spawn.X_coord - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(prop_spawn.X_coord, prop_spawn.Y_coord) - 1f + prop_spawn.H_offset, (prop_spawn.Y_coord - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
             }
         }
+
+        if (GetComponent<LevelBase>().Enemy_Spawn_List != null)
+        {
+            foreach (EnemySpawn enemy_spawn in GetComponent<LevelBase>().Enemy_Spawn_List)
+            {
+                EnemyGridControl.EnemyAdd(enemy_spawn.TriggerSpawn(), enemy_spawn.GetX(), enemy_spawn.GetY());
+            }
+        }
+        else
+        {
+            Debug.Log("No list detected");
+        }
     }
 
     // Get the height stored in the board atrray
