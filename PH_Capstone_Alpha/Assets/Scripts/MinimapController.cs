@@ -13,7 +13,7 @@ public class MinimapController : MonoBehaviour {
     float separation;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         base_array = new GameObject[BuildBoard.GetArrayWidth(), BuildBoard.GetArrayHeight()];
         mark_array = new GameObject[BuildBoard.GetArrayWidth(), BuildBoard.GetArrayHeight()];
 

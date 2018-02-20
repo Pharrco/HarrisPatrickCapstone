@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum LightStatus { White, Infrd, Ulvlt, Nopwr };
+public enum LightStatus { Nopwr = 0, White, Infrd, Ulvlt };
 
 public class LightResourceControl : MonoBehaviour {
 
@@ -12,6 +12,11 @@ public class LightResourceControl : MonoBehaviour {
     static int light_cost_infrd = 2;
     static int light_cost_ulvlt = 15;
     static int light_cost_nopwr = 0;
+    static int light_range_white = 1;
+    static int light_range_infrd = 1;
+    static int light_range_ulvlt = 2;
+    static int light_range_nopwr = 3;
+
     public static LightStatus Player_LightStatus { get; private set; }
 
 	// Use this for initialization
@@ -133,6 +138,23 @@ public class LightResourceControl : MonoBehaviour {
             case LightStatus.Nopwr:
 
                 break;
+        }
+    }
+
+    public static int GetLightRange()
+    {
+        switch (Player_LightStatus)
+        {
+            case LightStatus.White:
+                return light_range_white;
+            case LightStatus.Infrd:
+                return light_range_infrd;
+            case LightStatus.Ulvlt:
+                return light_range_ulvlt;
+            case LightStatus.Nopwr:
+                return light_range_nopwr;
+            default:
+                return light_range_nopwr;
         }
     }
 }

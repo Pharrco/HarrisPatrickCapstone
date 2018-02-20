@@ -12,10 +12,10 @@ public class LevelDat_T_1 : LevelBase {
     public LevelDat_T_1()
     {
         Level_array = new int[,] {
-        { 3, 3, 3, 0 },
-        { 3, 0, 2, 1 },
-        { 3, 0, 0, 2 },
-        { 3, 0, 0, 3 },
+        { 3, 3, 3, 4 },
+        { 3, 4, 2, 1 },
+        { 3, 3, 3, 2 },
+        { 3, 4, 3, 3 },
         };
 
         Marker_list = new List<Vector2>() {

@@ -8,7 +8,7 @@ public class EnemyGridControl : MonoBehaviour {
     static List<GameObject> enemy_list;
 
     // Use this for initialization
-    void Start () {
+    public static void InitializeGrid () {
         enemy_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
         enemy_list = new List<GameObject>();
 	}
@@ -25,61 +25,75 @@ public class EnemyGridControl : MonoBehaviour {
                 enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y].GetComponent<BaseEnemyController>().PlayerOn();
             }
 
-            // TEMP: SET LIGHT RANGE
-            int light_range = 1;
+            // Set light range
+            int light_range = LightResourceControl.GetLightRange();
 
             // For 1 to range
             for (int i = 1; i <= light_range; i++)
             {
-                // Trigger light effect in (x-i,y)
-                if ((PlayerLocator.Player_Pos_X - i >= 0) && (enemy_array[PlayerLocator.Player_Pos_X - i, PlayerLocator.Player_Pos_Y] != null))
+                for (int j = 0; j < i; j++)
                 {
-                    enemy_array[PlayerLocator.Player_Pos_X - i, PlayerLocator.Player_Pos_Y].GetComponent<BaseEnemyController>().LightEffect(LightResourceControl.Player_LightStatus);
-                }
+                    int major_dev = i - j;
+                    int minor_dev = j;
 
-                // Trigger light effect in (x+i,y)
-                if ((PlayerLocator.Player_Pos_X + i < BuildBoard.GetArrayHeight()) && (enemy_array[PlayerLocator.Player_Pos_X + i, PlayerLocator.Player_Pos_Y] != null))
-                {
-                    enemy_array[PlayerLocator.Player_Pos_X + i, PlayerLocator.Player_Pos_Y].GetComponent<BaseEnemyController>().LightEffect(LightResourceControl.Player_LightStatus);
-                }
+                    LightEffectControl.SetLightGridPoint(PlayerLocator.Player_Pos_X - major_dev, PlayerLocator.Player_Pos_Y - minor_dev, LightResourceControl.Player_LightStatus);
+                    LightEffectControl.SetLightGridPoint(PlayerLocator.Player_Pos_X + major_dev, PlayerLocator.Player_Pos_Y + minor_dev, LightResourceControl.Player_LightStatus);
+                    LightEffectControl.SetLightGridPoint(PlayerLocator.Player_Pos_X - minor_dev, PlayerLocator.Player_Pos_Y + major_dev, LightResourceControl.Player_LightStatus);
+                    LightEffectControl.SetLightGridPoint(PlayerLocator.Player_Pos_X + minor_dev, PlayerLocator.Player_Pos_Y - major_dev, LightResourceControl.Player_LightStatus);
 
-                // Trigger light effect in (x,y-i)
-                if ((PlayerLocator.Player_Pos_Y - i >= 0) && (enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y - i] != null))
-                {
-                    enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y - i].GetComponent<BaseEnemyController>().LightEffect(LightResourceControl.Player_LightStatus);
-                }
+                    if ((PlayerLocator.Player_Pos_X - major_dev >= 0) && (PlayerLocator.Player_Pos_Y - minor_dev >= 0) && (enemy_array[PlayerLocator.Player_Pos_X - major_dev, PlayerLocator.Player_Pos_Y - minor_dev] != null))
+                    {
+                        enemy_array[PlayerLocator.Player_Pos_X - major_dev, PlayerLocator.Player_Pos_Y - minor_dev].GetComponent<BaseEnemyController>().LightEffect(LightResourceControl.Player_LightStatus);
+                    }
 
-                // Trigger light effect in (x,y+i)
-                if ((PlayerLocator.Player_Pos_Y + i < BuildBoard.GetArrayWidth()) && (enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y + i] != null))
-                {
-                    enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y + i].GetComponent<BaseEnemyController>().LightEffect(LightResourceControl.Player_LightStatus);
+                    if ((PlayerLocator.Player_Pos_X + major_dev < BuildBoard.GetArrayHeight()) && (PlayerLocator.Player_Pos_Y + minor_dev < BuildBoard.GetArrayWidth()) && (enemy_array[PlayerLocator.Player_Pos_X + major_dev, PlayerLocator.Player_Pos_Y + minor_dev] != null))
+                    {
+                        enemy_array[PlayerLocator.Player_Pos_X + major_dev, PlayerLocator.Player_Pos_Y + minor_dev].GetComponent<BaseEnemyController>().LightEffect(LightResourceControl.Player_LightStatus);
+                    }
+
+                    if ((PlayerLocator.Player_Pos_X - minor_dev >= 0) && (PlayerLocator.Player_Pos_Y + major_dev < BuildBoard.GetArrayWidth()) && (enemy_array[PlayerLocator.Player_Pos_X - minor_dev, PlayerLocator.Player_Pos_Y + major_dev] != null))
+                    {
+                        enemy_array[PlayerLocator.Player_Pos_X - minor_dev, PlayerLocator.Player_Pos_Y + major_dev].GetComponent<BaseEnemyController>().LightEffect(LightResourceControl.Player_LightStatus);
+                    }
+
+                    if ((PlayerLocator.Player_Pos_X + minor_dev < BuildBoard.GetArrayHeight()) && (PlayerLocator.Player_Pos_Y - major_dev >= 0) && (enemy_array[PlayerLocator.Player_Pos_X + minor_dev, PlayerLocator.Player_Pos_Y - major_dev] != null))
+                    {
+                        enemy_array[PlayerLocator.Player_Pos_X + minor_dev, PlayerLocator.Player_Pos_Y - major_dev].GetComponent<BaseEnemyController>().LightEffect(LightResourceControl.Player_LightStatus);
+                    }
                 }
             }
 
-            light_range += 1;
+            int k = light_range + 1;
 
-            // Trigger no light effect in (x-i,y)
-            if ((PlayerLocator.Player_Pos_X - light_range >= 0) && (enemy_array[PlayerLocator.Player_Pos_X - light_range, PlayerLocator.Player_Pos_Y] != null))
+            for (int j = 0; j < k; j++)
             {
-                enemy_array[PlayerLocator.Player_Pos_X - light_range, PlayerLocator.Player_Pos_Y].GetComponent<BaseEnemyController>().LightEffect(LightStatus.Nopwr);
-            }
+                int major_dev = k - j;
+                int minor_dev = j;
 
-            // Trigger no light effect in (x+i,y)
-            if ((PlayerLocator.Player_Pos_X + light_range < BuildBoard.GetArrayHeight()) && (enemy_array[PlayerLocator.Player_Pos_X + light_range, PlayerLocator.Player_Pos_Y] != null))
-            {
-                enemy_array[PlayerLocator.Player_Pos_X + light_range, PlayerLocator.Player_Pos_Y].GetComponent<BaseEnemyController>().LightEffect(LightStatus.Nopwr);
-            }
+                LightEffectControl.ResetLightGridPoint(PlayerLocator.Player_Pos_X - major_dev, PlayerLocator.Player_Pos_Y - minor_dev);
+                LightEffectControl.ResetLightGridPoint(PlayerLocator.Player_Pos_X + major_dev, PlayerLocator.Player_Pos_Y + minor_dev);
+                LightEffectControl.ResetLightGridPoint(PlayerLocator.Player_Pos_X - minor_dev, PlayerLocator.Player_Pos_Y + major_dev);
+                LightEffectControl.ResetLightGridPoint(PlayerLocator.Player_Pos_X + minor_dev, PlayerLocator.Player_Pos_Y - major_dev);
 
-            // Trigger no light effect in (x,y-i)
-            if ((PlayerLocator.Player_Pos_Y - light_range >= 0) && (enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y - light_range] != null))
-            {
-                enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y - light_range].GetComponent<BaseEnemyController>().LightEffect(LightStatus.Nopwr);
-            }
+                if ((PlayerLocator.Player_Pos_X - major_dev >= 0) && (PlayerLocator.Player_Pos_Y - minor_dev >= 0) && (enemy_array[PlayerLocator.Player_Pos_X - major_dev, PlayerLocator.Player_Pos_Y - minor_dev] != null))
+                {
+                    enemy_array[PlayerLocator.Player_Pos_X - major_dev, PlayerLocator.Player_Pos_Y - minor_dev].GetComponent<BaseEnemyController>().LightEffect(LightStatus.Nopwr);
+                }
 
-            // Trigger no light effect in (x,y+i)
-            if ((PlayerLocator.Player_Pos_Y + light_range < BuildBoard.GetArrayWidth()) && (enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y + light_range] != null))
-            {
-                enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y + light_range].GetComponent<BaseEnemyController>().LightEffect(LightStatus.Nopwr);
+                if ((PlayerLocator.Player_Pos_X + major_dev < BuildBoard.GetArrayHeight()) && (PlayerLocator.Player_Pos_Y + minor_dev < BuildBoard.GetArrayWidth()) && (enemy_array[PlayerLocator.Player_Pos_X + major_dev, PlayerLocator.Player_Pos_Y + minor_dev] != null))
+                {
+                    enemy_array[PlayerLocator.Player_Pos_X + major_dev, PlayerLocator.Player_Pos_Y + minor_dev].GetComponent<BaseEnemyController>().LightEffect(LightStatus.Nopwr);
+                }
+
+                if ((PlayerLocator.Player_Pos_X - minor_dev >= 0) && (PlayerLocator.Player_Pos_Y + major_dev < BuildBoard.GetArrayWidth()) && (enemy_array[PlayerLocator.Player_Pos_X - minor_dev, PlayerLocator.Player_Pos_Y + major_dev] != null))
+                {
+                    enemy_array[PlayerLocator.Player_Pos_X - minor_dev, PlayerLocator.Player_Pos_Y + major_dev].GetComponent<BaseEnemyController>().LightEffect(LightStatus.Nopwr);
+                }
+
+                if ((PlayerLocator.Player_Pos_X + minor_dev < BuildBoard.GetArrayHeight()) && (PlayerLocator.Player_Pos_Y - major_dev >= 0) && (enemy_array[PlayerLocator.Player_Pos_X + minor_dev, PlayerLocator.Player_Pos_Y - major_dev] != null))
+                {
+                    enemy_array[PlayerLocator.Player_Pos_X + minor_dev, PlayerLocator.Player_Pos_Y - major_dev].GetComponent<BaseEnemyController>().LightEffect(LightStatus.Nopwr);
+                }
             }
 
             // End the result phase
@@ -98,7 +112,7 @@ public class EnemyGridControl : MonoBehaviour {
     public static void EnemyAdd(GameObject n_enemy, int n_enemy_x, int n_enemy_y)
     {
         // If the provided coordinates are valid
-        if ((n_enemy_x == Mathf.Clamp(n_enemy_x, 0, BuildBoard.GetArrayHeight())) && (n_enemy_y == Mathf.Clamp(n_enemy_y, 0, BuildBoard.GetArrayWidth())))
+        if ((n_enemy_x == Mathf.Clamp(n_enemy_x, 0, BuildBoard.GetArrayHeight() - 1)) && (n_enemy_y == Mathf.Clamp(n_enemy_y, 0, BuildBoard.GetArrayWidth() - 1)))
         {
             // If an object does not already exist in this space
             if (enemy_array[n_enemy_x, n_enemy_y] == null)
@@ -125,7 +139,7 @@ public class EnemyGridControl : MonoBehaviour {
     public static void DestroyEnemyAt(int target_x, int target_y)
     {
         // If the provided coordinates are valid
-        if ((target_x == Mathf.Clamp(target_x, 0, BuildBoard.GetArrayHeight())) && (target_y == Mathf.Clamp(target_y, 0, BuildBoard.GetArrayWidth())))
+        if ((target_x == Mathf.Clamp(target_x, 0, BuildBoard.GetArrayHeight() - 1)) && (target_y == Mathf.Clamp(target_y, 0, BuildBoard.GetArrayWidth() - 1)))
         {
             // If there is an enemy currently in the target space
             if (enemy_array[target_x, target_y] != null)

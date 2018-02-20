@@ -17,12 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayLevels/PlayLevel_1_1.unity
     guid: 846b7c4f42999674989ddc90cdcab57c
-  - enabled: 0
-    path: Assets/__DELETED_GUID_Trash/5a3908d2f49b2574eaf8a0723ee264e0
-    guid: 5a3908d2f49b2574eaf8a0723ee264e0
-  - enabled: 0
-    path: Assets/__DELETED_GUID_Trash/4852980008f09ae42b83c12d3b342233
-    guid: 4852980008f09ae42b83c12d3b342233
   - enabled: 1
     path: Assets/Scenes/PlayLevels/PlayLevel_1_2.unity
     guid: b06bbb8cc0fb4aa4a8eb8c40214ae910

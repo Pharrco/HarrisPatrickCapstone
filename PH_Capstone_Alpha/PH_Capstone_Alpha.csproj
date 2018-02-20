@@ -462,6 +462,7 @@
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_5.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_T_1.cs" />
     <Compile Include="Assets\Scripts\LevelStateMove.cs" />
+    <Compile Include="Assets\Scripts\LightEffectControl.cs" />
     <Compile Include="Assets\Scripts\LightResourceControl.cs" />
     <Compile Include="Assets\Scripts\MarkerControl.cs" />
     <Compile Include="Assets\Scripts\MenuBackButton.cs" />

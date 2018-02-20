@@ -6,6 +6,8 @@ public class BuildBoard : MonoBehaviour {
 
     [SerializeField]
     GameObject block_white, block_grey, block_top, level_bridge, stair_up;
+    [SerializeField]
+    GameObject whiteLight_effect;
     static int[,] board_array;
 
 	// Use this for initialization
@@ -104,6 +106,9 @@ public class BuildBoard : MonoBehaviour {
                 }
             }
         }
+
+        // Initialize the enemy grid
+        EnemyGridControl.InitializeGrid();
     }
 
     private void Start()
@@ -128,6 +133,9 @@ public class BuildBoard : MonoBehaviour {
         {
             Debug.Log("No list detected");
         }
+
+        // Initialize the light grid
+        LightEffectControl.InitializeLightGrid(whiteLight_effect);
     }
 
     // Get the height stored in the board atrray
