@@ -62,7 +62,23 @@ public class LightEffectControl : MonoBehaviour {
             light_status_grid[target_x, target_y] = LightResourceControl.Player_LightStatus;
 
             // Create a new light object at the given position
-            light_effect_grid[target_x, target_y] = GameObject.Instantiate(lightEffect_white, new Vector3((target_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(target_x, target_y) - 1f, (target_y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.identity);
+            light_effect_grid[target_x, target_y] = GameObject.Instantiate(lightEffect_white, new Vector3((target_x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(target_x, target_y) - 1f, (target_y - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
+        }
+    }
+
+    public static void ResetLightGrid()
+    {
+        for (int i = 0; i < light_effect_grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < light_effect_grid.GetLength(1); j++)
+            {
+                if (light_effect_grid[i, j] != null)
+                {
+                    GameObject.Destroy(light_effect_grid[i, j]);
+                }
+
+                light_status_grid[i, j] = LightStatus.Nopwr;
+            }
         }
     }
 }

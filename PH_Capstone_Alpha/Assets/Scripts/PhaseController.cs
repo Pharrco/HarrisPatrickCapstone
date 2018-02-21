@@ -7,15 +7,16 @@ using UnityEngine.SceneManagement;
 public class PhaseController : MonoBehaviour {
 
     public enum GamePhase { PlayerTurn, PlayerAnimation, PlayerError, PlayerResult, AllyTurn, AllyResult, EnemyTurn, EnemyResult, EnvironmentTurn, EnvironmentResult, TimedTestPhase, GameLose, GameVictory, GamePaused }
-    static GamePhase curr_phase;
+    public static GamePhase curr_phase;
     [SerializeField]
     float test_timer;
     static bool paused = false;
     static float time_elapsed_test = 0;
-    static Canvas lose_panel, win_panel, menu_panel;
+    static Canvas lose_panel, win_panel, menu_panel, message_panel;
+    static bool pause_pPlayer, pause_pEnemy, pause_pAlly, pause_pEnvironment;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         // Initial phase is player turn
         curr_phase = GamePhase.PlayerTurn;
 
@@ -28,8 +29,17 @@ public class PhaseController : MonoBehaviour {
         // Get the menu canvas
         menu_panel = GameObject.Find("PausePanel").GetComponent<Canvas>();
 
+        // Get the message canvas
+        message_panel = GameObject.Find("MessagePanel").GetComponent<Canvas>();
+
         // Unpause the game
         paused = false;
+
+        // Set no pauses
+        pause_pPlayer = false;
+        pause_pEnemy = false;
+        pause_pAlly = false;
+        pause_pEnvironment = false;
     }
 	
 	// Update is called once per frame
@@ -79,7 +89,14 @@ public class PhaseController : MonoBehaviour {
     // End the player result phase and return to the player move phase
     public static void EndPlayerResult()
     {
-        curr_phase = GamePhase.PlayerTurn;
+        if (!pause_pPlayer)
+        {
+            curr_phase = GamePhase.PlayerTurn;
+        }
+        else
+        {
+            message_panel.planeDistance = 0.5f;
+        }
     }
 
     // Return the current game phase for testing from any object
@@ -131,6 +148,9 @@ public class PhaseController : MonoBehaviour {
     // Reset the game and hide any panels
     public static void ResetPhaseState()
     {
+        // Unpause the game
+        paused = false;
+
         // Set the phase so player can move
         curr_phase = GamePhase.PlayerTurn;
 
@@ -138,6 +158,7 @@ public class PhaseController : MonoBehaviour {
         lose_panel.planeDistance = -0.5f;
         win_panel.planeDistance = -0.5f;
         menu_panel.planeDistance = -0.5f;
+        message_panel.planeDistance = -0.5f;
     }
 
     static void PauseGame()
@@ -152,7 +173,7 @@ public class PhaseController : MonoBehaviour {
         menu_panel.planeDistance = -0.5f;
     }
 
-    public void TogglePause()
+    public static void TogglePause()
     {
         if (paused)
         {
@@ -183,6 +204,79 @@ public class PhaseController : MonoBehaviour {
         if (GameObject.Find("BoardBuilder").GetComponent<LevelBase>().next_level != "")
         {
             SceneManager.LoadScene(GameObject.Find("BoardBuilder").GetComponent<LevelBase>().next_level);
+        }
+    }
+
+    // Set the phases so they will pause after the player's turn
+    public static void SetPlayerPause()
+    {
+        pause_pPlayer = true;
+    }
+
+    // Force end the player phase following a message pause
+    static void ForceEndPlayerPause()
+    {
+        pause_pPlayer = false;
+        message_panel.planeDistance = -0.5f;
+        CashControl.AddPlayCash();
+        EndPlayerResult();
+    }
+
+    // Set the phases so they will pause after the enemy's turn
+    public static void SetEnemyPause()
+    {
+        pause_pEnemy = true;
+    }
+
+    // Force end the enemy phase following a message pause
+    static void ForceEndEnemyPause()
+    {
+        pause_pEnemy = false;
+        message_panel.planeDistance = -0.5f;
+    }
+
+    // Set the phases so they will pause after the ally's turn
+    public static void SetAllyPause()
+    {
+        pause_pAlly = true;
+    }
+
+    // Force end the ally phase following a message pause
+    static void ForceEndAllyPause()
+    {
+        pause_pAlly = false;
+        message_panel.planeDistance = -0.5f;
+    }
+
+    // Set the phases so they will pause after the environment's turn
+    public static void SetEnviroPause()
+    {
+        pause_pEnvironment = true;
+    }
+
+    // Force end the environment phase following a message pause
+    static void ForceEndEnviroPause()
+    {
+        pause_pEnvironment = false;
+        message_panel.planeDistance = -0.5f;
+    }
+
+    public void EndMessagePause()
+    {
+        switch (curr_phase)
+        {
+            case GamePhase.PlayerResult:
+                ForceEndPlayerPause();
+                break;
+            case GamePhase.AllyResult:
+                ForceEndAllyPause();
+                break;
+            case GamePhase.EnemyResult:
+                ForceEndEnemyPause();
+                break;
+            case GamePhase.EnvironmentResult:
+                ForceEndEnviroPause();
+                break;
         }
     }
 }

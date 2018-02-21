@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 114628478849119262}
   - component: {fileID: 114856288874032858}
   - component: {fileID: 114271789435390584}
+  - component: {fileID: 114328175968779854}
+  - component: {fileID: 114650768410602634}
   m_Layer: 0
   m_Name: BoardBuilder
   m_TagString: Untagged
@@ -39,7 +41,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1640748561323700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.488619, y: 43.42325, z: 20.987082}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,6 +76,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fde277aa4116504288ea01f6a9edb38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114328175968779854
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1640748561323700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3604d726919db104ea65ffb942d23cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  next_level: 
+  tutorial_marker: {fileID: 1000013162468366, guid: 167c086585a7da8449ed8c950a365d9a,
+    type: 2}
+  true_chest: {fileID: 1806146324260482, guid: b2beadd3715be8748933779c7e31066a, type: 2}
+  false_chest: {fileID: 1923803707208882, guid: db2b2043dc2ef024f90f9b92ed168a01,
+    type: 2}
 --- !u!114 &114597215273642398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,7 +121,7 @@ MonoBehaviour:
   block_top: {fileID: 1364216983337282, guid: 13ccec6d391512249af8f1bc15858787, type: 2}
   level_bridge: {fileID: 100000, guid: 52b3de065c27cc541a55a28aa0c5e053, type: 2}
   stair_up: {fileID: 1543962283687074, guid: 810343207e53c6342a1b806d5fdcd60c, type: 2}
-  whiteLight_effect: {fileID: 1000012678137780, guid: b7c7f38af0e21734a93d1f8156bf39a8,
+  whiteLight_effect: {fileID: 1814691653032546, guid: aed8e5351b218754f8e344bbf7439bbd,
     type: 2}
 --- !u!114 &114628478849119262
 MonoBehaviour:
@@ -118,6 +137,17 @@ MonoBehaviour:
   prefab_player: {fileID: 1895917689588842, guid: 20c62591f0cdf6b45b632cab77db4238,
     type: 2}
   player_facing: 0
+--- !u!114 &114650768410602634
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1640748561323700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0bf9c5b70caea642a6ee4ea2f1412c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114856288874032858
 MonoBehaviour:
   m_ObjectHideFlags: 1

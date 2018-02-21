@@ -136,6 +136,13 @@ public class BuildBoard : MonoBehaviour {
 
         // Initialize the light grid
         LightEffectControl.InitializeLightGrid(whiteLight_effect);
+
+        // Set light effect based on player start position
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x - 1, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x + 1, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y + 1, LightStatus.White);
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y - 1, LightStatus.White);
     }
 
     // Get the height stored in the board atrray

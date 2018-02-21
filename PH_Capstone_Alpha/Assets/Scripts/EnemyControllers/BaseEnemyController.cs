@@ -11,6 +11,8 @@ public class BaseEnemyController : MonoBehaviour {
 
     public virtual void LightEffect(LightStatus n_lightColor) { }
 
+    public virtual void GetMove() { }
+
     public void SetEnemyPosition(int n_coord_x, int n_coord_y)
     {
         Enemy_Pos_X = n_coord_x;

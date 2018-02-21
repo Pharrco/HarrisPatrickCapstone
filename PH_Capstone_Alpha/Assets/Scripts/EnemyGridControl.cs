@@ -36,6 +36,7 @@ public class EnemyGridControl : MonoBehaviour {
                     int major_dev = i - j;
                     int minor_dev = j;
 
+                    LightEffectControl.SetLightGridPoint(PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y, LightResourceControl.Player_LightStatus);
                     LightEffectControl.SetLightGridPoint(PlayerLocator.Player_Pos_X - major_dev, PlayerLocator.Player_Pos_Y - minor_dev, LightResourceControl.Player_LightStatus);
                     LightEffectControl.SetLightGridPoint(PlayerLocator.Player_Pos_X + major_dev, PlayerLocator.Player_Pos_Y + minor_dev, LightResourceControl.Player_LightStatus);
                     LightEffectControl.SetLightGridPoint(PlayerLocator.Player_Pos_X - minor_dev, PlayerLocator.Player_Pos_Y + major_dev, LightResourceControl.Player_LightStatus);
@@ -167,5 +168,24 @@ public class EnemyGridControl : MonoBehaviour {
 
         // Destroy the enemy
         GameObject.Destroy(target_enemy);
+    }
+
+    public static void ResetEnemyGrid()
+    {
+        // Clear the grid
+        enemy_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
+
+        // Destroy all enemies
+        while (enemy_list.Count > 0)
+        {
+            GameObject temp = enemy_list[0];
+
+            enemy_list.Remove(temp);
+
+            GameObject.Destroy(temp);
+        }
+
+        // Reset the list
+        enemy_list = new List<GameObject>();
     }
 }

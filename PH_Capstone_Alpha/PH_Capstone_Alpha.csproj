@@ -451,6 +451,7 @@
     <Compile Include="Assets\Scripts\CinematicControllers\Cinematics\CinematicBase.cs" />
     <Compile Include="Assets\Scripts\ControlView.cs" />
     <Compile Include="Assets\Scripts\EnemyControllers\BaseEnemyController.cs" />
+    <Compile Include="Assets\Scripts\EnemyControllers\FalseTreasureController.cs" />
     <Compile Include="Assets\Scripts\EnemyControllers\TrueTreasureController.cs" />
     <Compile Include="Assets\Scripts\EnemyGridControl.cs" />
     <Compile Include="Assets\Scripts\EnemySpawn.cs" />

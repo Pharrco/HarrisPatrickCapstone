@@ -225,11 +225,36 @@ public class MarkerControl : MonoBehaviour {
         // Update the marker text
         markers_text.text = markers_passed.ToString("00") + " / " + markers_total.ToString("00");
 
+        // Reset the enemy array
+        EnemyGridControl.ResetEnemyGrid();
+
+        if (GetComponent<LevelBase>().Enemy_Spawn_List != null)
+        {
+            foreach (EnemySpawn enemy_spawn in GetComponent<LevelBase>().Enemy_Spawn_List)
+            {
+                EnemyGridControl.EnemyAdd(enemy_spawn.TriggerSpawn(), enemy_spawn.GetX(), enemy_spawn.GetY());
+            }
+        }
+        else
+        {
+            Debug.Log("No list detected");
+        }
+
         // Reset the player's position and facing
         GetComponent<PlacePlayerCharacter>().ResetPlayer();
 
         // Reset the phase state
         PhaseController.ResetPhaseState();
+
+        // Reset the light effect array
+        LightEffectControl.ResetLightGrid();
+
+        // Set light effect based on player start position
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x - 1, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x + 1, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y + 1, LightStatus.White);
+        LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y - 1, LightStatus.White);
     }
 
     public static bool LevelComplete()
