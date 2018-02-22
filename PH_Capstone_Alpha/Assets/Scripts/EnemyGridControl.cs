@@ -12,11 +12,12 @@ public class EnemyGridControl : MonoBehaviour {
         enemy_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
         enemy_list = new List<GameObject>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		// If the current phase is the player result phase
-        if (PhaseController.GetCurrPhase() == PhaseController.GamePhase.PlayerResult)
+
+    // Update is called once per frame
+    void Update()
+    {
+        // If the current phase is the player result phase
+        if (PhaseController.GetCurrPhase() == GamePhase.PlayerResult)
         {
             // If there is an enemy currently on the same space as the player
             if (enemy_array[PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y] != null)
@@ -100,7 +101,43 @@ public class EnemyGridControl : MonoBehaviour {
             // End the result phase
             PhaseController.EndPlayerResult();
         }
-	}
+        // If the current phase is the enemy turn phase
+        if (PhaseController.GetCurrPhase() == GamePhase.EnemyTurn)
+        {
+            // For each enemy on the list
+            foreach (GameObject enemy_object in enemy_list)
+            {
+                // If an enemy controller is present
+                if (enemy_object.GetComponent<BaseEnemyController>() != null)
+                {
+                    enemy_object.GetComponent<BaseEnemyController>().GetMove();
+                }
+            }
+
+            // End enemy turn, begin animation state
+            PhaseController.EndEnemyTurn();
+        }
+        if (PhaseController.GetCurrPhase() == GamePhase.EnemyAnimation)
+        {
+            // Assume all movements are complete
+            bool movements_complete = true;
+
+            // For each enemy on the list
+            foreach (GameObject enemy_object in enemy_list)
+            {
+                // If an enemy controller is present
+                if (enemy_object.GetComponent<BaseEnemyController>() != null)
+                {
+                    movements_complete = (movements_complete && enemy_object.GetComponent<BaseEnemyController>().MoveComplete);
+                }
+            }
+
+            if (movements_complete)
+            {
+                PhaseController.EndEnemyAnimation();
+            }
+        }
+    }
 
     // Add enemy to list
     public static void EnemyAdd(GameObject n_enemy)
@@ -187,5 +224,62 @@ public class EnemyGridControl : MonoBehaviour {
 
         // Reset the list
         enemy_list = new List<GameObject>();
+    }
+
+    public static bool IsEnemyOccupied(int target_x, int target_y)
+    {
+        // If the provided coordinates are valid
+        if ((target_x == Mathf.Clamp(target_x, 0, BuildBoard.GetArrayHeight() - 1)) && (target_y == Mathf.Clamp(target_y, 0, BuildBoard.GetArrayWidth() - 1)))
+        {
+            // If there is an enemy currently in the target space
+            if (enemy_array[target_x, target_y] != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void SwapEnemyPoints(int origin_x, int origin_y, int destination_x, int destination_y)
+    {
+        // If the provided origin coordinates are valid
+        if ((origin_x == Mathf.Clamp(origin_x, 0, BuildBoard.GetArrayHeight() - 1)) && (origin_y == Mathf.Clamp(origin_y, 0, BuildBoard.GetArrayWidth() - 1)))
+        {
+            // If there is an enemy currently in the origin space
+            if (enemy_array[origin_x, origin_y] != null)
+            {
+                // If the provided destination coordinates are valid
+                if ((destination_x == Mathf.Clamp(destination_x, 0, BuildBoard.GetArrayHeight() - 1)) && (destination_y == Mathf.Clamp(destination_y, 0, BuildBoard.GetArrayWidth() - 1)))
+                {
+                    // If there is not an enemy currently in the target space
+                    if (enemy_array[destination_x, destination_y] == null)
+                    {
+                        // Swap object's position in grid
+                        enemy_array[destination_x, destination_y] = enemy_array[origin_x, origin_y];
+                        enemy_array[origin_x, origin_y] = null;
+
+                        // Send new coordinates to moved object
+                        enemy_array[destination_x, destination_y].GetComponent<BaseEnemyController>().SetEnemyPosition( destination_x, destination_y);
+                    }
+                    else
+                    {
+                        Debug.Log("Enemy Grid Swap Error: Destination occupied");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Enemy Grid Swap Error: Destination out of range");
+                }
+            }
+            else
+            {
+                Debug.Log("Enemy Grid Swap Error: No object at origin");
+            }
+        }
+        else
+        {
+            Debug.Log("Enemy Grid Swap Error: Origin out of range");
+        }
     }
 }

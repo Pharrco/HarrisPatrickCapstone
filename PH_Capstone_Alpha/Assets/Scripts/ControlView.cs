@@ -1,72 +1,110 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ControlView : MonoBehaviour {
 
+    private enum ViewCameraMode { Free, Lock, Follow }
+
     static GameObject camera_main;
-    public static float rotation = 225;
+    static ViewCameraMode cam_mode = ViewCameraMode.Follow;
+    public static float rotation = 90;
     public static float slope = 0;
     public static float zoom = 0;
+    static float rotate_timer;
+    static float curr_target;
     static GameObject current_focus;
-    static bool force_to_target = true;
-    static bool has_target = false;
-    static float temp_origin, temp_target;
-    static float rotation_status = 0;
+    [SerializeField]
+    float rotation_speed;
+    float lock_offset = 180;
+    static PlayerController player_ref;
     [SerializeField]
     GameObject WallN, WallE, WallS, WallW;
+    [SerializeField]
+    Sprite sprite_free, sprite_follow, sprite_lock;
+    [SerializeField]
+    GameObject HUD_Camera;
 
     // Use this for initialization
     void Start () {
 
         // Get the main camera
         camera_main = Camera.main.gameObject;
+
+        player_ref = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        cam_mode = ViewCameraMode.Follow;
+
+        HUD_Camera.transform.GetChild(0).GetComponent<Image>().sprite = sprite_follow;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        // Force the camera to roate to a target angle if feature is turned on and a target exists
-        if ((force_to_target) && (has_target))
+        // If the camera is in "Follow" mode
+        if (cam_mode == ViewCameraMode.Follow)
         {
-            // Update time
-            rotation_status = Mathf.Min(1.0f, rotation_status + Time.deltaTime);
-
-            // Update rotation
-            rotation = Mathf.LerpAngle(temp_origin, temp_target, rotation_status);
-
-            // If rotation is complete
-            if (rotation_status >= 1.0f)
-            {
-                // No longer has a target
-                has_target = false;
-
-                // Reset rotation status
-                rotation_status = 0;
-            }
-
-            // If player has started to adjust angle on their own
+            // If the player has started to move the camera's rotation
             if (Mathf.Abs(Input.GetAxisRaw("ViewHorizontal")) > 0)
             {
-                // Cancel target
-                has_target = false;
+                cam_mode = ViewCameraMode.Free;
+                HUD_Camera.transform.GetChild(0).GetComponent<Image>().sprite = sprite_free;
+            }
+        }
+        else if (cam_mode == ViewCameraMode.Lock) // If the camera is in "Lock" mode
+        {
+            // If the player has started to move the camera's rotation
+            if (Mathf.Abs(Input.GetAxisRaw("ViewHorizontal")) > 0)
+            {
+                cam_mode = ViewCameraMode.Free;
+                HUD_Camera.transform.GetChild(0).GetComponent<Image>().sprite = sprite_free;
+            }
 
-                // Reset rotation status
-                rotation_status = 0;
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                cam_mode = ViewCameraMode.Follow;
+                lock_offset = 180;
+                HUD_Camera.transform.GetChild(0).GetComponent<Image>().sprite = sprite_follow;
+            }
+        }
+        else if (cam_mode == ViewCameraMode.Free)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                cam_mode = ViewCameraMode.Lock;
+                lock_offset = rotation - (player_ref.GetFacing());
+                HUD_Camera.transform.GetChild(0).GetComponent<Image>().sprite = sprite_lock;
             }
         }
 
-        // Update rotation based on player input
-        rotation -= Input.GetAxisRaw("ViewHorizontal");
+        if (cam_mode == ViewCameraMode.Free)
+        {
+            // Update rotation based on player input
+            rotation -= Input.GetAxisRaw("ViewHorizontal");
+        }
+        else
+        {
 
-        // Fix rotation within 360
-        rotation = ((int)rotation + 360) % 360;
+            rotate_timer += Time.deltaTime;
+            rotate_timer = Mathf.Min(rotation_speed, rotate_timer);
+
+            rotation = Mathf.LerpAngle(rotation, (player_ref.GetFacing()) + lock_offset, rotate_timer / rotation_speed);
+        }
+
+        if ((rotate_timer >= rotation_speed) && (Mathf.Abs((player_ref.GetFacing()) + lock_offset - rotation) > 89))
+        {
+            rotate_timer = 0;
+        }
 
         // Update slope based on player input
         slope = Mathf.Max(0, Mathf.Min(6, slope + (Input.GetAxisRaw("ViewVertical") / 10)));
 
         // Update zoom based on user input
         zoom = Mathf.Max(0, Mathf.Min(3, zoom + (Input.GetAxisRaw("Zoom") / 6)));
+
+        // Fix rotation within 360
+        rotation = ((int)rotation + 360) % 360;
 
         // If the current focus target is set
         if ((current_focus != null) && (current_focus.transform != null))
@@ -126,6 +164,8 @@ public class ControlView : MonoBehaviour {
         // Set the focus to the provided target
         current_focus = new_target;
 
+        player_ref = new_target.GetComponent<PlayerController>();
+
         // If focus target and camera exist
         if ((current_focus.transform != null) && (camera_main != null))
         {
@@ -137,20 +177,20 @@ public class ControlView : MonoBehaviour {
 
     // Adds a total of amount of rotation to force the camera to do, allows matching of camera to player rotation for more control clarity
     // Calling this replaces the current value, so it will cancel any other forced camera rotation already in progress
-    public static void AddForcedRotation(float n_rotation)
-    {
-        // Checks to see if the feature is enabled
-        if (force_to_target)
-        {
-            // Set the origin and destination of the rotation
-            temp_origin = rotation;
-            temp_target = (int)(rotation + n_rotation) % 360;
+    //public static void AddForcedRotation(float n_rotation)
+    //{
+    //    // Checks to see if the feature is enabled
+    //    if (force_to_target)
+    //    {
+    //        // Set the origin and destination of the rotation
+    //        temp_origin = rotation;
+    //        temp_target = (int)(rotation + n_rotation) % 360;
 
-            // Set that a target is present
-            has_target = true;
+    //        // Set that a target is present
+    //        has_target = true;
 
-            // Reset progress
-            rotation_status = 0;
-        }
-    }
+    //        // Reset progress
+    //        rotation_status = 0;
+    //    }
+    //}
 }

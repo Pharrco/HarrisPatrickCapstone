@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 
         // If the current game phase is the player's turn
-        if (PhaseController.GetCurrPhase() == PhaseController.GamePhase.PlayerTurn)
+        if (PhaseController.GetCurrPhase() == GamePhase.PlayerTurn)
         {
             // Start by assuming their will be no move
             bool control_input = false;
@@ -147,15 +147,15 @@ public class PlayerController : MonoBehaviour {
                             // Start run animation
                             GetComponent<Animator>().SetBool("Run", true);
 
-                            // Add forced camera rotation
-                            if (try_turn <= 180)
-                            {
-                                ControlView.AddForcedRotation(try_turn);
-                            }
-                            else
-                            {
-                                ControlView.AddForcedRotation(try_turn - 360);
-                            }
+                            //// Add forced camera rotation
+                            //if (try_turn <= 180)
+                            //{
+                            //    ControlView.AddForcedRotation(try_turn);
+                            //}
+                            //else
+                            //{
+                            //    ControlView.AddForcedRotation(try_turn - 360);
+                            //}
 
                             // Set move phase
                             move_phase = 0;
@@ -211,7 +211,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         // Animate the player character's movement between spaces
-        else if (PhaseController.GetCurrPhase() == PhaseController.GamePhase.PlayerAnimation)
+        else if (PhaseController.GetCurrPhase() == GamePhase.PlayerAnimation)
         {
             // Update progress
             progress += move_speed * Time.deltaTime;
@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         // Animate the player character's movement between spaces
-        else if (PhaseController.GetCurrPhase() == PhaseController.GamePhase.PlayerError)
+        else if (PhaseController.GetCurrPhase() == GamePhase.PlayerError)
         {
             // Update progress
             progress += move_speed * Time.deltaTime;
@@ -350,5 +350,10 @@ public class PlayerController : MonoBehaviour {
                 PhaseController.EndPlayerError();
             }
         }
+    }
+
+    public int GetFacing()
+    {
+        return player_facing;
     }
 }

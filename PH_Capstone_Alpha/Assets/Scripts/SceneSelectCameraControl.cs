@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneSelectCameraControl : MonoBehaviour {
 
-    public static int levels_complete = 3;
+    public static int levels_complete = 5;
     [SerializeField]
     int level_first, level_last;
     [SerializeField]

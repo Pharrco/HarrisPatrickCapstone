@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class LevelDat_1_4 : LevelBase
 {
+    [SerializeField]
+    GameObject true_chest;
 
     public LevelDat_1_4()
     {
         Level_array = new int[,] {
         { 1, 2, 3, 4 },
-        { 2, 0, 0, 3 },
+        { 2, 3, 0, 3 },
         { 3, 0, 0, 2 },
         { 4, 0, 0, 1 },
         };
 
         Marker_list = new List<Vector2>() {
-            new Vector2(3, 0),
+            
+        };
+
+        Empty_list = new List<Vector2>() {
+            new Vector2(1, 1)
         };
 
         Player_start = new Vector2(3, 3);
@@ -25,4 +31,15 @@ public class LevelDat_1_4 : LevelBase
         Level_id = 4;
     }
 
+    public void Awake()
+    {
+        Prop_list = new List<InanimateSpawn>()
+        {
+        };
+
+        Enemy_Spawn_List = new List<EnemySpawn>()
+        {
+            new EnemySpawn( 1, 1, true_chest, Vector3.zero, 0)
+        };
+    }
 }

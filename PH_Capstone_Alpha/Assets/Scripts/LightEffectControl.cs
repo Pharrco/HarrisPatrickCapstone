@@ -81,4 +81,15 @@ public class LightEffectControl : MonoBehaviour {
             }
         }
     }
+
+    public static LightStatus GetLightPoint(int target_x, int target_y)
+    {
+        // If the provided coordinates are valid
+        if ((target_x == Mathf.Clamp(target_x, 0, BuildBoard.GetArrayHeight() - 1)) && (target_y == Mathf.Clamp(target_y, 0, BuildBoard.GetArrayWidth() - 1)))
+        {
+            return light_status_grid[target_x, target_y]; 
+        }
+
+        return LightStatus.Nopwr;
+    }
 }

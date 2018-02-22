@@ -52,31 +52,41 @@ public class MarkerControl : MonoBehaviour {
             // For each entry in the column
             for (int j = 0; j < BuildBoard.GetArrayWidth(); j++)
             {
-                // If space has not been designated as empty or special
-                if (board_marker_array[i, j] == 0)
+                bool not_empty = true;
+
+                if ((GetComponent<LevelBase>().Empty_list != null) && (GetComponent<LevelBase>().Empty_list.Contains(new Vector2(i,j))))
                 {
-                    // Add to the total pre-marker count
-                    markers_total += 1;
-
-                    // Instantiate the pre-marker
-                    marker_array[i, j] = GameObject.Instantiate(inactive_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.4f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
-
-                    // Mark the mini map
-                    GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(i, j, Color.yellow);
+                    not_empty = false;
                 }
-                // If space has not been designated as empty or special
-                else if (board_marker_array[i, j] == -1)
+
+                if (not_empty)
                 {
-                    if ((BuildBoard.GetArrayValue(i, j) > 0) && !((i == GetComponent<LevelBase>().Player_start.x) && (j == GetComponent<LevelBase>().Player_start.y)))
+                    // If space has not been designated as empty or special
+                    if (board_marker_array[i, j] == 0)
                     {
                         // Add to the total pre-marker count
                         markers_total += 1;
 
                         // Instantiate the pre-marker
-                        marker_array[i, j] = GameObject.Instantiate(simple_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.4f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
+                        marker_array[i, j] = GameObject.Instantiate(inactive_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.4f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
 
                         // Mark the mini map
-                        GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(i, j, Color.blue);
+                        GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(i, j, Color.yellow);
+                    }
+                    // If space has not been designated as empty or special
+                    else if (board_marker_array[i, j] == -1)
+                    {
+                        if ((BuildBoard.GetArrayValue(i, j) > 0) && !((i == GetComponent<LevelBase>().Player_start.x) && (j == GetComponent<LevelBase>().Player_start.y)))
+                        {
+                            // Add to the total pre-marker count
+                            markers_total += 1;
+
+                            // Instantiate the pre-marker
+                            marker_array[i, j] = GameObject.Instantiate(simple_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.4f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
+
+                            // Mark the mini map
+                            GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(i, j, Color.blue);
+                        }
                     }
                 }
             }
@@ -110,9 +120,6 @@ public class MarkerControl : MonoBehaviour {
 
             // Mark the mini map
             GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(x, y, Color.black);
-
-            // Test for victory
-            PhaseController.TestVictory();
         }
 
         if ((board_marker_array[x, y] == -1) && (marker_array[x,y] != null))
@@ -128,9 +135,6 @@ public class MarkerControl : MonoBehaviour {
 
             // Mark the mini map
             GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(x, y, Color.clear);
-
-            // Test for victory
-            PhaseController.TestVictory();
         }
     }
 
@@ -192,31 +196,41 @@ public class MarkerControl : MonoBehaviour {
             // For each entry in the column
             for (int j = 0; j < BuildBoard.GetArrayWidth(); j++)
             {
-                // If space has not been designated as empty or special
-                if (board_marker_array[i, j] == 0)
+                bool not_empty = true;
+
+                if ((GetComponent<LevelBase>().Empty_list != null) && (GetComponent<LevelBase>().Empty_list.Contains(new Vector2(i, j))))
                 {
-                    // Add to the total pre-marker count
-                    markers_total += 1;
-
-                    // Instantiate the pre-marker
-                    marker_array[i, j] = GameObject.Instantiate(inactive_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.9f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
-
-                    // Mark the mini map
-                    GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(i, j, Color.yellow);
+                    not_empty = false;
                 }
-                // If space has not been designated as empty or special
-                else if (board_marker_array[i, j] == -1)
+
+                if (not_empty)
                 {
-                    if ((BuildBoard.GetArrayValue(i, j) > 0) && !((i == GetComponent<LevelBase>().Player_start.x) && (j == GetComponent<LevelBase>().Player_start.y)))
+                    // If space has not been designated as empty or special
+                    if (board_marker_array[i, j] == 0)
                     {
                         // Add to the total pre-marker count
                         markers_total += 1;
 
                         // Instantiate the pre-marker
-                        marker_array[i, j] = GameObject.Instantiate(simple_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.9f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
+                        marker_array[i, j] = GameObject.Instantiate(inactive_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.9f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
 
                         // Mark the mini map
-                        GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(i, j, Color.blue);
+                        GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(i, j, Color.yellow);
+                    }
+                    // If space has not been designated as empty or special
+                    else if (board_marker_array[i, j] == -1)
+                    {
+                        if ((BuildBoard.GetArrayValue(i, j) > 0) && !((i == GetComponent<LevelBase>().Player_start.x) && (j == GetComponent<LevelBase>().Player_start.y)))
+                        {
+                            // Add to the total pre-marker count
+                            markers_total += 1;
+
+                            // Instantiate the pre-marker
+                            marker_array[i, j] = GameObject.Instantiate(simple_marker, new Vector3((i - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(i, j) - 0.9f, (j - (BuildBoard.GetArrayWidth() / 2)) * 5), Quaternion.Euler(90, 0, 0));
+
+                            // Mark the mini map
+                            GameObject.Find("MiniMap").GetComponent<MinimapController>().SetMapMarker(i, j, Color.blue);
+                        }
                     }
                 }
             }

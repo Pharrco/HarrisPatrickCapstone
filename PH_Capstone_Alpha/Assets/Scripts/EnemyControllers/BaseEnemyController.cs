@@ -6,6 +6,7 @@ public class BaseEnemyController : MonoBehaviour {
 
     public int Enemy_Pos_X { get; protected set; }
     public int Enemy_Pos_Y { get; protected set; }
+    public bool MoveComplete { get; protected set; }
 
     public virtual void PlayerOn() { }
 

@@ -22,6 +22,11 @@ public class LevelDat_T_1 : LevelBase {
             new Vector2(3, 0),
         };
 
+        Empty_list = new List<Vector2>() {
+            new Vector2(2, 0),
+            new Vector2(1, 1)
+        };
+
         Player_start = new Vector2(3, 3);
 
         Facing_start = 270;

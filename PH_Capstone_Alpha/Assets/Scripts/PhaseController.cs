@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+public enum GamePhase { PlayerTurn, PlayerAnimation, PlayerError, PlayerResult, AllyTurn, AllyResult, EnemyTurn, EnemyAnimation, EnemyResult, EnvironmentTurn, EnvironmentResult, TimedTestPhase, GameLose, GameVictory, GamePaused }
+
 public class PhaseController : MonoBehaviour {
 
-    public enum GamePhase { PlayerTurn, PlayerAnimation, PlayerError, PlayerResult, AllyTurn, AllyResult, EnemyTurn, EnemyResult, EnvironmentTurn, EnvironmentResult, TimedTestPhase, GameLose, GameVictory, GamePaused }
     public static GamePhase curr_phase;
     [SerializeField]
     float test_timer;
@@ -60,7 +61,18 @@ public class PhaseController : MonoBehaviour {
                 curr_phase = GamePhase.PlayerTurn;
             }
         }
-	}
+
+        if ((message_panel.planeDistance == 0.5f) && (Input.GetKeyDown(KeyCode.Return)))
+        {
+            EndMessagePause();
+        }
+
+        if ((message_panel.planeDistance != 0.5f) && (lose_panel.planeDistance != 0.5f) && (win_panel.planeDistance != 0.5f) && (Input.GetKeyDown(KeyCode.Escape)))
+        {
+            TogglePause();
+        }
+
+    }
 
     // End the player turn and move to the player animation phase
     public static void EndPlayerTurn()
@@ -80,6 +92,16 @@ public class PhaseController : MonoBehaviour {
         curr_phase = GamePhase.PlayerResult;
     }
 
+    public static void EndEnemyTurn()
+    {
+        curr_phase = GamePhase.EnemyAnimation;
+    }
+
+    public static void EndEnemyAnimation()
+    {
+        curr_phase = GamePhase.PlayerTurn;
+    }
+
     // End the player error phase and return to the player move phase
     public static void EndPlayerError()
     {
@@ -91,7 +113,11 @@ public class PhaseController : MonoBehaviour {
     {
         if (!pause_pPlayer)
         {
-            curr_phase = GamePhase.PlayerTurn;
+            // Test for victory
+            if(!TestVictory())
+            {
+                curr_phase = GamePhase.EnemyTurn;
+            }
         }
         else
         {
@@ -112,7 +138,7 @@ public class PhaseController : MonoBehaviour {
         }
     }
 
-    public static void TestVictory()
+    public static bool TestVictory()
     {
         if (MarkerControl.LevelComplete())
         {
@@ -130,6 +156,12 @@ public class PhaseController : MonoBehaviour {
             {
                 SceneSelectCameraControl.levels_complete = GameObject.Find("BoardBuilder").GetComponent<LevelBase>().Level_id;
             }
+
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -173,7 +205,7 @@ public class PhaseController : MonoBehaviour {
         menu_panel.planeDistance = -0.5f;
     }
 
-    public static void TogglePause()
+    public void TogglePause()
     {
         if (paused)
         {

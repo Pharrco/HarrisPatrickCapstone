@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class TrueTreasureController : BaseEnemyController {
 
+    public void Start()
+    {
+        MoveComplete = true;
+    }
+
     public override void PlayerOn()
     {
         EnemyGridControl.DestroyEnemyAt(Enemy_Pos_X, Enemy_Pos_Y);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum LightStatus { Nopwr = 0, White, Infrd, Ulvlt };
+public enum LightStatus { Nopwr = 0, White, Infrd, Ulvlt, Dark };
 
 public class LightResourceControl : MonoBehaviour {
 
