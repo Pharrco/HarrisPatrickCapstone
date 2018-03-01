@@ -8,6 +8,12 @@ public class FalseTreasureController : BaseEnemyController
     private enum BehaviorState { Idle, Flee, Attack, Stunned, Pass, Die }
     private List<Vector2> avail_moves;
     Vector2 move_destination;
+    Vector3 movePoint_origin, movePoint_target, movePoint_temp;
+    float progress = 0;
+    [SerializeField]
+    float move_speed, error_dist;
+    Quaternion curr_rotation;
+    Queue<Vector3> move_queue;
 
     BehaviorState curr_state = BehaviorState.Idle;
 
@@ -117,6 +123,16 @@ public class FalseTreasureController : BaseEnemyController
                 EnemyGridControl.SwapEnemyPoints(Enemy_Pos_X, Enemy_Pos_Y, (int)move_destination.x, (int)move_destination.y);
                 Debug.Log(name + " moves to (" + (int)move_destination.x + ", " + (int)move_destination.y + ")");
                 transform.rotation = Quaternion.Euler(0, n_rotation, 0);
+
+                movePoint_target = new Vector3((move_destination.x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue((int)move_destination.x, (int)move_destination.y) - 1f, (move_destination.y - (BuildBoard.GetArrayWidth() / 2)) * 5);
+
+                move_queue = GenerateMoveQueue(transform.position, movePoint_target);
+
+                movePoint_origin = move_queue.Dequeue();
+                movePoint_temp = move_queue.Dequeue();
+
+                // Start run animation
+                GetComponent<Animator>().SetBool("Run", true);
             }
         }
     }
@@ -127,8 +143,42 @@ public class FalseTreasureController : BaseEnemyController
         {
             if ((curr_state == BehaviorState.Flee) && (!MoveComplete))
             {
-                transform.position = new Vector3(((int)move_destination.x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue((int)move_destination.x, (int)move_destination.y) - 1f, ((int)move_destination.y - (BuildBoard.GetArrayWidth() / 2)) * 5);
-                MoveComplete = true;
+                // Update progress
+                progress += move_speed * Time.deltaTime;
+
+                // Lerp towards temp target
+                transform.position = Vector3.Lerp(movePoint_origin, movePoint_temp, progress);
+
+                // If within error distance of temp target
+                if (Vector3.Distance(transform.position, movePoint_temp) < error_dist)
+                {
+                    // Move to temp target
+                    transform.position = movePoint_temp;
+
+                    // If an item remains in the move queue
+                    if (move_queue.Count > 0)
+                    {
+                        // The old destination is the new origin
+                        movePoint_origin = movePoint_temp;
+
+                        // The new destination is the next point in the queue
+                        movePoint_temp = move_queue.Dequeue();
+
+                        // Reset progress
+                        progress = 0;
+                    }
+                    else
+                    {
+                        // Move to the final point
+                        transform.position = movePoint_target;
+
+                        // Movement is complete
+                        MoveComplete = true;
+
+                        // End run animation
+                        GetComponent<Animator>().SetBool("Run", false);
+                    }
+                }
             }
         }
     }
@@ -152,6 +202,21 @@ public class FalseTreasureController : BaseEnemyController
                 GetComponent<Animator>().SetBool("Rest", true);
                 break;
         }
+    }
+
+    private Queue<Vector3> GenerateMoveQueue(Vector3 move_origin, Vector3 move_target)
+    {
+        Queue<Vector3> n_move_queue = new Queue<Vector3>();
+
+        float x_diff = move_target.x - move_origin.x;
+        float z_diff = move_target.z - move_origin.z;
+
+        n_move_queue.Enqueue(move_origin);
+        n_move_queue.Enqueue(new Vector3(move_origin.x + (x_diff / 3.0f), move_origin.y, move_origin.z + (z_diff / 3.0f)));
+        n_move_queue.Enqueue(new Vector3(move_origin.x + (2.0f * x_diff / 3.0f), move_target.y, move_origin.z + (2.0f * z_diff / 3.0f)));
+        n_move_queue.Enqueue(move_target);
+
+        return n_move_queue;
     }
 }
 

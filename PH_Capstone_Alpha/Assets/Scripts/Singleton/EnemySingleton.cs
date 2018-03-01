@@ -1,0 +1,27 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemySingleton : MonoBehaviour {
+
+    public static EnemySingleton singleton;
+    [SerializeField]
+    public GameObject false_chest, true_chest, simple_slime;
+
+	// Use this for initialization
+	void Start () {
+
+        // If the singleton does not already exist
+		if (singleton == null)
+        {
+            // Set this instance as the singleton
+            singleton = this;
+
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+	}
+}

@@ -16,6 +16,7 @@ public class LevelBase : MonoBehaviour
     public int Level_id { get; protected set; }
     public List<InanimateSpawn> Prop_list { get; protected set; }
     public List<EnemySpawn> Enemy_Spawn_List { get; protected set; }
+    public List<EnvironmentEffect> Environment_Effect_List { get; protected set; }
 
 }
 

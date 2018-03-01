@@ -46,6 +46,11 @@ public class LevelDat_T_1 : LevelBase {
             new EnemySpawn( 2, 0, true_chest, Vector3.zero, 0),
             new EnemySpawn( 1, 1, false_chest, Vector3.zero, 0)
         };
+
+        Environment_Effect_List = new List<EnvironmentEffect>()
+        {
+            new SimpleSlimeSpawner( 1, 0, 0, 0, 1)
+        };
     }
 
 }

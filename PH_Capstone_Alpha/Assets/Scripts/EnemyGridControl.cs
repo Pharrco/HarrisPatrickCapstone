@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGridControl : MonoBehaviour {
+public class EnemyGridControl : MonoBehaviour
+{
 
     static GameObject[,] enemy_array;
     static List<GameObject> enemy_list;
 
     // Use this for initialization
-    public static void InitializeGrid () {
+    public static void InitializeGrid()
+    {
         enemy_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
         enemy_list = new List<GameObject>();
-	}
+    }
 
     // Update is called once per frame
     void Update()
@@ -260,7 +262,7 @@ public class EnemyGridControl : MonoBehaviour {
                         enemy_array[origin_x, origin_y] = null;
 
                         // Send new coordinates to moved object
-                        enemy_array[destination_x, destination_y].GetComponent<BaseEnemyController>().SetEnemyPosition( destination_x, destination_y);
+                        enemy_array[destination_x, destination_y].GetComponent<BaseEnemyController>().SetEnemyPosition(destination_x, destination_y);
                     }
                     else
                     {
@@ -280,6 +282,27 @@ public class EnemyGridControl : MonoBehaviour {
         else
         {
             Debug.Log("Enemy Grid Swap Error: Origin out of range");
+        }
+    }
+
+    public void PlaceEnemyBlock(int target_x, int target_y)
+    {
+        // If the provided coordinates are valid
+        if ((target_x == Mathf.Clamp(target_x, 0, BuildBoard.GetArrayHeight() - 1)) && (target_y == Mathf.Clamp(target_y, 0, BuildBoard.GetArrayWidth() - 1)))
+        {
+            // If there is not enemy currently in the target space
+            if (enemy_array[target_x, target_y] == null)
+            {
+                enemy_array[target_x, target_y] = new GameObject("EnemyBlock");
+            }
+            else
+            {
+                Debug.Log("Enemy Block Place Error: Attempted to add block at occupied position");
+            }
+        }
+        else
+        {
+            Debug.Log("Enemy Block Place Error: Target out of range");
         }
     }
 }

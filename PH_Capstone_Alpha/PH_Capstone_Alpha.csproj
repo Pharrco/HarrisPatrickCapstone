@@ -455,6 +455,10 @@
     <Compile Include="Assets\Scripts\EnemyControllers\TrueTreasureController.cs" />
     <Compile Include="Assets\Scripts\EnemyGridControl.cs" />
     <Compile Include="Assets\Scripts\EnemySpawn.cs" />
+    <Compile Include="Assets\Scripts\EnvironmentController.cs" />
+    <Compile Include="Assets\Scripts\EnvironmentControllers\BaseEnvironmentController.cs" />
+    <Compile Include="Assets\Scripts\EnvironmentControllers\EnvironmentEffect.cs" />
+    <Compile Include="Assets\Scripts\EnvironmentControllers\SlimeSpawner.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelBase.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_1.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelDat_1_2.cs" />
@@ -475,6 +479,8 @@
     <Compile Include="Assets\Scripts\PlayerLocator.cs" />
     <Compile Include="Assets\Scripts\RandomSeqGen.cs" />
     <Compile Include="Assets\Scripts\SceneSelectCameraControl.cs" />
+    <Compile Include="Assets\Scripts\Singleton\EnemySingleton.cs" />
+    <Compile Include="Assets\Scripts\Singleton\EnvironmentSingleton.cs" />
     <Compile Include="Assets\Scripts\TestMenuControl.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -534,6 +540,7 @@
     <None Include="Assets\Purchased\ErbGameArt\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
     <None Include="Assets\Purchased\Little Heroes Mega Pack\Read me.txt" />
     <None Include="Assets\Purchased\Little Heroes Mega Pack\www.meshtint.com.txt" />
+    <None Include="Assets\Purchased\Toon Slimes Pack\Read me.txt" />
     <None Include="Assets\Purchased\Toon Treasure Chest\Read me.txt" />
     <None Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />

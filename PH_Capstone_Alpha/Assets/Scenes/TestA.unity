@@ -8048,6 +8048,64 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 212709465}
   m_Script: {fileID: 11500000, guid: a965c82f953ec25418a761fd64bdd8c6, type: 3}
+--- !u!1 &2046471660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2046471663}
+  - component: {fileID: 2046471662}
+  - component: {fileID: 2046471661}
+  m_Layer: 0
+  m_Name: MasterSingleton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2046471661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2046471660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b3f215bc046a145a66ab1fbcd8eff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  false_chest: {fileID: 0}
+  true_chest: {fileID: 0}
+  simple_slime: {fileID: 0}
+--- !u!114 &2046471662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2046471660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e245d0fb2103be45aec750177857d2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slime_spawner: {fileID: 1428120173236240, guid: fe3e709493ab4c24a96b2bd4275c2c70,
+    type: 2}
+  dragon_blast: {fileID: 0}
+--- !u!4 &2046471663
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2046471660}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.3500805, y: -77.44136, z: 7.087469}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2085129848
 GameObject:
   m_ObjectHideFlags: 0

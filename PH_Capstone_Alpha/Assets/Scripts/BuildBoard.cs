@@ -109,6 +109,9 @@ public class BuildBoard : MonoBehaviour {
 
         // Initialize the enemy grid
         EnemyGridControl.InitializeGrid();
+
+        // Initialize the environmental controllers
+        EnvironmentController.Initialize();
     }
 
     private void Start()
@@ -129,9 +132,13 @@ public class BuildBoard : MonoBehaviour {
                 EnemyGridControl.EnemyAdd(enemy_spawn.TriggerSpawn(), enemy_spawn.GetX(), enemy_spawn.GetY());
             }
         }
-        else
+
+        if (GetComponent<LevelBase>().Environment_Effect_List != null)
         {
-            Debug.Log("No list detected");
+            foreach (EnvironmentEffect enviro_effect in GetComponent<LevelBase>().Environment_Effect_List)
+            {
+                enviro_effect.Trigger();
+            }
         }
 
         // Initialize the light grid

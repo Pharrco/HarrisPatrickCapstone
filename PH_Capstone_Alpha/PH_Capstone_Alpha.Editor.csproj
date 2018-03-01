@@ -427,6 +427,7 @@
     <None Include="Assets\Purchased\ErbGameArt\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
     <None Include="Assets\Purchased\Little Heroes Mega Pack\Read me.txt" />
     <None Include="Assets\Purchased\Little Heroes Mega Pack\www.meshtint.com.txt" />
+    <None Include="Assets\Purchased\Toon Slimes Pack\Read me.txt" />
     <None Include="Assets\Purchased\Toon Treasure Chest\Read me.txt" />
     <None Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Purchased\Top-Down Interiors\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
