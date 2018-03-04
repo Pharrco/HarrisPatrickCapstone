@@ -119,6 +119,7 @@ public class EnemyGridControl : MonoBehaviour
             // End enemy turn, begin animation state
             PhaseController.EndEnemyTurn();
         }
+		// If the current phase is the enemy animation phase
         if (PhaseController.GetCurrPhase() == GamePhase.EnemyAnimation)
         {
             // Assume all movements are complete
@@ -282,27 +283,6 @@ public class EnemyGridControl : MonoBehaviour
         else
         {
             Debug.Log("Enemy Grid Swap Error: Origin out of range");
-        }
-    }
-
-    public void PlaceEnemyBlock(int target_x, int target_y)
-    {
-        // If the provided coordinates are valid
-        if ((target_x == Mathf.Clamp(target_x, 0, BuildBoard.GetArrayHeight() - 1)) && (target_y == Mathf.Clamp(target_y, 0, BuildBoard.GetArrayWidth() - 1)))
-        {
-            // If there is not enemy currently in the target space
-            if (enemy_array[target_x, target_y] == null)
-            {
-                enemy_array[target_x, target_y] = new GameObject("EnemyBlock");
-            }
-            else
-            {
-                Debug.Log("Enemy Block Place Error: Attempted to add block at occupied position");
-            }
-        }
-        else
-        {
-            Debug.Log("Enemy Block Place Error: Target out of range");
         }
     }
 }

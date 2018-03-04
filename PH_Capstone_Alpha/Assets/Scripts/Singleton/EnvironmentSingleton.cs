@@ -9,7 +9,7 @@ public class EnvironmentSingleton : MonoBehaviour {
     public GameObject slime_spawner, dragon_blast;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
 
         // If the singleton does not already exist

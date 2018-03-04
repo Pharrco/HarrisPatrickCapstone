@@ -24,8 +24,9 @@ public class LevelDat_T_1 : LevelBase {
 
         Empty_list = new List<Vector2>() {
             new Vector2(2, 0),
-            new Vector2(1, 1)
-        };
+            new Vector2(1, 1),
+			new Vector2(0, 0)
+		};
 
         Player_start = new Vector2(3, 3);
 
@@ -49,7 +50,7 @@ public class LevelDat_T_1 : LevelBase {
 
         Environment_Effect_List = new List<EnvironmentEffect>()
         {
-            new SimpleSlimeSpawner( 1, 0, 0, 0, 1)
+            new SimpleSlimeSpawner( 3, 0, 0, 0, 1)
         };
     }
 

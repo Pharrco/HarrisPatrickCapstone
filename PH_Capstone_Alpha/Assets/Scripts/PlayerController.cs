@@ -117,88 +117,96 @@ public class PlayerController : MonoBehaviour {
                     // If the difference between the current space and target space is one or zero
                     if ((Mathf.Abs(BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - BuildBoard.GetArrayValue(try_x, try_y)) < 1.5) && (BuildBoard.GetArrayValue(try_x, try_y) != 0))
                     {
-                        // If the space has not already been marked
-                        if (MarkerControl.CanMove(try_x, try_y))
-                        {
-                            // Set the target space
-                            player_target_x = try_x;
-                            player_target_y = try_y;
+						// If the space does not contain an environment object
+						if (!EnvironmentController.IsOccupied(try_x, try_y))
+						{
+							// If the space has not already been marked
+							if (MarkerControl.CanMove(try_x, try_y))
+							{
+								// Set the target space
+								player_target_x = try_x;
+								player_target_y = try_y;
 
-                            // Set the first temp target
-                            temp_target_x = ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5) + ( 1f / 3f) * (((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5));
-                            temp_target_y = ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5) + (1f / 3f) * (((player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5));
-                            temp_target_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f;
+								// Set the first temp target
+								temp_target_x = ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5) + (1f / 3f) * (((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5));
+								temp_target_y = ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5) + (1f / 3f) * (((player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5));
+								temp_target_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f;
 
-                            // Set the temp origin
-                            temp_origin_x = transform.position.x;
-                            temp_origin_y = transform.position.z;
-                            temp_origin_height = transform.position.y;
+								// Set the temp origin
+								temp_origin_x = transform.position.x;
+								temp_origin_y = transform.position.z;
+								temp_origin_height = transform.position.y;
 
-                            // Update the player's facing
-                            player_facing = (player_facing + try_turn) % 360;
+								// Update the player's facing
+								player_facing = (player_facing + try_turn) % 360;
 
-                            // Rotate the player character
-                            transform.rotation = Quaternion.Euler( 0, player_facing, 0);
+								// Rotate the player character
+								transform.rotation = Quaternion.Euler(0, player_facing, 0);
 
-                            // Set the current and destination heights
-                            player_curr_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y);
-                            player_target_height = BuildBoard.GetArrayValue(try_x, try_y);
+								// Set the current and destination heights
+								player_curr_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y);
+								player_target_height = BuildBoard.GetArrayValue(try_x, try_y);
 
-                            // Start run animation
-                            GetComponent<Animator>().SetBool("Run", true);
+								// Start run animation
+								GetComponent<Animator>().SetBool("Run", true);
 
-                            //// Add forced camera rotation
-                            //if (try_turn <= 180)
-                            //{
-                            //    ControlView.AddForcedRotation(try_turn);
-                            //}
-                            //else
-                            //{
-                            //    ControlView.AddForcedRotation(try_turn - 360);
-                            //}
+								//// Add forced camera rotation
+								//if (try_turn <= 180)
+								//{
+								//    ControlView.AddForcedRotation(try_turn);
+								//}
+								//else
+								//{
+								//    ControlView.AddForcedRotation(try_turn - 360);
+								//}
 
-                            // Set move phase
-                            move_phase = 0;
+								// Set move phase
+								move_phase = 0;
 
-                            // End the player input phase, begin the player animation phase
-                            PhaseController.EndPlayerTurn();
-                        }
-                        else if (BuildBoard.GetArrayValue(try_x, try_y) > 0)
-                        {
-                            // Set the target space
-                            player_target_x = try_x;
-                            player_target_y = try_y;
+								// End the player input phase, begin the player animation phase
+								PhaseController.EndPlayerTurn();
+							}
+							else if (BuildBoard.GetArrayValue(try_x, try_y) > 0)
+							{
+								// Set the target space
+								player_target_x = try_x;
+								player_target_y = try_y;
 
-                            // Set the first temp target
-                            temp_target_x = ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5) + (1f / 3f) * (((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5));
-                            temp_target_y = ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5) + (1f / 3f) * (((player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5));
-                            temp_target_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f;
+								// Set the first temp target
+								temp_target_x = ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5) + (1f / 3f) * (((player_target_x - (BuildBoard.GetArrayHeight() / 2)) * 5) - ((player_coord_x - (BuildBoard.GetArrayHeight() / 2)) * 5));
+								temp_target_y = ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5) + (1f / 3f) * (((player_target_y - (BuildBoard.GetArrayWidth() / 2)) * 5) - ((player_coord_y - (BuildBoard.GetArrayWidth() / 2)) * 5));
+								temp_target_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y) - 1f;
 
-                            // Set the temp origin
-                            temp_origin_x = transform.position.x;
-                            temp_origin_y = transform.position.z;
-                            temp_origin_height = transform.position.y;
+								// Set the temp origin
+								temp_origin_x = transform.position.x;
+								temp_origin_y = transform.position.z;
+								temp_origin_height = transform.position.y;
 
-                            // Update the player's facing
-                            player_facing = (player_facing + try_turn) % 360;
+								// Update the player's facing
+								player_facing = (player_facing + try_turn) % 360;
 
-                            // Rotate the player character
-                            transform.rotation = Quaternion.Euler(0, player_facing, 0);
+								// Rotate the player character
+								transform.rotation = Quaternion.Euler(0, player_facing, 0);
 
-                            // Set the current and destination heights
-                            player_curr_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y);
-                            player_target_height = BuildBoard.GetArrayValue(try_x, try_y);
+								// Set the current and destination heights
+								player_curr_height = BuildBoard.GetArrayValue(player_coord_x, player_coord_y);
+								player_target_height = BuildBoard.GetArrayValue(try_x, try_y);
 
-                            // Start run animation
-                            GetComponent<Animator>().SetBool("Run", true);
+								// Start run animation
+								GetComponent<Animator>().SetBool("Run", true);
 
-                            // Set move phase
-                            move_phase = 0;
+								// Set move phase
+								move_phase = 0;
 
-                            // End the player input phase, begin the player animation phase
-                            PhaseController.PlayerError();
-                        }
-                    }
+								// End the player input phase, begin the player animation phase
+								PhaseController.PlayerError();
+							}
+						}
+						else
+						{
+							Debug.Log("Target (" + try_x + ", " + try_y + ") Contains Environmental Obstacle");
+						}
+					}
                     else
                     {
                         Debug.Log("Target (" + try_x + ", " + try_y + ") Height Difference Too Large");

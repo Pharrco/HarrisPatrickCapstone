@@ -45,6 +45,11 @@ public class PhaseController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Debug.Log(curr_phase);
+		}
+
         // If the current game phase is the timed test phase
 		if (curr_phase == GamePhase.TimedTestPhase)
         {
@@ -99,7 +104,7 @@ public class PhaseController : MonoBehaviour {
 
     public static void EndEnemyAnimation()
     {
-        curr_phase = GamePhase.PlayerTurn;
+        curr_phase = GamePhase.EnvironmentTurn;
     }
 
     // End the player error phase and return to the player move phase
@@ -125,8 +130,18 @@ public class PhaseController : MonoBehaviour {
         }
     }
 
-    // Return the current game phase for testing from any object
-    public static GamePhase GetCurrPhase()
+	public static void EndEnvironmentTurn()
+	{
+		curr_phase = GamePhase.EnvironmentResult;
+	}
+
+	public static void EndEnvironmentResult()
+	{
+		curr_phase = GamePhase.PlayerTurn;
+	}
+
+	// Return the current game phase for testing from any object
+	public static GamePhase GetCurrPhase()
     {
         if (!paused)
         {

@@ -9,7 +9,7 @@ public class EnemySingleton : MonoBehaviour {
     public GameObject false_chest, true_chest, simple_slime;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
         // If the singleton does not already exist
 		if (singleton == null)

@@ -5308,6 +5308,17 @@ MonoBehaviour:
   true_chest: {fileID: 1806146324260482, guid: b2beadd3715be8748933779c7e31066a, type: 2}
   false_chest: {fileID: 1794932051877776, guid: db2b2043dc2ef024f90f9b92ed168a01,
     type: 2}
+--- !u!114 &1248445677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1248445668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5907b5410b30de4cb34a49ef6ee44a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1262557292
 GameObject:
   m_ObjectHideFlags: 0
@@ -8076,9 +8087,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b3f215bc046a145a66ab1fbcd8eff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  false_chest: {fileID: 0}
-  true_chest: {fileID: 0}
-  simple_slime: {fileID: 0}
+  false_chest: {fileID: 1794932051877776, guid: db2b2043dc2ef024f90f9b92ed168a01,
+    type: 2}
+  true_chest: {fileID: 1806146324260482, guid: b2beadd3715be8748933779c7e31066a, type: 2}
+  simple_slime: {fileID: 1584241556790264, guid: d4e3a80496471694f933d7bad0ea99e8,
+    type: 2}
 --- !u!114 &2046471662
 MonoBehaviour:
   m_ObjectHideFlags: 0

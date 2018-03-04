@@ -30,6 +30,6 @@ public class SimpleSlimeSpawner : EnvironmentEffect
         n_object.GetComponent<SlimeSpawner>().Initialize(cycle_rate, position_x, position_y, spawn_x, spawn_y, EnemySingleton.singleton.simple_slime);
 
         // Add the spawner to the environment list
-        EnvironmentController.AddEnvironmentObject(n_object);
+        EnvironmentController.AddEnvironmentObject(n_object, position_x, position_y);
     }
 }

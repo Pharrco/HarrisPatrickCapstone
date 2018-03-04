@@ -12,7 +12,6 @@ public class FalseTreasureController : BaseEnemyController
     float progress = 0;
     [SerializeField]
     float move_speed, error_dist;
-    Quaternion curr_rotation;
     Queue<Vector3> move_queue;
 
     BehaviorState curr_state = BehaviorState.Idle;
@@ -36,12 +35,16 @@ public class FalseTreasureController : BaseEnemyController
 
     public override void GetMove()
     {
+		// If currently fleeing the player
         if (curr_state == BehaviorState.Flee)
         {
+			// Set invalid move as default
             Vector2 best_move = new Vector2(-1, -1);
 
+			// For each available move
             foreach (Vector2 move_coord in avail_moves)
             {
+				// Get the targeted board coordinate that the move would end at
                 int try_x = Enemy_Pos_X + (int)move_coord.x;
                 int try_y = Enemy_Pos_Y + (int)move_coord.y;
 
@@ -57,36 +60,47 @@ public class FalseTreasureController : BaseEnemyController
                             // If the space is not occupied by another enemy
                             if (!EnemyGridControl.IsEnemyOccupied(try_x, try_y))
                             {
-                                // If the space is not occupied by the player
-                                if ((PlayerLocator.Player_Pos_X != try_x) || (PlayerLocator.Player_Pos_Y != try_y))
-                                {
-                                    // If the current best move has not been set
-                                    if (best_move == new Vector2(-1, -1))
-                                    {
-                                        best_move = new Vector2(try_x, try_y);
+								// If the space is not occupied by an environmental obstacle
+								if (!EnvironmentController.IsOccupied(try_x, try_y))
+								{
+									// If the space is not occupied by the player
+									if ((PlayerLocator.Player_Pos_X != try_x) || (PlayerLocator.Player_Pos_Y != try_y))
+									{
+										// If the current best move has not been set
+										if (best_move == new Vector2(-1, -1))
+										{
+											// This is the new best move
+											best_move = new Vector2(try_x, try_y);
 
-                                        Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move");
-                                    }
-                                    // If the current best move has been set
-                                    else
-                                    {
-                                        // Randomly
-                                        if (Random.Range((int)0, (int)99) % 2 == 0)
-                                        {
-                                            best_move = new Vector2(try_x, try_y);
-                                            Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move");
-                                        }
-                                        else
-                                        {
-                                            Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move, but is being randomly ignored");
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    Debug.Log("(" + try_x + ", " + try_y + ") is occupied by player");
-                                }
-                            }
+											Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move");
+										}
+										// If the current best move has been set
+										else
+										{
+											// Randomly...
+											if (Random.Range((int)0, (int)99) % 2 == 0)
+											{
+												// Accept the new move
+												best_move = new Vector2(try_x, try_y);
+												Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move");
+											}
+											else
+											{
+												// Reject the new move
+												Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move, but is being randomly ignored");
+											}
+										}
+									}
+									else
+									{
+										Debug.Log("(" + try_x + ", " + try_y + ") is occupied by player");
+									}
+								}
+								else
+								{
+									Debug.Log("(" + try_x + ", " + try_y + ") is occupied by an environment obstacle");
+								}
+							}
                             else
                             {
                                 Debug.Log("(" + try_x + ", " + try_y + ") is occupied by another enemy");
@@ -108,26 +122,43 @@ public class FalseTreasureController : BaseEnemyController
                 }
             }
 
+			// Set moving for animation phase
             MoveComplete = false;
 
+			// If the move was never changed from the default
             if (best_move == new Vector2(-1, -1))
             {
+				// Pass, no moves are available
                 curr_state = BehaviorState.Pass;
+
+				// No animation, movement complete
                 MoveComplete = true;
+
                 Debug.Log(name + " Passes: No move available");
             }
             else
             {
+				// Set final destination
                 move_destination = best_move;
+
+				// Get the rotation to next move
                 float n_rotation = Mathf.Atan2(move_destination.x - Enemy_Pos_X, move_destination.y - Enemy_Pos_Y) * Mathf.Rad2Deg;
+
+				// Move the enemy object in the enemy grid
                 EnemyGridControl.SwapEnemyPoints(Enemy_Pos_X, Enemy_Pos_Y, (int)move_destination.x, (int)move_destination.y);
+
                 Debug.Log(name + " moves to (" + (int)move_destination.x + ", " + (int)move_destination.y + ")");
+
+				// Rotate the enemy object before moving
                 transform.rotation = Quaternion.Euler(0, n_rotation, 0);
 
+				// Store destination vector
                 movePoint_target = new Vector3((move_destination.x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue((int)move_destination.x, (int)move_destination.y) - 1f, (move_destination.y - (BuildBoard.GetArrayWidth() / 2)) * 5);
 
+				// Generate the queue of animation targets
                 move_queue = GenerateMoveQueue(transform.position, movePoint_target);
 
+				// Get the first origin and destination
                 movePoint_origin = move_queue.Dequeue();
                 movePoint_temp = move_queue.Dequeue();
 
@@ -139,8 +170,10 @@ public class FalseTreasureController : BaseEnemyController
 
     public void Update()
     {
+		// If the current phase is the enemy animation phase
         if (PhaseController.GetCurrPhase() == GamePhase.EnemyAnimation)
         {
+			// If the enemy is fleeing and movement is not complete
             if ((curr_state == BehaviorState.Flee) && (!MoveComplete))
             {
                 // Update progress
