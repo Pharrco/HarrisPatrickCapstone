@@ -12,9 +12,13 @@ public class FalseTreasureController : BaseEnemyController
     float progress = 0;
     [SerializeField]
     float move_speed, error_dist;
+	[SerializeField]
+	GameObject projectile_prefab;
     Queue<Vector3> move_queue;
+	List<GameObject> target_list;
+	List<GameObject> projectile_list;
 
-    BehaviorState curr_state = BehaviorState.Idle;
+	BehaviorState curr_state = BehaviorState.Idle;
 
     private void Start()
     {
@@ -23,6 +27,9 @@ public class FalseTreasureController : BaseEnemyController
         avail_moves = new List<Vector2>() { new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 0), new Vector2(-1, 0) };
 
         move_destination = new Vector2(-1, -1);
+
+		target_list = new List<GameObject>();
+		projectile_list = new List<GameObject>();
     }
 
     public override void PlayerOn()
@@ -33,33 +40,33 @@ public class FalseTreasureController : BaseEnemyController
         GameObject.Find("MessagePanel").GetComponent<Transform>().Find("Panel/NewCashText").GetComponent<Text>().text = "$" + CashControl.GetNewCash().ToString();
     }
 
-    public override void GetMove()
-    {
+	public override void GetMove()
+	{
 		// If currently fleeing the player
-        if (curr_state == BehaviorState.Flee)
-        {
+		if (curr_state == BehaviorState.Flee)
+		{
 			// Set invalid move as default
-            Vector2 best_move = new Vector2(-1, -1);
+			Vector2 best_move = new Vector2(-1, -1);
 
 			// For each available move
-            foreach (Vector2 move_coord in avail_moves)
-            {
+			foreach (Vector2 move_coord in avail_moves)
+			{
 				// Get the targeted board coordinate that the move would end at
-                int try_x = Enemy_Pos_X + (int)move_coord.x;
-                int try_y = Enemy_Pos_Y + (int)move_coord.y;
+				int try_x = Enemy_Pos_X + (int)move_coord.x;
+				int try_y = Enemy_Pos_Y + (int)move_coord.y;
 
-                // If targeted space is within the limits of the board
-                if ((try_x >= 0) && (try_x < BuildBoard.GetArrayHeight()) && (try_y >= 0) && (try_y < BuildBoard.GetArrayWidth()))
-                {
-                    // If the difference between the current space and target space is one or zero
-                    if ((Mathf.Abs(BuildBoard.GetArrayValue(Enemy_Pos_X, Enemy_Pos_Y) - BuildBoard.GetArrayValue(try_x, try_y)) < 1.5) && (BuildBoard.GetArrayValue(try_x, try_y) != 0))
-                    {
-                        // If the light status in the target space is not white or ultraviolet
-                        if ((LightEffectControl.GetLightPoint(try_x, try_y) != LightStatus.White) && (LightEffectControl.GetLightPoint(try_x, try_y) != LightStatus.Ulvlt))
-                        {
-                            // If the space is not occupied by another enemy
-                            if (!EnemyGridControl.IsEnemyOccupied(try_x, try_y))
-                            {
+				// If targeted space is within the limits of the board
+				if ((try_x >= 0) && (try_x < BuildBoard.GetArrayHeight()) && (try_y >= 0) && (try_y < BuildBoard.GetArrayWidth()))
+				{
+					// If the difference between the current space and target space is one or zero
+					if ((Mathf.Abs(BuildBoard.GetArrayValue(Enemy_Pos_X, Enemy_Pos_Y) - BuildBoard.GetArrayValue(try_x, try_y)) < 1.5) && (BuildBoard.GetArrayValue(try_x, try_y) != 0))
+					{
+						// If the light status in the target space is not white or ultraviolet
+						if ((LightEffectControl.GetLightPoint(try_x, try_y) != LightStatus.White) && (LightEffectControl.GetLightPoint(try_x, try_y) != LightStatus.Ulvlt))
+						{
+							// If the space is not occupied by another enemy
+							if (!EnemyGridControl.IsEnemyOccupied(try_x, try_y))
+							{
 								// If the space is not occupied by an environmental obstacle
 								if (!EnvironmentController.IsOccupied(try_x, try_y))
 								{
@@ -101,72 +108,147 @@ public class FalseTreasureController : BaseEnemyController
 									Debug.Log("(" + try_x + ", " + try_y + ") is occupied by an environment obstacle");
 								}
 							}
-                            else
-                            {
-                                Debug.Log("(" + try_x + ", " + try_y + ") is occupied by another enemy");
-                            }
-                        }
-                        else
-                        {
-                            Debug.Log("(" + try_x + ", " + try_y + ") is lit");
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("(" + try_x + ", " + try_y + ") is too great a height difference");
-                    }
-                }
-                else
-                {
-                    Debug.Log("(" + try_x + ", " + try_y + ") is out of range");
-                }
-            }
+							else
+							{
+								Debug.Log("(" + try_x + ", " + try_y + ") is occupied by another enemy");
+							}
+						}
+						else
+						{
+							Debug.Log("(" + try_x + ", " + try_y + ") is lit");
+						}
+					}
+					else
+					{
+						Debug.Log("(" + try_x + ", " + try_y + ") is too great a height difference");
+					}
+				}
+				else
+				{
+					Debug.Log("(" + try_x + ", " + try_y + ") is out of range");
+				}
+			}
 
 			// Set moving for animation phase
-            MoveComplete = false;
+			MoveComplete = false;
 
 			// If the move was never changed from the default
-            if (best_move == new Vector2(-1, -1))
-            {
+			if (best_move == new Vector2(-1, -1))
+			{
 				// Pass, no moves are available
-                curr_state = BehaviorState.Pass;
+				curr_state = BehaviorState.Pass;
 
 				// No animation, movement complete
-                MoveComplete = true;
+				MoveComplete = true;
 
-                Debug.Log(name + " Passes: No move available");
-            }
-            else
-            {
+				Debug.Log(name + " Passes: No move available");
+			}
+			else
+			{
 				// Set final destination
-                move_destination = best_move;
+				move_destination = best_move;
 
 				// Get the rotation to next move
-                float n_rotation = Mathf.Atan2(move_destination.x - Enemy_Pos_X, move_destination.y - Enemy_Pos_Y) * Mathf.Rad2Deg;
+				float n_rotation = Mathf.Atan2(move_destination.x - Enemy_Pos_X, move_destination.y - Enemy_Pos_Y) * Mathf.Rad2Deg;
 
 				// Move the enemy object in the enemy grid
-                EnemyGridControl.SwapEnemyPoints(Enemy_Pos_X, Enemy_Pos_Y, (int)move_destination.x, (int)move_destination.y);
+				EnemyGridControl.SwapEnemyPoints(Enemy_Pos_X, Enemy_Pos_Y, (int)move_destination.x, (int)move_destination.y);
 
-                Debug.Log(name + " moves to (" + (int)move_destination.x + ", " + (int)move_destination.y + ")");
+				Debug.Log(name + " moves to (" + (int)move_destination.x + ", " + (int)move_destination.y + ")");
 
 				// Rotate the enemy object before moving
-                transform.rotation = Quaternion.Euler(0, n_rotation, 0);
+				transform.rotation = Quaternion.Euler(0, n_rotation, 0);
 
 				// Store destination vector
-                movePoint_target = new Vector3((move_destination.x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue((int)move_destination.x, (int)move_destination.y) - 1f, (move_destination.y - (BuildBoard.GetArrayWidth() / 2)) * 5);
+				movePoint_target = new Vector3((move_destination.x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue((int)move_destination.x, (int)move_destination.y) - 1f, (move_destination.y - (BuildBoard.GetArrayWidth() / 2)) * 5);
 
 				// Generate the queue of animation targets
-                move_queue = GenerateMoveQueue(transform.position, movePoint_target);
+				move_queue = GenerateMoveQueue(transform.position, movePoint_target);
 
 				// Get the first origin and destination
-                movePoint_origin = move_queue.Dequeue();
-                movePoint_temp = move_queue.Dequeue();
+				movePoint_origin = move_queue.Dequeue();
+				movePoint_temp = move_queue.Dequeue();
 
-                // Start run animation
-                GetComponent<Animator>().SetBool("Run", true);
-            }
-        }
-    }
+				// Start run animation
+				GetComponent<Animator>().SetBool("Run", true);
+			}
+		}
+
+		// If currently attacking after being surprised
+		if (curr_state == BehaviorState.Attack)
+		{
+			// Clear the target list
+			target_list.Clear();
+
+			// For each available attack
+			foreach (Vector2 attack_coord in avail_moves)
+			{
+				// Get the targeted board coordinate that the attack would end at
+				int try_x = Enemy_Pos_X + (int)attack_coord.x;
+				int try_y = Enemy_Pos_Y + (int)attack_coord.y;
+
+				// If targeted space is within the limits of the board
+				if ((try_x >= 0) && (try_x < BuildBoard.GetArrayHeight()) && (try_y >= 0) && (try_y < BuildBoard.GetArrayWidth()))
+				{
+					// If the difference between the current space and target space is one or zero
+					if ((Mathf.Abs(BuildBoard.GetArrayValue(Enemy_Pos_X, Enemy_Pos_Y) - BuildBoard.GetArrayValue(try_x, try_y)) < 1.5) && (BuildBoard.GetArrayValue(try_x, try_y) != 0))
+					{
+						// If the player exists in the space
+						if ((PlayerLocator.Player_Pos_X == try_x) && (PlayerLocator.Player_Pos_Y == try_y))
+						{
+							// Add the player to the target list
+							target_list.Add(GameObject.FindGameObjectWithTag("Player"));
+						}
+						
+						// If an ally object is present in the space
+						if (AllyGridControl.IsAllyOccupied(try_x, try_y))
+						{
+							// Add the ally to the target list
+							target_list.Add(AllyGridControl.GetAllyFromGrid(try_x, try_y));
+						}
+					}
+				}
+			}
+
+			// Set moving for animation phase
+			MoveComplete = false;
+
+			// If the move was never changed from the default
+			if (target_list.Count <= 0)
+			{
+				// Pass, no moves are available
+				curr_state = BehaviorState.Pass;
+
+				// No animation, movement complete
+				MoveComplete = true;
+
+				// Start shoot animation
+				GetComponent<Animator>().SetTrigger("Cast Spell");
+
+				Debug.Log(name + " Passes on attack: No attacks available");
+			}
+			else
+			{
+				// Clear the projectile list
+				projectile_list.Clear();
+
+				// For each target in the target list
+				foreach (GameObject target in target_list)
+				{
+					// Create a projectile
+					GameObject projectile = GameObject.Instantiate(projectile_prefab);
+					projectile.GetComponent<ChestProjectile>().Initialize(transform.position + Vector3.up, target.transform.position + Vector3.up);
+
+					// Get the rotation to next move
+					float n_rotation = Mathf.Atan2(target.transform.position.x - transform.position.x, target.transform.position.z - transform.position.z) * Mathf.Rad2Deg;
+					transform.rotation = Quaternion.Euler(0, n_rotation, 0);
+					
+					// Add the projectile to the projectile list
+					projectile_list.Add(projectile);
+				}
+			}
+		}
+	}
 
     public void Update()
     {
@@ -213,7 +295,35 @@ public class FalseTreasureController : BaseEnemyController
                     }
                 }
             }
-        }
+
+			// If the enemy is attacking and movement is not complete
+			if ((curr_state == BehaviorState.Attack) && (!MoveComplete))
+			{
+				// If the only remaining objects in the list are null
+				if (projectile_list.Count == projectile_list.FindAll(el => el == null).Count)
+				{
+					// Move is complete
+					MoveComplete = true;
+
+					// For each target in the list
+					foreach (GameObject target in target_list)
+					{
+						// If the target is the player
+						if (target.tag == "Player")
+						{
+							target.GetComponent<Animator>().SetTrigger("Take Damage");
+							CashControl.AddPlayCash(5);
+							PlayerHealth.PlayerTakeDamage();
+						}
+						// If the target is an ally
+						else
+						{
+
+						}
+					}
+				}
+			}
+		}
     }
 
     public override void LightEffect(LightStatus n_lightColor)
@@ -222,17 +332,24 @@ public class FalseTreasureController : BaseEnemyController
         {
             case LightStatus.White:
                 curr_state = BehaviorState.Flee;
-                GetComponent<Animator>().SetBool("Rest", false);
+				GetComponent<Animator>().SetBool("Defend", false);
+				GetComponent<Animator>().SetBool("Rest", false);
                 break;
             case LightStatus.Infrd:
                 curr_state = BehaviorState.Attack;
-                break;
+				GetComponent<Animator>().SetBool("Defend", false);
+				GetComponent<Animator>().SetBool("Rest", false);
+				break;
             case LightStatus.Ulvlt:
                 curr_state = BehaviorState.Stunned;
-                break;
+				GetComponent<Animator>().SetBool("Rest", false);
+				GetComponent<Animator>().SetTrigger("Take Damage");
+				GetComponent<Animator>().SetBool("Defend", true);
+				break;
             case LightStatus.Nopwr:
                 curr_state = BehaviorState.Idle;
-                GetComponent<Animator>().SetBool("Rest", true);
+				GetComponent<Animator>().SetBool("Defend", false);
+				GetComponent<Animator>().SetBool("Rest", true);
                 break;
         }
     }

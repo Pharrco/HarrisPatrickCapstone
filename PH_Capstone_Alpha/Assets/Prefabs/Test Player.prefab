@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 33288521243197710}
   - component: {fileID: 23986728256715522}
   m_Layer: 0
-  m_Name: Hair Male 04 Cyan
+  m_Name: Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -660,7 +660,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1895917689588842}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 7.0681973, y: 0.6887541, z: 12.050001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4710054367321102}
@@ -1171,6 +1171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move_speed: 3
   error_dist: 0.1
+  stone_material: {fileID: 2100000, guid: 3a00b84d9284d254080983707c886839, type: 2}
 --- !u!137 &137722619187273274
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

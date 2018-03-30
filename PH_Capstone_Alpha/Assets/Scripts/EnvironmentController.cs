@@ -140,4 +140,14 @@ public class EnvironmentController : MonoBehaviour
 			}
 		}
 	}
+
+	static public void ResetAllEnvironment()
+	{
+		// For each environment effect in the level
+		foreach (GameObject environment_object in environment_list)
+		{
+			// Reset the effect
+			environment_object.GetComponent<BaseEnvironmentController>().Reset();
+		}
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
@@ -21,6 +22,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     float move_speed, error_dist;
     int move_phase = 0;
+	bool gorgon_lock = false;
+	Material native_material_skin, native_material_hair;
+	[SerializeField]
+	Material stone_material;
 
     // Set's the player's position, called from the character spawner
     public void SetPosition( int start_x, int start_y , int n_facing)
@@ -31,7 +36,11 @@ public class PlayerController : MonoBehaviour {
         player_facing = n_facing;
         player_curr_height = BuildBoard.GetArrayValue(start_x, start_y);
         GameObject.Find("MiniMap").GetComponent<MinimapController>().SetPlayerPosition(player_coord_x, player_coord_y);
-    }
+
+		gorgon_lock = false;
+		native_material_skin = transform.Find("Base").GetComponent<SkinnedMeshRenderer>().material;
+		native_material_hair = transform.Find("RigPelvis/RigSpine1/RigSpine2/RigRibcage/RigNeck/RigHead/Dummy Prop Head/Hair").GetComponent<MeshRenderer>().material;
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -50,17 +59,20 @@ public class PlayerController : MonoBehaviour {
             // W Key, move forward
             if (Input.GetKeyDown(KeyCode.W))
             {
-                // Input received
-                control_input = true;
+				if (!gorgon_lock)
+				{
+					// Input received
+					control_input = true;
 
-                // Attempted x move is + Sin( facing )
-                try_x = player_coord_x + Mathf.FloorToInt(Mathf.Sin(player_facing * Mathf.Deg2Rad) + 0.5f);
+					// Attempted x move is + Sin( facing )
+					try_x = player_coord_x + Mathf.FloorToInt(Mathf.Sin(player_facing * Mathf.Deg2Rad) + 0.5f);
 
-                // Attempted y move is + Cos( facing )
-                try_y = player_coord_y + Mathf.FloorToInt(Mathf.Cos(player_facing * Mathf.Deg2Rad) + 0.5f);
+					// Attempted y move is + Cos( facing )
+					try_y = player_coord_y + Mathf.FloorToInt(Mathf.Cos(player_facing * Mathf.Deg2Rad) + 0.5f);
 
-                // No added rotation
-                try_turn = 0;
+					// No added rotation
+					try_turn = 0;
+				}
             }
             // S Key, move backward
             else if (Input.GetKeyDown(KeyCode.S))
@@ -285,8 +297,11 @@ public class PlayerController : MonoBehaviour {
 
                 PlayerLocator.SetPlayerCoord(player_coord_x, player_coord_y);
 
-                // End run animation
-                GetComponent<Animator>().SetBool("Run", false);
+				// End gorgon lock
+				ResetGorgonLock();
+
+				// End run animation
+				GetComponent<Animator>().SetBool("Run", false);
 
                 // Advance to next player turn
                 PhaseController.EndPlayerAnimation();
@@ -354,6 +369,9 @@ public class PlayerController : MonoBehaviour {
                 // End run animation
                 GetComponent<Animator>().SetBool("Run", false);
 
+				// End gorgon lock
+				ResetGorgonLock();
+
                 // Advance to next player turn
                 PhaseController.EndPlayerError();
             }
@@ -364,4 +382,20 @@ public class PlayerController : MonoBehaviour {
     {
         return player_facing;
     }
+
+	public void ActivateGorgonLock()
+	{
+		gorgon_lock = true;
+		transform.Find("Base").GetComponent<SkinnedMeshRenderer>().material = stone_material;
+		transform.Find("RigPelvis/RigSpine1/RigSpine2/RigRibcage/RigNeck/RigHead/Dummy Prop Head/Hair").GetComponent<MeshRenderer>().material = stone_material;
+		GameObject.Find("GorgonLockInd").GetComponent<Image>().color = Color.white;
+	}
+
+	public void ResetGorgonLock()
+	{
+		gorgon_lock = false;
+		transform.Find("Base").GetComponent<SkinnedMeshRenderer>().material = native_material_skin;
+		transform.Find("RigPelvis/RigSpine1/RigSpine2/RigRibcage/RigNeck/RigHead/Dummy Prop Head/Hair").GetComponent<MeshRenderer>().material = native_material_hair;
+		GameObject.Find("GorgonLockInd").GetComponent<Image>().color = Color.clear;
+	}
 }

@@ -5,20 +5,12 @@ using UnityEngine.UI;
 
 public class CashControl : MonoBehaviour {
 
-    static int total_cash, level_cash, play_cash, new_cash;
+    static int level_cash, play_cash, new_cash;
     static bool first_set = false;
     static Text cash_text;
 
 	// Use this for initialization
 	void Start () {
-        // If this is the first time this script has been triggered
-		if (!first_set)
-        {
-            // Start with nothing
-            total_cash = 0;
-            first_set = true;
-        }
-
         // Reset temporary cash amounts
         level_cash = 0;
         play_cash = 0;
@@ -45,11 +37,6 @@ public class CashControl : MonoBehaviour {
         new_cash = 0;
     }
 
-    public static int GetTotalCash()
-    {
-        return total_cash;
-    }
-
     public static int GetNewCash()
     {
         return new_cash;
@@ -60,14 +47,20 @@ public class CashControl : MonoBehaviour {
         return play_cash;
     }
 
-    public static void GetLevelEndCash()
-    {
+	public static int GetLevelCash()
+	{
+		return level_cash;
+	}
 
+    public static void GetLevelEndCash(float multiplier)
+    {
+		level_cash = Mathf.FloorToInt((float)play_cash * multiplier);
     }
 
     public static void StoreLevelEndCash()
     {
-        total_cash += level_cash;
+		GameSave.loaded_save.AddPlayerCash(level_cash);
+		Debug.Log("Player now has $" + GameSave.loaded_save.GetPlayerCash().ToString());
     }
 
     public static void GenerateRandomCash(int min_amount, int max_amount)
@@ -80,4 +73,13 @@ public class CashControl : MonoBehaviour {
     {
         new_cash = n_amount;
     }
+
+	// Reset cash
+	public static void ResetLevelCash()
+	{
+		// Reset temporary cash amounts
+		level_cash = 0;
+		play_cash = 0;
+		cash_text.text = "$" + play_cash;
+	}
 }

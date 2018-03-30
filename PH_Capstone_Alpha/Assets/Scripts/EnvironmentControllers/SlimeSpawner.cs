@@ -8,37 +8,50 @@ public class SlimeSpawner : BaseEnvironmentController
 	Vector3 spawn_point;
 	int spawn_x, spawn_y;
 	GameObject spawn_object;
+	GameObject instance_object;
 
     public override void GetMove()
 	{
-		// Decrement countdown
-		moves_till_spawn--;
-
-		// If countdown at 0
-		if (moves_till_spawn <= 0)
+		// If a slime is not currently spawned
+		if (instance_object == null)
 		{
-			// Reset the countdown
-			moves_till_spawn = cycle_rate;
+			// Decrement countdown
+			moves_till_spawn--;
 
-			// If the space is not occupied by an enemy
-			if (!EnemyGridControl.IsEnemyOccupied(spawn_x, spawn_y))
+			// If countdown at 0
+			if (moves_till_spawn <= 0)
 			{
-				// If the space is not occupied by the player
-				if ((PlayerLocator.Player_Pos_X != spawn_x) || (PlayerLocator.Player_Pos_Y != spawn_y))
+				// Reset the countdown
+				moves_till_spawn = cycle_rate;
+
+				// If the space is not occupied by an enemy
+				if (!EnemyGridControl.IsEnemyOccupied(spawn_x, spawn_y))
 				{
-					// Spawn the slime enemy
-					GameObject new_slime = GameObject.Instantiate(spawn_object, spawn_point, Quaternion.identity);
-					new_slime.GetComponent<BaseEnemyController>().SetEnemyPosition(spawn_x, spawn_y);
-					EnemyGridControl.EnemyAdd(new_slime, spawn_x, spawn_y);
+					// If the space is not occupied by the player
+					if ((PlayerLocator.Player_Pos_X != spawn_x) || (PlayerLocator.Player_Pos_Y != spawn_y))
+					{
+						// If the space is not occupied by a marker
+						if (!MarkerControl.IsMarkerOccupied(spawn_x, spawn_y))
+						{
+							// Spawn the slime enemy
+							instance_object = GameObject.Instantiate(spawn_object, spawn_point, Quaternion.identity);
+							instance_object.GetComponent<BaseEnemyController>().SetEnemyPosition(spawn_x, spawn_y);
+							EnemyGridControl.EnemyAdd(instance_object, spawn_x, spawn_y);
+						}
+						else
+						{
+							Debug.Log("(" + spawn_x.ToString() + ", " + spawn_y.ToString() + ") occupied by marker. Spawn failed.");
+						}
+					}
+					else
+					{
+						Debug.Log("(" + spawn_x.ToString() + ", " + spawn_y.ToString() + ") occupied by player. Spawn failed.");
+					}
 				}
 				else
 				{
-					Debug.Log("(" + spawn_x.ToString() + ", " + spawn_y.ToString() + ") occupied by player. Spawn failed.");
+					Debug.Log("(" + spawn_x.ToString() + ", " + spawn_y.ToString() + ") occupied by enemy. Spawn failed.");
 				}
-			}
-			else
-			{
-				Debug.Log("(" + spawn_x.ToString() + ", " + spawn_y.ToString() + ") occupied by enemy. Spawn failed.");
 			}
 		}
 	}
@@ -58,5 +71,11 @@ public class SlimeSpawner : BaseEnvironmentController
     // Update is called once per frame
     void Update () {
 		
+	}
+
+	public override void Reset()
+	{
+		// Reset the countdown
+		moves_till_spawn = cycle_rate;
 	}
 }

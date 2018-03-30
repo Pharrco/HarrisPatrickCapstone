@@ -16,7 +16,9 @@ public class LevelDat_T_1 : LevelBase {
         { 3, 4, 2, 1 },
         { 3, 3, 3, 2 },
         { 3, 4, 3, 3 },
-        };
+		{ 3, 4, 3, 3 },
+		{ 3, 4, 3, 3 }
+		};
 
         Marker_list = new List<Vector2>() {
             new Vector2(3, 0),
@@ -25,7 +27,9 @@ public class LevelDat_T_1 : LevelBase {
         Empty_list = new List<Vector2>() {
             new Vector2(2, 0),
             new Vector2(1, 1),
-			new Vector2(0, 0)
+			new Vector2(0, 0),
+			new Vector2(0, 1),
+			new Vector2(0, 2)
 		};
 
         Player_start = new Vector2(3, 3);
@@ -50,7 +54,8 @@ public class LevelDat_T_1 : LevelBase {
 
         Environment_Effect_List = new List<EnvironmentEffect>()
         {
-            new SimpleSlimeSpawner( 3, 0, 0, 0, 1)
+            new SimpleSlimeSpawner( 3, 0, 0, 0, 1),
+			new GorgonDirectionalSpawn(Enumerators.CompassDirect.South)
         };
     }
 

@@ -371,6 +371,7 @@
     <Compile Include="Assets\Purchased\Particles\ErbGameArt\PostProcessing\Editor\Utils\ReflectionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Purchased\Enemies\Toon Gorgon\Read me.txt" />
     <None Include="Assets\Purchased\Enemies\Toon Slimes Pack\Read me.txt" />
     <None Include="Assets\Purchased\Enemies\Toon Treasure Chest\Read me.txt" />
     <None Include="Assets\Purchased\Environments\Top-Down Interiors\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />

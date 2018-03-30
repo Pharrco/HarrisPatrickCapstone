@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public enum GamePhase { PlayerTurn, PlayerAnimation, PlayerError, PlayerResult, AllyTurn, AllyResult, EnemyTurn, EnemyAnimation, EnemyResult, EnvironmentTurn, EnvironmentResult, TimedTestPhase, GameLose, GameVictory, GamePaused }
+public enum GamePhase { PlayerTurn, PlayerAnimation, PlayerError, PlayerResult, AllyTurn, AllyAnimation, AllyResult, EnemyTurn, EnemyAnimation, EnemyResult, EnvironmentTurn, EnvironmentResult, TimedTestPhase, GameLose, GameVictory, GamePaused }
 
 public class PhaseController : MonoBehaviour {
 
@@ -15,14 +15,27 @@ public class PhaseController : MonoBehaviour {
     static float time_elapsed_test = 0;
     static Canvas lose_panel, win_panel, menu_panel, message_panel;
     static bool pause_pPlayer, pause_pEnemy, pause_pAlly, pause_pEnvironment;
+	static Image turn_icon;
+	static Image turn_frame_back;
+	static Sprite curr_icon;
+	static Color curr_color;
 
     // Use this for initialization
     void Start () {
+		turn_icon = GameObject.Find("TurnStateIcon").GetComponent<Image>();
+		turn_frame_back = GameObject.Find("TurnStateFrameBacking").GetComponent<Image>();
+
         // Initial phase is player turn
         curr_phase = GamePhase.PlayerTurn;
 
-        // Get the victory canvas
-        win_panel = GameObject.Find("VictoryPanel").GetComponent<Canvas>();
+		turn_icon.sprite = InterfaceSingleton.singleton.player_turn_icon;
+		turn_frame_back.color = Constants.TURN_COLOR_PLAYER;
+
+		curr_icon = turn_icon.sprite;
+		curr_color = turn_frame_back.color;
+
+		// Get the victory canvas
+		win_panel = GameObject.Find("VictoryPanel").GetComponent<Canvas>();
 
         // Get the loss canvas
         lose_panel = GameObject.Find("LosePanel").GetComponent<Canvas>();
@@ -107,8 +120,24 @@ public class PhaseController : MonoBehaviour {
         curr_phase = GamePhase.EnvironmentTurn;
     }
 
-    // End the player error phase and return to the player move phase
-    public static void EndPlayerError()
+	public static void EndAllyTurn()
+	{
+		curr_phase = GamePhase.AllyAnimation;
+	}
+
+	public static void EndAllyAnimation()
+	{
+		curr_phase = GamePhase.EnemyTurn;
+
+		turn_icon.sprite = InterfaceSingleton.singleton.enemy_turn_icon;
+		turn_frame_back.color = Constants.TURN_COLOR_ENEMY;
+
+		curr_icon = turn_icon.sprite;
+		curr_color = turn_frame_back.color;
+	}
+
+	// End the player error phase and return to the player move phase
+	public static void EndPlayerError()
     {
         curr_phase = GamePhase.PlayerResult;
     }
@@ -121,8 +150,17 @@ public class PhaseController : MonoBehaviour {
             // Test for victory
             if(!TestVictory())
             {
-                curr_phase = GamePhase.EnemyTurn;
-            }
+                curr_phase = GamePhase.AllyTurn;
+
+				turn_icon.sprite = InterfaceSingleton.singleton.ally_turn_icon;
+				turn_frame_back.color = Constants.TURN_COLOR_ALLY;
+
+				curr_icon = turn_icon.sprite;
+				curr_color = turn_frame_back.color;
+
+				// Deduct light cost
+				LightResourceControl.DeductLightCost();
+			}
         }
         else
         {
@@ -138,6 +176,14 @@ public class PhaseController : MonoBehaviour {
 	public static void EndEnvironmentResult()
 	{
 		curr_phase = GamePhase.PlayerTurn;
+
+		turn_icon.sprite = InterfaceSingleton.singleton.player_turn_icon;
+		turn_frame_back.color = Constants.TURN_COLOR_PLAYER;
+
+		curr_icon = turn_icon.sprite;
+		curr_color = turn_frame_back.color;
+
+		LightResourceControl.SetLightDefault();
 	}
 
 	// Return the current game phase for testing from any object
@@ -166,13 +212,22 @@ public class PhaseController : MonoBehaviour {
             // Make the win panel visible
             win_panel.planeDistance = 0.5f;
 
-            // If this level has not been completed before
-            if (SceneSelectCameraControl.levels_complete < GameObject.Find("BoardBuilder").GetComponent<LevelBase>().Level_id)
-            {
-                SceneSelectCameraControl.levels_complete = GameObject.Find("BoardBuilder").GetComponent<LevelBase>().Level_id;
-            }
+			CashControl.GetLevelEndCash(1f);
 
-            return true;
+			win_panel.transform.Find("Panel/WinCollectText").GetComponent<Text>().text = CashControl.GetPlayCash().ToString();
+			win_panel.transform.Find("Panel/WinTurnsMultText").GetComponent<Text>().text = "1.0";
+			win_panel.transform.Find("Panel/WinTimeMultText").GetComponent<Text>().text = "1.0";
+			win_panel.transform.Find("Panel/WinEnemMultText").GetComponent<Text>().text = "1.0";
+			win_panel.transform.Find("Panel/WinTotalText").GetComponent<Text>().text = CashControl.GetLevelCash().ToString();
+
+			CashControl.StoreLevelEndCash();
+
+			// If this level has not been completed before
+			GameSave.loaded_save.CompleteLevel(GameObject.Find("BoardBuilder").GetComponent<LevelBase>().Level_id);
+
+			MasterGameController.SaveCurrent();
+
+			return true;
         }
         else
         {
@@ -190,7 +245,14 @@ public class PhaseController : MonoBehaviour {
 
         // Make the loss panel visible
         lose_panel.planeDistance = 0.5f;
-    }
+
+		CashControl.GetLevelEndCash(0.15f);
+
+		lose_panel.transform.Find("Panel/LoseCollectText").GetComponent<Text>().text = CashControl.GetPlayCash().ToString();
+		lose_panel.transform.Find("Panel/LoseTotalText").GetComponent<Text>().text = CashControl.GetLevelCash().ToString();
+
+		CashControl.StoreLevelEndCash();
+	}
 
     // Reset the game and hide any panels
     public static void ResetPhaseState()

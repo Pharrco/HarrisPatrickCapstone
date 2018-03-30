@@ -33,3 +33,25 @@ public class SimpleSlimeSpawner : EnvironmentEffect
         EnvironmentController.AddEnvironmentObject(n_object, position_x, position_y);
     }
 }
+
+public class GorgonDirectionalSpawn : EnvironmentEffect
+{
+	Enumerators.CompassDirect gorgon_placement;
+
+	public GorgonDirectionalSpawn(Enumerators.CompassDirect n_direction)
+	{
+		gorgon_placement = n_direction; // The direction in the level the gorgon should be placed, relative to the board. This is also the direction that the player will be paralyzed if they move in this direction
+	}
+
+	public override void Trigger()
+	{
+		// Instantiate a clone of the directional gorgon object
+		GameObject n_object = GameObject.Instantiate(EnvironmentSingleton.singleton.directional_gorgon);
+
+		// Send the direction to the gorgon script, triggering the gorgon to adjust position and set behavior
+		n_object.GetComponent<DirectionalGorgon>().Initialize(gorgon_placement);
+
+		// Add the gorgon to the environmental list
+		EnvironmentController.AddEnvironmentObject(n_object);
+	}
+}

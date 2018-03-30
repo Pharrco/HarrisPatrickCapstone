@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour {
 
     static Text health_text;
-    static int health_max = 4;
+	static Image health_fill;
+    static int health_max;
     static int health_curr;
 
     // Use this for initialization
     void Start() {
+
+		health_max = Constants.BASE_HEALTH + GameSave.loaded_save.Player_upgradeState.GetHealthMaxPlusCount();
 
         // Set initial health to max
         health_curr = health_max;
@@ -18,8 +21,14 @@ public class PlayerHealth : MonoBehaviour {
         // Get Text Field
         health_text = GameObject.Find("HealthText").GetComponent<Text>();
 
-        // Update health text
-        UpdateHealthText();
+		// Get Fill Image
+		health_fill = GameObject.Find("HealthFill").GetComponent<Image>();
+
+		// Update health text
+		UpdateHealthText();
+
+		// Update health fill
+		UpdateHealthFill();
     }
 
     // Take damage due to an error
@@ -31,8 +40,11 @@ public class PlayerHealth : MonoBehaviour {
         // Update health text
         UpdateHealthText();
 
-        // Test health loss
-        TestHealthLoss();
+		// Update health fill
+		UpdateHealthFill();
+
+		// Test health loss
+		TestHealthLoss();
     }
 
     // Standardized update to text object
@@ -41,6 +53,12 @@ public class PlayerHealth : MonoBehaviour {
         // Update health text string
         health_text.text = " Health: " + health_curr + " / " + health_max;
     }
+
+	static void UpdateHealthFill()
+	{
+		// Update the fill of the health bar
+		health_fill.fillAmount = (float)health_curr / (float)health_max;
+	}
 
     // Test whether the player is out of health
     public static void TestHealthLoss()

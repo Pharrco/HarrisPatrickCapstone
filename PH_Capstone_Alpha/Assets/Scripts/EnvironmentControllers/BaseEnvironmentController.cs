@@ -7,4 +7,6 @@ public class BaseEnvironmentController : MonoBehaviour {
     public virtual void GetMove() { }
 
     public bool MoveComplete { get; protected set; }
+
+	public virtual void Reset() { }
 }

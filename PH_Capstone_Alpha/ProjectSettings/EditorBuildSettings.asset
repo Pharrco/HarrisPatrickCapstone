@@ -9,11 +9,20 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/Menu_Main.unity
     guid: 465885661d10eac429b04e0305cadacf
   - enabled: 1
-    path: Assets/Scenes/Menus/SceneSelect_Area1.unity
-    guid: 7fca1d298dce8a54abc2b034670c5f69
+    path: Assets/Scenes/Menus/Menu_ControlGuide.unity
+    guid: 8240cbe3ebdada744900ed58266b5a94
+  - enabled: 1
+    path: Assets/Scenes/Menus/Menu_Store.unity
+    guid: 55dd5e1acd36a9b4fa57cd2bc7ecc402
+  - enabled: 1
+    path: Assets/Scenes/Menus/Menu_PlayGuide.unity
+    guid: baf7b20fb2513924ea52813ed9bb751a
   - enabled: 1
     path: Assets/Scenes/TestA.unity
     guid: 1e608f90c41446840b38238c7f1489a0
+  - enabled: 1
+    path: Assets/Scenes/Menus/SceneSelect_Area1.unity
+    guid: 7fca1d298dce8a54abc2b034670c5f69
   - enabled: 1
     path: Assets/Scenes/PlayLevels/PlayLevel_1_1.unity
     guid: 846b7c4f42999674989ddc90cdcab57c
@@ -30,5 +39,26 @@ EditorBuildSettings:
     path: Assets/Scenes/PlayLevels/PlayLevel_1_5.unity
     guid: 98decbf8b65a7d847a1afb58ebefc088
   - enabled: 1
-    path: Assets/Scenes/Menus/Menu_Controls.unity
-    guid: f7a33b5bb75c68644bb53f94e1cdfcd5
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_6.unity
+    guid: 4e2fedb4797eb1d47bb066b16eaed0f2
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_7.unity
+    guid: 5b9bf339031004243ac29a696a4b2791
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_8.unity
+    guid: dfc738e311eee3444adb4e85f0542df6
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_9.unity
+    guid: 64277680ee40cd34290c28b658f0173b
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_10.unity
+    guid: 2dcd813c4f2b17c41839c29b38e25f83
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_11.unity
+    guid: 6d29cf95d8dcd5c4baf732ba5ffa55f8
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_12.unity
+    guid: ac53dec027f48124f8290c33e27d516c
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_13.unity
+    guid: 754cf0874af7ef34b852b2b3a1e5b58d

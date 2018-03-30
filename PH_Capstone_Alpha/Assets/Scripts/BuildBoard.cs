@@ -7,7 +7,7 @@ public class BuildBoard : MonoBehaviour {
     [SerializeField]
     GameObject block_white, block_grey, block_top, level_bridge, stair_up;
     [SerializeField]
-    GameObject whiteLight_effect;
+    GameObject whiteLight_effect, nopwrLight_effect, infrdLight_effect, ulvltLight_effect;
     static int[,] board_array;
 
 	// Use this for initialization
@@ -107,11 +107,15 @@ public class BuildBoard : MonoBehaviour {
             }
         }
 
-        // Initialize the enemy grid
+        // Initialize the enemy/ally grids
         EnemyGridControl.InitializeGrid();
+		AllyGridControl.InitializeGrid();
 
         // Initialize the environmental controllers
         EnvironmentController.Initialize();
+
+		// Initialize the minimap
+		GameObject.Find("MiniMap").GetComponent<MinimapController>().InitializeMiniMap();
     }
 
     private void Start()
@@ -142,7 +146,7 @@ public class BuildBoard : MonoBehaviour {
         }
 
         // Initialize the light grid
-        LightEffectControl.InitializeLightGrid(whiteLight_effect);
+        LightEffectControl.InitializeLightGrid(whiteLight_effect, nopwrLight_effect, infrdLight_effect, ulvltLight_effect);
 
         // Set light effect based on player start position
         LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
@@ -152,7 +156,7 @@ public class BuildBoard : MonoBehaviour {
         LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y - 1, LightStatus.White);
     }
 
-    // Get the height stored in the board atrray
+    // Get the height stored in the board array
     public static int GetArrayValue(int x, int y)
     {
         return board_array[x, y];

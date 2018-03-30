@@ -37,6 +37,15 @@ public class ControlView : MonoBehaviour {
         cam_mode = ViewCameraMode.Follow;
 
         HUD_Camera.transform.GetChild(0).GetComponent<Image>().sprite = sprite_follow;
+
+		float shift_width = ((BuildBoard.GetArrayWidth() + 2) * Constants.TILE_SEPARATION) / 2.0f;
+		float shift_height = ((BuildBoard.GetArrayHeight() + 2) * Constants.TILE_SEPARATION) / 2.0f;
+		float shift_center = Constants.TILE_SEPARATION / 2.0f;
+
+		WallN.transform.position = new Vector3(shift_height - shift_center, -2f, -shift_center);
+		WallS.transform.position = new Vector3((-shift_height) - shift_center, -2f, -shift_center);
+		WallE.transform.position = new Vector3( -shift_center, -2f, (-shift_width) - shift_center);
+		WallW.transform.position = new Vector3(-shift_center, -2f, shift_width - shift_center);
 	}
 	
 	// Update is called once per frame
