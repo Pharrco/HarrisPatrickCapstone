@@ -182,7 +182,9 @@ public class EnemyGridControl : MonoBehaviour
                 GameObject.Destroy(hold_enemy);
             }
         }
-    }
+
+		EnvironmentController.ForceUIUpdate();
+	}
 
     // Removes enemy from list (ONLY USE IF NOT ON GRID)
     public static void DestroyEnemy(GameObject target_enemy)

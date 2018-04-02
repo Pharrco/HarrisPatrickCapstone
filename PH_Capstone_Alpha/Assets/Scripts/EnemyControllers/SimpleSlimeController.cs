@@ -14,6 +14,7 @@ public class SimpleSlimeController : BaseEnemyController
 	float move_speed, error_dist;
 	Queue<Vector3> move_queue;
 	float die_timer = 100;
+	public SlimeSpawner spawn_source;
 
 	List<GameObject> target_list;
 	List<GameObject> projectile_list;
@@ -46,6 +47,11 @@ public class SimpleSlimeController : BaseEnemyController
 	public override void PlayerOn()
 	{
 		EnemyGridControl.DestroyEnemyAt(Enemy_Pos_X, Enemy_Pos_Y);
+
+		if (spawn_source != null)
+		{
+			spawn_source.UpdateTimer(3);
+		}
 	}
 
 	public override void GetMove()
@@ -69,65 +75,57 @@ public class SimpleSlimeController : BaseEnemyController
 					// If the difference between the current space and target space is one or zero
 					if ((Mathf.Abs(BuildBoard.GetArrayValue(Enemy_Pos_X, Enemy_Pos_Y) - BuildBoard.GetArrayValue(try_x, try_y)) < 1.5) && (BuildBoard.GetArrayValue(try_x, try_y) != 0))
 					{
-						// If the light status in the target space is not white or ultraviolet
-						if ((LightEffectControl.GetLightPoint(try_x, try_y) != LightStatus.White) && (LightEffectControl.GetLightPoint(try_x, try_y) != LightStatus.Ulvlt))
+						// If the space is not occupied by another enemy
+						if (!EnemyGridControl.IsEnemyOccupied(try_x, try_y))
 						{
-							// If the space is not occupied by another enemy
-							if (!EnemyGridControl.IsEnemyOccupied(try_x, try_y))
+							// If the space is not occupied by an environmental obstacle
+							if (!EnvironmentController.IsOccupied(try_x, try_y))
 							{
-								// If the space is not occupied by an environmental obstacle
-								if (!EnvironmentController.IsOccupied(try_x, try_y))
+								// If the space is not occupied by the player
+								if ((PlayerLocator.Player_Pos_X != try_x) || (PlayerLocator.Player_Pos_Y != try_y))
 								{
-									// If the space is not occupied by the player
-									if ((PlayerLocator.Player_Pos_X != try_x) || (PlayerLocator.Player_Pos_Y != try_y))
+									// If the space is not occupied by a marker
+									if (!MarkerControl.IsMarkerOccupied(try_x, try_y))
 									{
-										// If the space is not occupied by a marker
-										if (!MarkerControl.IsMarkerOccupied(try_x, try_y))
+										// If the current best move has not been set
+										if (best_move == new Vector2(-1, -1))
 										{
-											// If the current best move has not been set
-											if (best_move == new Vector2(-1, -1))
-											{
-												// This is the new best move
-												best_move = new Vector2(try_x, try_y);
+											// This is the new best move
+											best_move = new Vector2(try_x, try_y);
 
+											Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move");
+										}
+										// If the current best move has been set
+										else
+										{
+											// Randomly...
+											if (Random.Range((int)0, (int)99) % 2 == 0)
+											{
+												// Accept the new move
+												best_move = new Vector2(try_x, try_y);
 												Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move");
 											}
-											// If the current best move has been set
 											else
 											{
-												// Randomly...
-												if (Random.Range((int)0, (int)99) % 2 == 0)
-												{
-													// Accept the new move
-													best_move = new Vector2(try_x, try_y);
-													Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move");
-												}
-												else
-												{
-													// Reject the new move
-													Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move, but is being randomly ignored");
-												}
+												// Reject the new move
+												Debug.Log("(" + try_x + ", " + try_y + ") is an acceptable move, but is being randomly ignored");
 											}
 										}
-									}
-									else
-									{
-										Debug.Log("(" + try_x + ", " + try_y + ") is occupied by player");
 									}
 								}
 								else
 								{
-									Debug.Log("(" + try_x + ", " + try_y + ") is occupied by an environment obstacle");
+									Debug.Log("(" + try_x + ", " + try_y + ") is occupied by player");
 								}
 							}
 							else
 							{
-								Debug.Log("(" + try_x + ", " + try_y + ") is occupied by another enemy");
+								Debug.Log("(" + try_x + ", " + try_y + ") is occupied by an environment obstacle");
 							}
 						}
 						else
 						{
-							Debug.Log("(" + try_x + ", " + try_y + ") is lit");
+							Debug.Log("(" + try_x + ", " + try_y + ") is occupied by another enemy");
 						}
 					}
 					else
@@ -160,6 +158,11 @@ public class SimpleSlimeController : BaseEnemyController
 
 				// Set the timer
 				die_timer = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+
+				if (spawn_source != null)
+				{
+					spawn_source.UpdateTimer(3);
+				}
 			}
 			else
 			{

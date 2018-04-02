@@ -460,6 +460,8 @@
     <Compile Include="Assets\Scripts\EnemyControllers\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\EnemyControllers\FalseTreasureController.cs" />
     <Compile Include="Assets\Scripts\EnemyControllers\GorgonProjectile.cs" />
+    <Compile Include="Assets\Scripts\EnemyControllers\NavNode.cs" />
+    <Compile Include="Assets\Scripts\EnemyControllers\ReaperController.cs" />
     <Compile Include="Assets\Scripts\EnemyControllers\SimpleSlimeController.cs" />
     <Compile Include="Assets\Scripts\EnemyControllers\SlimeProjectile.cs" />
     <Compile Include="Assets\Scripts\EnemyControllers\TrueTreasureController.cs" />
@@ -507,8 +509,11 @@
     <Compile Include="Assets\Scripts\Singleton\EnemySingleton.cs" />
     <Compile Include="Assets\Scripts\Singleton\EnvironmentSingleton.cs" />
     <Compile Include="Assets\Scripts\Singleton\InterfaceSingleton.cs" />
+    <Compile Include="Assets\Scripts\StoreController.cs" />
+    <Compile Include="Assets\Scripts\SwitchEndPoint.cs" />
+    <Compile Include="Assets\Scripts\SwitchNetworkController.cs" />
+    <Compile Include="Assets\Scripts\SwitchObjectController.cs" />
     <Compile Include="Assets\Scripts\UpgradeState.cs" />
-    <Compile Include="Assets\StoreController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Purchased\Enemies\Toon Gorgon\Read me.txt" />

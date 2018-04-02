@@ -154,6 +154,8 @@ public class BuildBoard : MonoBehaviour {
         LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x + 1, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
         LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y + 1, LightStatus.White);
         LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y - 1, LightStatus.White);
+
+		SwitchNetworkController.UpdateAllSwitches();
     }
 
     // Get the height stored in the board array

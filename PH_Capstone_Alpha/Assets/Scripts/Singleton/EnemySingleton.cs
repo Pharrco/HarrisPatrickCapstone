@@ -7,6 +7,8 @@ public class EnemySingleton : MonoBehaviour {
     public static EnemySingleton singleton;
     [SerializeField]
     public GameObject false_chest, true_chest, simple_slime;
+	[SerializeField]
+	public GameObject red_switch, blue_switch, green_switch, purple_switch, red_endPoint, blue_endPoint, green_endPoint, purple_endPoint;
 
 	// Use this for initialization
 	void Awake () {

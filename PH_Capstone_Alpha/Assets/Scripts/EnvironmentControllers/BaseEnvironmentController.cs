@@ -8,5 +8,9 @@ public class BaseEnvironmentController : MonoBehaviour {
 
     public bool MoveComplete { get; protected set; }
 
+	public virtual void EndTurnUpdate() { }
+
+	public virtual void ForceUpdate() { }
+
 	public virtual void Reset() { }
 }

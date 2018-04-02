@@ -5,5 +5,5 @@ using UnityEngine;
 public static class Enumerators {
 
 	public enum CompassDirect { North, East, South, West}
-	
+	public enum SwitchColorType { Red, Blue, Purple, Green }
 }

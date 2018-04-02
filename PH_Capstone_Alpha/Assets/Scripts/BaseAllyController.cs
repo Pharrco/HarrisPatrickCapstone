@@ -7,7 +7,6 @@ public class BaseAllyController : MonoBehaviour {
 	public int Ally_Pos_X { get; protected set; }
 	public int Ally_Pos_Y { get; protected set; }
 	public bool MoveComplete { get; protected set; }
-
 	public virtual void PlayerOn() { }
 
 	public virtual void LightEffect(LightStatus n_lightColor) { }

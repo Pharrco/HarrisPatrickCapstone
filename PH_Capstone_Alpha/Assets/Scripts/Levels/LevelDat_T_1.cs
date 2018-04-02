@@ -54,8 +54,9 @@ public class LevelDat_T_1 : LevelBase {
 
         Environment_Effect_List = new List<EnvironmentEffect>()
         {
-            new SimpleSlimeSpawner( 3, 0, 0, 0, 1),
-			new GorgonDirectionalSpawn(Enumerators.CompassDirect.South)
+            new SwitchSlimeSpawner( 3, 0, 0, 0, 1, false, false, Enumerators.SwitchColorType.Red),
+			new GorgonDirectionalSpawn(Enumerators.CompassDirect.South),
+			new SwitchLight(0, 3, false, Enumerators.SwitchColorType.Red)
         };
     }
 

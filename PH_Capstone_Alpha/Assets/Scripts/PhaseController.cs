@@ -127,6 +127,8 @@ public class PhaseController : MonoBehaviour {
 
 	public static void EndAllyAnimation()
 	{
+		SwitchNetworkController.UpdateAllSwitches();
+
 		curr_phase = GamePhase.EnemyTurn;
 
 		turn_icon.sprite = InterfaceSingleton.singleton.enemy_turn_icon;
@@ -160,6 +162,8 @@ public class PhaseController : MonoBehaviour {
 
 				// Deduct light cost
 				LightResourceControl.DeductLightCost();
+
+				SwitchNetworkController.UpdateAllSwitches();
 			}
         }
         else

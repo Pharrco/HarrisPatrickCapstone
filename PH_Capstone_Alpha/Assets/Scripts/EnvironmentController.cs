@@ -136,6 +136,11 @@ public class EnvironmentController : MonoBehaviour
 
 			if (movements_complete)
 			{
+				foreach (GameObject environment_object in environment_list)
+				{
+					environment_object.GetComponent<BaseEnvironmentController>().EndTurnUpdate();
+				}
+
 				PhaseController.EndEnvironmentResult();
 			}
 		}
@@ -148,6 +153,14 @@ public class EnvironmentController : MonoBehaviour
 		{
 			// Reset the effect
 			environment_object.GetComponent<BaseEnvironmentController>().Reset();
+		}
+	}
+
+	public static void ForceUIUpdate()
+	{
+		foreach (GameObject environment_object in environment_list)
+		{
+			environment_object.GetComponent<BaseEnvironmentController>().EndTurnUpdate();
 		}
 	}
 }
