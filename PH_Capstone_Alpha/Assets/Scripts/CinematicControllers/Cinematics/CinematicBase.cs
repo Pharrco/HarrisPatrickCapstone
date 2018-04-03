@@ -9,5 +9,7 @@ public class CinematicBase : MonoBehaviour {
 
     public int[,] Level_array { get; protected set; }
 
-    public Queue<CinematicEvent> Cinematic_event_queue { get; protected set; }
+	public int[,] Style_array { get; protected set; }
+
+	public Queue<CinematicEvent> Cinematic_event_queue { get; protected set; }
 }

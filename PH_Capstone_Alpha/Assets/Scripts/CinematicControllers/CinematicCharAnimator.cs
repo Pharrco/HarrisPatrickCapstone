@@ -29,7 +29,7 @@ public class CinematicCharAnimator : MonoBehaviour {
     void Start () {
         // Move is not complete
         Move_complete = false;
-        transform.position = new Vector3((player_coord_x - (BuildCinematic.GetArrayHeight() / 2)) * 5, BuildCinematic.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildCinematic.GetArrayWidth() / 2)) * 5);
+        
 	}
 	
 	// Update is called once per frame
@@ -99,6 +99,14 @@ public class CinematicCharAnimator : MonoBehaviour {
         }
     }
 
+	public void MoveTo(int n_coordX, int n_coordY)
+	{
+		player_coord_x = n_coordX;
+		player_coord_y = n_coordY;
+
+		transform.position = new Vector3((player_coord_x - (BuildCinematic.GetArrayHeight() / 2)) * 5, BuildCinematic.GetArrayValue(player_coord_x, player_coord_y) - 1f, (player_coord_y - (BuildCinematic.GetArrayWidth() / 2)) * 5);
+	}
+
     public void StartMove(int try_x, int try_y)
     {
         // Set the target space
@@ -153,4 +161,30 @@ public class CinematicCharAnimator : MonoBehaviour {
         // Stop run animation
         GetComponent<Animator>().SetBool("Run", false);
     }
+
+	public void StartRotate( int try_x, int try_y )
+	{
+		// Update the player's facing
+		player_facing = Mathf.FloorToInt(Mathf.Atan2((float)(try_x - player_coord_x), (float)(try_y - player_coord_y)) * Mathf.Rad2Deg);
+
+		// Rotate the player character
+		transform.rotation = Quaternion.Euler(0, player_facing, 0);
+		active = false;
+		Move_complete = true;
+	}
+
+	public void TriggerAnimation(string n_trigger)
+	{
+
+	}
+
+	public void ToggleAnimation(string n_toggle)
+	{
+
+	}
+
+	public void Despawn()
+	{
+		transform.position = new Vector3(100, 100, 100);
+	}
 }

@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class ReaperController : BaseEnemyController {
 
+	private enum BehaviorState { Idle, Dormant, Hunting, Blinded }
+
 	List<NavNode> node_network = new List<NavNode>();
-	NavNode curr_node;
+	NavNode curr_node, move_node, attack_node;
+
+	BehaviorState curr_state = BehaviorState.Idle;
+
 	List<Vector2Int> available_moves = new List<Vector2Int> {
 		new Vector2Int( 1 , 2 ),
 		new Vector2Int( -1 , -2 ),
@@ -41,12 +46,34 @@ public class ReaperController : BaseEnemyController {
 
 	public override void PlayerOn()
 	{
-
+		EnemyGridControl.DestroyEnemyAt(Enemy_Pos_X, Enemy_Pos_Y);
 	}
 
 	public override void LightEffect(LightStatus n_lightColor)
 	{
+		LightStatus m_lightColor;
 
+		if ( (n_lightColor == LightStatus.Dark) || (n_lightColor == LightStatus.Nopwr) )
+		{
+			m_lightColor = LightResourceControl.Player_LightStatus;
+		}
+		else
+		{
+			m_lightColor = n_lightColor;
+		}
+
+		switch (m_lightColor)
+		{
+			case LightStatus.White:
+				curr_state = BehaviorState.Hunting;
+				break;
+			case LightStatus.Infrd:
+				curr_state = BehaviorState.Dormant;
+				break;
+			case LightStatus.Ulvlt:
+				curr_state = BehaviorState.Blinded;
+				break;
+		}
 	}
 
 	public override void GetMove()
@@ -107,24 +134,93 @@ public class ReaperController : BaseEnemyController {
 
 	private NavNode GetBestMove()
 	{
+		// Create a temp node based on the player's position
 		NavNode player_node = new NavNode(new Vector2Int(PlayerLocator.Player_Pos_X, PlayerLocator.Player_Pos_Y));
 
+		// Test if the player node is one of the current node's neighbors
 		if (curr_node.neighbors.Contains(player_node))
 		{
+			// if the player node is one of the current node's neighbors, return the player's position
 			return curr_node.neighbors.Find(el => el.Position == player_node.Position);
 		}
 
+		// Create the list of possible moves to be evaluated between each phase
 		List<NavNode> goal_list = new List<NavNode>();
 
-		// TODO: Start work here on 2' neighbors
+		// Test for 2prime moves in neighbors
+		foreach (Vector2Int n_move in prime2_moves)
+		{
+			// If a node with this coordinate exists in the list of neighbors
+			if (curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)) != null)
+			{
+				// Add this move to the list of possible moves
+				goal_list.Add(curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)));
+			}
+		}
 
+		// If possible moves have been identified, select one
+		if (goal_list.Count > 0)
+		{
+			if (goal_list.Count > 1)
+			{
+				return goal_list[Random.Range(0, goal_list.Count)];
+			}
+			else
+			{
+				return goal_list[0];
+			}
+		}
 
-		// REMOVE
-		return new NavNode(Vector2Int.zero);
-	}
+		// Test for 1prime moves in neighbors
+		foreach (Vector2Int n_move in prime1_moves)
+		{
+			// If a node with this coordinate exists in the list of neighbors
+			if (curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)) != null)
+			{
+				// Add this move to the list of possible moves
+				goal_list.Add(curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)));
+			}
+		}
 
-	private Vector2 GetBestPathMove()
-	{
-		return Vector2.zero;
+		// If possible moves have been identified, select one
+		if (goal_list.Count > 0)
+		{
+			if (goal_list.Count > 1)
+			{
+				return goal_list[Random.Range(0, goal_list.Count)];
+			}
+			else
+			{
+				return goal_list[0];
+			}
+		}
+
+		// Set null best moves
+		NavNode bestMove = null;
+		float min_dist = 100;
+
+		// Test all neighbor nodes
+		foreach (NavNode neighb in curr_node.neighbors)
+		{
+			// If node is closer than current min
+			if (Vector2Int.Distance(neighb.Position, player_node.Position) < min_dist)
+			{
+				// Store the neighbor node as best move, store the distance
+				bestMove = neighb;
+				min_dist = Vector2Int.Distance(neighb.Position, player_node.Position);
+			}
+		}
+
+		// If a move has been found
+		if (bestMove != null)
+		{
+			// Return the best move
+			return bestMove;
+		}
+		else
+		{
+			// Otherwise, return no move
+			return new NavNode(new Vector2Int(-1, -1));
+		}
 	}
 }

@@ -7,9 +7,12 @@ public class BuildCinematic : MonoBehaviour {
     [SerializeField]
     GameObject block_white, block_grey, block_top;
     static int[,] board_array;
+	Dictionary<int, GameObject> style_dictionary;
+	[SerializeField]
+	GameObject tile_grass, tile_path, tile_asphault;
 
-    // Use this for initialization
-    void Awake()
+	// Use this for initialization
+	void Awake()
     {
 
         // Test array holding the board to be built
@@ -29,28 +32,39 @@ public class BuildCinematic : MonoBehaviour {
             // For each item in the column
             for (int j = 0; j < board_array.GetLength(1); j++)
             {
-                // For the height in the specified cell
-                for (int k = 0; k < board_array[i, j]; k++)
-                {
-                    // If even
-                    if (k % 2 == 0)
-                    {
-                        // Instantiate wall block A
-                        GameObject.Instantiate(block_white, new Vector3((i - (board_array.GetLength(0) / 2)) * 5, k, (j - (board_array.GetLength(1) / 2)) * 5), Quaternion.identity);
-                    }
-                    // If odd
-                    else
-                    {
-                        // Instantiate wall block B
-                        GameObject.Instantiate(block_grey, new Vector3((i - (board_array.GetLength(0) / 2)) * 5, k, (j - (board_array.GetLength(1) / 2)) * 5), Quaternion.identity);
-                    }
-                }
+                //// For the height in the specified cell
+                //for (int k = 0; k < board_array[i, j]; k++)
+                //{
+                //    // If even
+                //    if (k % 2 == 0)
+                //    {
+                //        // Instantiate wall block A
+                //        GameObject.Instantiate(block_white, new Vector3((i - (board_array.GetLength(0) / 2)) * 5, k, (j - (board_array.GetLength(1) / 2)) * 5), Quaternion.identity);
+                //    }
+                //    // If odd
+                //    else
+                //    {
+                //        // Instantiate wall block B
+                //        GameObject.Instantiate(block_grey, new Vector3((i - (board_array.GetLength(0) / 2)) * 5, k, (j - (board_array.GetLength(1) / 2)) * 5), Quaternion.identity);
+                //    }
+                //}
 
-                // If the height in the grid cell is greater than zero
-                if (board_array[i, j] > 0)
+
+				style_dictionary = new Dictionary<int, GameObject>();
+
+				style_dictionary.Add(0, tile_grass);
+				style_dictionary.Add(1, tile_path);
+				style_dictionary.Add(2, tile_asphault);
+
+				// If the height in the grid cell is greater than zero
+				if (board_array[i, j] > 0)
                 {
-                    // Instantiate a top surface
-                    GameObject.Instantiate(block_top, new Vector3((i - (board_array.GetLength(0) / 2)) * 5, board_array[i, j] - 1, (j - (board_array.GetLength(1) / 2)) * 5), Quaternion.identity);
+					int index = GetComponent<CinematicBase>().Style_array[i, j];
+
+					Debug.Log(style_dictionary.Count);
+
+					// Instantiate a top surface
+					GameObject.Instantiate(style_dictionary[index], new Vector3((i - (board_array.GetLength(0) / 2)) * 5, board_array[i, j] - 1.2f, (j - (board_array.GetLength(1) / 2)) * 5), Quaternion.Euler(-90, 0, 180));
                 }
             }
         }

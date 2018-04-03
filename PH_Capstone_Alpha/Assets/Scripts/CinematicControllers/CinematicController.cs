@@ -8,7 +8,8 @@ public class CinematicController : MonoBehaviour {
 
     Queue<CinematicEvent> cinematic_queue;
     CinematicEvent curr_event;
-    float timer;
+	float timer;
+	public float pause_timer;
     GameObject continue_button;
 
 	// Use this for initialization
@@ -42,65 +43,72 @@ public class CinematicController : MonoBehaviour {
 	void Update () {
         if (curr_event != null)
         {
-            // If current step is not a pause event
-            if (curr_event.Event_type != "pause")
-            {
-                // If current event's target script is complete
-                if (curr_event.IsComplete())
-                {
-                    // Reset the target script
-                    curr_event.Reset();
+			if (pause_timer > 0)
+			{
+				pause_timer -= Time.deltaTime;
+			}
+			else
+			{
+				// If current step is not a pause event
+				if (curr_event.Event_type != "pause")
+				{
+					// If current event's target script is complete
+					if (curr_event.IsComplete())
+					{
+						// Reset the target script
+						curr_event.Reset();
 
-                    // Get and trigger the next event
-                    if (cinematic_queue.Count > 0)
-                    {
-                        curr_event = cinematic_queue.Dequeue();
-                        curr_event.Trigger();
+						// Get and trigger the next event
+						if (cinematic_queue.Count > 0)
+						{
+							curr_event = cinematic_queue.Dequeue();
+							curr_event.Trigger();
 
-                        // If the current event is a pause
-                        if (curr_event.Event_type == "pause")
-                        {
-                            // Activate the "Next" button
-                            continue_button.GetComponent<Image>().color = Color.white;
-                            continue_button.GetComponent<Button>().interactable = true;
-                        }
-                    }
-                    else
-                    {
-                        curr_event = null;
-                    }
-                }
-            }
-            // If the current step is a pause
-            else
-            {
-                // Increment timer
-                timer += Time.deltaTime;
+							// If the current event is a pause
+							if (curr_event.Event_type == "pause")
+							{
+								// Activate the "Next" button
+								continue_button.GetComponent<Image>().color = Color.white;
+								continue_button.GetComponent<Button>().interactable = true;
+							}
+						}
+						else
+						{
+							curr_event = null;
+						}
+					}
+				}
+				// If the current step is a pause
+				else
+				{
+					// Increment timer
+					timer += Time.deltaTime;
 
-                // When the player presses return after 0.5 seconds
-                if (Input.GetKeyDown(KeyCode.Return) && (timer > 0.5f))
-                {
-                    // Get and trigger the next event
-                    if (cinematic_queue.Count > 0)
-                    {
-                        // Get and trigger next event
-                        curr_event = cinematic_queue.Dequeue();
-                        curr_event.Trigger();
-                        
-                        // If the current event is a pause
-                        if (curr_event.Event_type == "pause")
-                        {
-                            // Activate the "Next" button
-                            continue_button.GetComponent<Image>().color = Color.white;
-                            continue_button.GetComponent<Button>().interactable = true;
-                        }
-                    }
-                    else
-                    {
-                        curr_event = null;
-                    }
-                }
-            }
+					// When the player presses return after 0.5 seconds
+					if (Input.GetKeyDown(KeyCode.Return) && (timer > 0.5f))
+					{
+						// Get and trigger the next event
+						if (cinematic_queue.Count > 0)
+						{
+							// Get and trigger next event
+							curr_event = cinematic_queue.Dequeue();
+							curr_event.Trigger();
+
+							// If the current event is a pause
+							if (curr_event.Event_type == "pause")
+							{
+								// Activate the "Next" button
+								continue_button.GetComponent<Image>().color = Color.white;
+								continue_button.GetComponent<Button>().interactable = true;
+							}
+						}
+						else
+						{
+							curr_event = null;
+						}
+					}
+				}
+			}
         }
 	}
 
@@ -148,13 +156,13 @@ public class CinematicEvent
 }
 
 // Character animation event type
-public class CharAnimationEvent : CinematicEvent
+public class CharMoveEvent : CinematicEvent
 {
     bool completion_wait;
     Vector2 destination;
     CinematicCharAnimator cmd_target;
 
-    public CharAnimationEvent(CinematicCharAnimator n_target, Vector2 n_destination, bool wait_for_next = true)
+    public CharMoveEvent(CinematicCharAnimator n_target, Vector2 n_destination, bool wait_for_next = true)
     {
         Event_type = "character";
         cmd_target = n_target;
@@ -187,7 +195,7 @@ public class CharAnimationEvent : CinematicEvent
     {
         cmd_target.ForceComplete();
     }
-}
+} // Implemented
 
 // Dialogue box event type
 public class DialogueEvent : CinematicEvent
@@ -218,7 +226,7 @@ public class DialogueEvent : CinematicEvent
     {
 
     }
-}
+} // Implemented
 
 // Environment event type
 public class EnvironmentEvent : CinematicEvent
@@ -254,7 +262,7 @@ public class PauseEvent : CinematicEvent
     {
 
     }
-}
+} // Implemented
 
 // Camera event type
 public class CameraViewEvent : CinematicEvent
@@ -284,7 +292,7 @@ public class CameraViewEvent : CinematicEvent
     {
 
     }
-}
+} // Implemented
 
 // Activate Object event type
 public class ActivateObjEvent : CinematicEvent
@@ -325,4 +333,250 @@ public class ClearDialogueEvent : CinematicEvent
     {
 
     }
+} // Implemented
+
+public class CharAnimationTriggerEvent : CinematicEvent
+{
+	bool completion_wait;
+	string trigger_name;
+	CinematicCharAnimator cmd_target;
+
+	public CharAnimationTriggerEvent(CinematicCharAnimator n_target, string n_trigger, bool wait_for_next = true)
+	{
+		Event_type = "charanim_trig";
+		cmd_target = n_target;
+		trigger_name = n_trigger;
+		completion_wait = wait_for_next;
+	}
+
+	public override void Trigger()
+	{
+		// If the target still exists
+		if (cmd_target != null)
+		{
+			// Send move to character
+			cmd_target.TriggerAnimation(trigger_name);
+		}
+	}
+
+	public override bool IsComplete()
+	{
+		if (!completion_wait)
+		{
+			return true;
+		}
+		else
+		{
+			return cmd_target.Move_complete;
+		}
+	}
+
+	public override void Reset()
+	{
+		cmd_target.ForceComplete();
+	}
+} // Implemented on control
+
+public class CharAnimationToggleEvent : CinematicEvent
+{
+	bool completion_wait;
+	string trigger_name;
+	CinematicCharAnimator cmd_target;
+
+	public CharAnimationToggleEvent(CinematicCharAnimator n_target, string n_trigger, bool wait_for_next = true)
+	{
+		Event_type = "charanim_trig";
+		cmd_target = n_target;
+		trigger_name = n_trigger;
+		completion_wait = wait_for_next;
+	}
+
+	public override void Trigger()
+	{
+		// If the target still exists
+		if (cmd_target != null)
+		{
+			// Send move to character
+			cmd_target.ToggleAnimation(trigger_name);
+		}
+	}
+
+	public override bool IsComplete()
+	{
+		if (!completion_wait)
+		{
+			return true;
+		}
+		else
+		{
+			return cmd_target.Move_complete;
+		}
+	}
+
+	public override void Reset()
+	{
+		cmd_target.ForceComplete();
+	}
+} // Implemented on control
+
+public class CharRotateEvent : CinematicEvent
+{
+	bool completion_wait;
+	Vector2 destination;
+	CinematicCharAnimator cmd_target;
+
+	public CharRotateEvent(CinematicCharAnimator n_target, Vector2 n_destination, bool wait_for_next = true)
+	{
+		Event_type = "charrota";
+		cmd_target = n_target;
+		destination = n_destination;
+		completion_wait = wait_for_next;
+	}
+
+	public override void Trigger()
+	{
+		// If the target still exists
+		if (cmd_target != null)
+		{
+			// Send move to character
+			cmd_target.StartRotate((int)destination.x, (int)destination.y);
+
+		}
+	}
+
+	public override bool IsComplete()
+	{
+		if (!completion_wait)
+		{
+			return true;
+		}
+		else
+		{
+			return cmd_target.Move_complete;
+		}
+	}
+
+	public override void Reset()
+	{
+		cmd_target.ForceComplete();
+	}
+} // Implemented
+
+public class CharSpawnEvent : CinematicEvent
+{
+	bool completion_wait;
+	Vector2 destination;
+	CinematicCharAnimator cmd_target;
+
+	public CharSpawnEvent(CinematicCharAnimator n_target, Vector2 n_destination)
+	{
+		Event_type = "charspawn";
+		cmd_target = n_target;
+		destination = n_destination;
+	}
+
+	public override void Trigger() {
+		// If the target still exists
+		if (cmd_target != null)
+		{
+			// Send move to character
+			cmd_target.MoveTo((int)destination.x, (int)destination.y);
+		}
+	}
+
+	public override bool IsComplete() {
+		return true;
+	}
+
+	public override void Reset()
+	{
+
+	}
+} // Implemented
+
+public class CharRemoveEvent : CinematicEvent
+{
+	CinematicCharAnimator cmd_target;
+
+	public CharRemoveEvent(CinematicCharAnimator n_target)
+	{
+		Event_type = "charremove";
+		cmd_target = n_target;
+	}
+
+	public override void Trigger() {
+		// If the target still exists
+		if (cmd_target != null)
+		{
+			// Send move to character
+			cmd_target.Despawn();
+		}
+	}
+
+	public override bool IsComplete()
+	{
+		return true;
+	}
+
+
+	public override void Reset()
+	{
+
+	}
+} // Implemented
+
+public class PropSpawnEvent : CinematicEvent
+{
+	public PropSpawnEvent()
+	{
+		Event_type = "propspawn";
+	}
+
+	public override void Trigger() { }
+
+	//public override bool IsComplete() { }
+
+	public override void Reset()
+	{
+
+	}
+}
+
+public class PropRemoveEvent : CinematicEvent
+{
+	public PropRemoveEvent()
+	{
+		Event_type = "propremove";
+	}
+
+	public override void Trigger() { }
+
+	//public override bool IsComplete() { }
+
+	public override void Reset()
+	{
+
+	}
+}
+
+public class TimePauseEvent : CinematicEvent
+{
+	float pause_time;
+
+	public TimePauseEvent(float n_time)
+	{
+		Event_type = "timepause";
+		pause_time = n_time;
+	}
+
+	public override void Trigger() {
+		GameObject.Find("CinematicController").GetComponent<CinematicController>().pause_timer = pause_time;
+	}
+
+	//public override bool IsComplete() { }
+
+	public override void Reset()
+	{
+
+	}
 }
