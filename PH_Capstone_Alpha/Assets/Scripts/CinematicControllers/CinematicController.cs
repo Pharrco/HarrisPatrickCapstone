@@ -11,6 +11,7 @@ public class CinematicController : MonoBehaviour {
 	float timer;
 	public float pause_timer;
     GameObject continue_button;
+	public GameObject display_image;
 
 	// Use this for initialization
 	void Start () {
@@ -19,8 +20,11 @@ public class CinematicController : MonoBehaviour {
         continue_button.GetComponent<Image>().color = Color.clear;
         continue_button.GetComponent<Button>().interactable = false;
 
-        // Initialize the list of events
-        cinematic_queue = GetComponent<CinematicBase>().Cinematic_event_queue;
+		display_image = GameObject.Find("CinematicUI").transform.Find("DisplayImage").gameObject;
+		display_image.GetComponent<Image>().color = Color.clear;
+
+		// Initialize the list of events
+		cinematic_queue = GetComponent<CinematicBase>().Cinematic_event_queue;
 
         // Get the first event
         if (cinematic_queue.Count > 0)
@@ -87,6 +91,10 @@ public class CinematicController : MonoBehaviour {
 					// When the player presses return after 0.5 seconds
 					if (Input.GetKeyDown(KeyCode.Return) && (timer > 0.5f))
 					{
+						// Deactivate the "Next" button
+						continue_button.GetComponent<Image>().color = Color.clear;
+						continue_button.GetComponent<Button>().interactable = false;
+
 						// Get and trigger the next event
 						if (cinematic_queue.Count > 0)
 						{
@@ -114,7 +122,7 @@ public class CinematicController : MonoBehaviour {
 
     public void ClickContinue()
     {
-        // Activate the "Next" button
+        // Deactivate the "Next" button
         continue_button.GetComponent<Image>().color = Color.clear;
         continue_button.GetComponent<Button>().interactable = false;
 
@@ -571,6 +579,48 @@ public class TimePauseEvent : CinematicEvent
 
 	public override void Trigger() {
 		GameObject.Find("CinematicController").GetComponent<CinematicController>().pause_timer = pause_time;
+	}
+
+	//public override bool IsComplete() { }
+
+	public override void Reset()
+	{
+
+	}
+}
+
+public class ShowImageEvent : CinematicEvent
+{
+	Sprite event_image;
+
+	public ShowImageEvent(Sprite n_image)
+	{
+		Event_type = "showimage";
+		event_image = n_image;
+	}
+
+	public override void Trigger() {
+		GameObject.Find("CinematicController").GetComponent<CinematicController>().display_image.GetComponent<Image>().color = Color.white;
+		GameObject.Find("CinematicController").GetComponent<CinematicController>().display_image.GetComponent<Image>().sprite = event_image;
+	}
+
+	//public override bool IsComplete() { }
+
+	public override void Reset()
+	{
+
+	}
+}
+
+public class HideImageEvent : CinematicEvent
+{
+	public HideImageEvent()
+	{
+		Event_type = "hideimage";
+	}
+
+	public override void Trigger() {
+		GameObject.Find("CinematicController").GetComponent<CinematicController>().display_image.GetComponent<Image>().color = Color.clear;
 	}
 
 	//public override bool IsComplete() { }
