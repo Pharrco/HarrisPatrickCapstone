@@ -372,6 +372,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Purchased\Enemies\Toon Gorgon\Read me.txt" />
+    <None Include="Assets\Purchased\Enemies\Toon Reaper\Read me.txt" />
+    <None Include="Assets\Purchased\Enemies\Toon Reaper\www.meshtint.com.txt" />
     <None Include="Assets\Purchased\Enemies\Toon Slimes Pack\Read me.txt" />
     <None Include="Assets\Purchased\Enemies\Toon Treasure Chest\Read me.txt" />
     <None Include="Assets\Purchased\Environments\Top-Down Interiors\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />

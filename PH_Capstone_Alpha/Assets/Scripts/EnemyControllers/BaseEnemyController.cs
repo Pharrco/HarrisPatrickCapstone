@@ -14,7 +14,7 @@ public class BaseEnemyController : MonoBehaviour {
 
     public virtual void GetMove() { }
 
-    public void SetEnemyPosition(int n_coord_x, int n_coord_y)
+    public virtual void SetEnemyPosition(int n_coord_x, int n_coord_y)
     {
         Enemy_Pos_X = n_coord_x;
         Enemy_Pos_Y = n_coord_y;

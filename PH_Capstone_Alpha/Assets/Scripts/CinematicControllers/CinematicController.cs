@@ -305,12 +305,17 @@ public class CameraViewEvent : CinematicEvent
 // Activate Object event type
 public class ActivateObjEvent : CinematicEvent
 {
-    public ActivateObjEvent()
+	ParticleSystem target;
+
+    public ActivateObjEvent(ParticleSystem n_target)
     {
         Event_type = "activate";
+		target = n_target;
     }
 
-    public override void Trigger() { }
+    public override void Trigger() {
+		target.Play(true);
+	}
 
     //public override bool IsComplete() { }
 
@@ -535,12 +540,20 @@ public class CharRemoveEvent : CinematicEvent
 
 public class PropSpawnEvent : CinematicEvent
 {
-	public PropSpawnEvent()
+
+	CinematicPropControl target;
+	Vector3 destination;
+
+	public PropSpawnEvent(CinematicPropControl n_target, Vector3 n_destination)
 	{
 		Event_type = "propspawn";
+		target = n_target;
+		destination = n_destination;
 	}
 
-	public override void Trigger() { }
+	public override void Trigger() {
+		target.MoveTo(destination);
+	}
 
 	//public override bool IsComplete() { }
 
@@ -548,16 +561,21 @@ public class PropSpawnEvent : CinematicEvent
 	{
 
 	}
-}
+} // Implemented
 
 public class PropRemoveEvent : CinematicEvent
 {
-	public PropRemoveEvent()
+	CinematicPropControl target;
+
+	public PropRemoveEvent(CinematicPropControl n_target)
 	{
 		Event_type = "propremove";
+		target = n_target;
 	}
 
-	public override void Trigger() { }
+	public override void Trigger() {
+		target.Despawn();
+	}
 
 	//public override bool IsComplete() { }
 
@@ -565,7 +583,7 @@ public class PropRemoveEvent : CinematicEvent
 	{
 
 	}
-}
+} // Implemented
 
 public class TimePauseEvent : CinematicEvent
 {
@@ -587,7 +605,7 @@ public class TimePauseEvent : CinematicEvent
 	{
 
 	}
-}
+} // Implemented
 
 public class ShowImageEvent : CinematicEvent
 {
@@ -610,7 +628,7 @@ public class ShowImageEvent : CinematicEvent
 	{
 
 	}
-}
+} // Implemented
 
 public class HideImageEvent : CinematicEvent
 {
@@ -629,4 +647,4 @@ public class HideImageEvent : CinematicEvent
 	{
 
 	}
-}
+} // Implemented

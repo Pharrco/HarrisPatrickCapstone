@@ -14,6 +14,12 @@ public class MinimapController : MonoBehaviour {
 
 	// Use this for initialization
 	public void InitializeMiniMap () {
+		int level_index = GameObject.Find("BoardBuilder").GetComponent<LevelBase>().Level_id;
+		int level_num = (level_index - 1) % 30 + 1;
+		int area_num = (level_index - 1) / 30 + 1;
+
+		GameObject.Find("LevelTitleText").GetComponent<Text>().text = "Level " + area_num + "-" + level_num;
+
         base_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
         mark_array = new GameObject[BuildBoard.GetArrayHeight(), BuildBoard.GetArrayWidth()];
 

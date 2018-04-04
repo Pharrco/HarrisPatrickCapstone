@@ -61,8 +61,6 @@ public class BuildCinematic : MonoBehaviour {
                 {
 					int index = GetComponent<CinematicBase>().Style_array[i, j];
 
-					Debug.Log(style_dictionary.Count);
-
 					// Instantiate a top surface
 					GameObject.Instantiate(style_dictionary[index], new Vector3((i - (board_array.GetLength(0) / 2)) * 5, board_array[i, j] - 1.2f, (j - (board_array.GetLength(1) / 2)) * 5), Quaternion.Euler(-90, 0, 180));
                 }

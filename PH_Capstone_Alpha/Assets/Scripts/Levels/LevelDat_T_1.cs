@@ -7,7 +7,7 @@ public class LevelDat_T_1 : LevelBase {
     [SerializeField]
     GameObject tutorial_marker;
     [SerializeField]
-    GameObject true_chest, false_chest;
+    GameObject true_chest, false_chest, reaper;
 
     public LevelDat_T_1()
     {
@@ -49,7 +49,8 @@ public class LevelDat_T_1 : LevelBase {
         Enemy_Spawn_List = new List<EnemySpawn>()
         {
             new EnemySpawn( 2, 0, true_chest, Vector3.zero, 0),
-            new EnemySpawn( 1, 1, false_chest, Vector3.zero, 0)
+            new EnemySpawn( 1, 1, false_chest, Vector3.zero, 0),
+			new EnemySpawn( 2, 2, reaper, new Vector3(0, 0.1f, 0), 0)
         };
 
         Environment_Effect_List = new List<EnvironmentEffect>()

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Cinematics/CineLevel_1_1.unity
+- path: Assets/Scenes/TestA.unity
   isLoaded: 1
   isActive: 1

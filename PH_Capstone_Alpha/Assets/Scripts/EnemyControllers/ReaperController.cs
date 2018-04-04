@@ -21,7 +21,6 @@ public class ReaperController : BaseEnemyController {
 		new Vector2Int( 2 , -1 ),
 		new Vector2Int( -2 , 1 )
 	};
-
 	List<Vector2Int> prime2_moves = new List<Vector2Int> {
 		new Vector2Int( 2 , 2 ),
 		new Vector2Int( 0 , 2 ),
@@ -32,7 +31,6 @@ public class ReaperController : BaseEnemyController {
 		new Vector2Int( 0 , -2 ),
 		new Vector2Int( -2 , -2 )
 	};
-
 	List<Vector2Int> prime1_moves = new List<Vector2Int> {
 		new Vector2Int( 1 , 3 ),
 		new Vector2Int( -1 , -3 ),
@@ -66,28 +64,71 @@ public class ReaperController : BaseEnemyController {
 		{
 			case LightStatus.White:
 				curr_state = BehaviorState.Hunting;
+				GetComponent<Animator>().SetBool("Defend", false);
 				break;
 			case LightStatus.Infrd:
 				curr_state = BehaviorState.Dormant;
 				break;
 			case LightStatus.Ulvlt:
 				curr_state = BehaviorState.Blinded;
+				GetComponent<Animator>().SetBool("Defend", false);
 				break;
 		}
 	}
 
 	public override void GetMove()
 	{
+		move_node = new NavNode(new Vector2Int(-1, -1));
 
+		if (curr_state == BehaviorState.Blinded)
+		{
+			MoveComplete = true;
+			move_node = GetBestMove();
+		}
+
+		if (curr_state == BehaviorState.Dormant)
+		{
+			MoveComplete = true;
+			GetComponent<Animator>().SetBool("Defend", true);
+		}
+
+		if (curr_state == BehaviorState.Hunting)
+		{
+			MoveComplete = true;
+			move_node = GetBestMove();	
+		}
+
+		if (move_node.Position != new Vector2Int(-1, -1))
+		{
+			transform.position = new Vector3((move_node.Position.x - (BuildBoard.GetArrayHeight() / 2)) * 5, BuildBoard.GetArrayValue(move_node.Position.x, move_node.Position.y) - 1.1f, (move_node.Position.y - (BuildBoard.GetArrayWidth() / 2)) * 5);
+			EnemyGridControl.SwapEnemyPoints(Enemy_Pos_X, Enemy_Pos_Y, move_node.Position.x, move_node.Position.y);
+			curr_node = move_node;
+		}
+		else
+		{
+			curr_state = BehaviorState.Dormant;
+			MoveComplete = true;
+			GetComponent<Animator>().SetBool("Defend", true);
+		}
 	}
 
 	private void Start()
 	{
-		
+		MoveComplete = true;
 	}
 
 	private void Update()
 	{
+		// If the current phase is the enemy animation phase
+		if (PhaseController.GetCurrPhase() == GamePhase.EnemyAnimation)
+		{
+			// If the reaper has been blinded or is hunting for a target
+			if (((curr_state == BehaviorState.Blinded) || (curr_state == BehaviorState.Hunting)) && (!MoveComplete))
+			{
+
+			}
+		}
+
 		
 	}
 
@@ -106,15 +147,15 @@ public class ReaperController : BaseEnemyController {
 			{
 				Vector2Int temp_pos = ip_node.Position + poss_move;
 
-				if ((Mathf.Clamp(temp_pos.x, 0, BuildBoard.GetArrayHeight()) == temp_pos.x) && (Mathf.Clamp(temp_pos.y, 0, BuildBoard.GetArrayWidth()) == temp_pos.y))
+				if ((Mathf.Clamp(temp_pos.x, 0, BuildBoard.GetArrayHeight() - 1) == temp_pos.x) && (Mathf.Clamp(temp_pos.y, 0, BuildBoard.GetArrayWidth() - 1) == temp_pos.y))
 				{
 					if (BuildBoard.GetArrayValue(temp_pos.x, temp_pos.y) > 0)
 					{
-						if (prep_queue.Contains(new NavNode(temp_pos)))
+						if (prep_queue.FindAll(el => el.Position == temp_pos).Count > 0)
 						{
 							ip_node.neighbors.Add(prep_queue.Find(el => el.Position == temp_pos));
 						}
-						else if (node_network.Contains(new NavNode(temp_pos)))
+						else if (node_network.FindAll(el => el.Position == temp_pos).Count > 0)
 						{
 							ip_node.neighbors.Add(node_network.Find(el => el.Position == temp_pos));
 						}
@@ -127,7 +168,6 @@ public class ReaperController : BaseEnemyController {
 					}
 				}
 			}
-
 			node_network.Add(ip_node);
 		}
 	}
@@ -140,7 +180,7 @@ public class ReaperController : BaseEnemyController {
 		// Test if the player node is one of the current node's neighbors
 		if (curr_node.neighbors.Contains(player_node))
 		{
-			// if the player node is one of the current node's neighbors, return the player's position
+			// If the player node is one of the current node's neighbors, return the player's position
 			return curr_node.neighbors.Find(el => el.Position == player_node.Position);
 		}
 
@@ -153,8 +193,12 @@ public class ReaperController : BaseEnemyController {
 			// If a node with this coordinate exists in the list of neighbors
 			if (curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)) != null)
 			{
-				// Add this move to the list of possible moves
-				goal_list.Add(curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)));
+				// If the space represented by this node is not occupied by another enemy
+				if (!EnemyGridControl.IsEnemyOccupied(player_node.Position.x + n_move.x, player_node.Position.y + n_move.y))
+				{
+					// Add this move to the list of possible moves
+					goal_list.Add(curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)));
+				}
 			}
 		}
 
@@ -177,8 +221,12 @@ public class ReaperController : BaseEnemyController {
 			// If a node with this coordinate exists in the list of neighbors
 			if (curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)) != null)
 			{
-				// Add this move to the list of possible moves
-				goal_list.Add(curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)));
+				// If the space represented by this node is not occupied by another enemy
+				if (!EnemyGridControl.IsEnemyOccupied(player_node.Position.x + n_move.x, player_node.Position.y + n_move.y))
+				{
+					// Add this move to the list of possible moves
+					goal_list.Add(curr_node.neighbors.Find(el => el.Position == (player_node.Position + n_move)));
+				}
 			}
 		}
 
@@ -202,12 +250,16 @@ public class ReaperController : BaseEnemyController {
 		// Test all neighbor nodes
 		foreach (NavNode neighb in curr_node.neighbors)
 		{
-			// If node is closer than current min
-			if (Vector2Int.Distance(neighb.Position, player_node.Position) < min_dist)
+			// If the space represented by this node is not occupied by another enemy
+			if (!EnemyGridControl.IsEnemyOccupied(neighb.Position.x, neighb.Position.y))
 			{
-				// Store the neighbor node as best move, store the distance
-				bestMove = neighb;
-				min_dist = Vector2Int.Distance(neighb.Position, player_node.Position);
+				// If node is closer than current min
+				if (Vector2Int.Distance(neighb.Position, player_node.Position) < min_dist)
+				{
+					// Store the neighbor node as best move, store the distance
+					bestMove = neighb;
+					min_dist = Vector2Int.Distance(neighb.Position, player_node.Position);
+				}
 			}
 		}
 
@@ -221,6 +273,16 @@ public class ReaperController : BaseEnemyController {
 		{
 			// Otherwise, return no move
 			return new NavNode(new Vector2Int(-1, -1));
+		}
+	}
+
+	public override void SetEnemyPosition(int n_coord_x, int n_coord_y)
+	{
+		base.SetEnemyPosition(n_coord_x, n_coord_y);
+
+		if (node_network.Count < 1)
+		{
+			BuildNodeNetwork(new Vector2Int(n_coord_x, n_coord_y));
 		}
 	}
 }

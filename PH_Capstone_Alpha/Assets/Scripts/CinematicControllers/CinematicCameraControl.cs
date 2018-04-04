@@ -61,7 +61,6 @@ public class CinematicCameraControl : MonoBehaviour {
                     // If the view is changing
                     if (view_changing)
                     {
-						Debug.Log("CCC:59");
 						// Update the temporary view by lerping between current and target
 						Vector3 temp_view = new Vector3( Mathf.LerpAngle(current_view.x, target_view.x, rotation_status), Mathf.Lerp(current_view.y, target_view.y, rotation_status), Mathf.Lerp(current_view.z, target_view.z, rotation_status));
 
@@ -72,7 +71,6 @@ public class CinematicCameraControl : MonoBehaviour {
                     }
                     else // If view is not changing
                     {
-						Debug.Log("CCC:70");
 						// Position the camera
 						camera_main.transform.position = new Vector3(temp_focus.x + (10 - current_view.y - current_view.z) * Mathf.Sin(current_view.x * Mathf.Deg2Rad), temp_focus.y + 6 + current_view.y - current_view.z, temp_focus.z + (10 - current_view.y - current_view.z) * Mathf.Cos(current_view.x * Mathf.Deg2Rad));
 
@@ -87,7 +85,6 @@ public class CinematicCameraControl : MonoBehaviour {
                     // If the view is changing
                     if (view_changing)
                     {
-						Debug.Log("CCC:85");
                         // Update the temporary view by lerping between current and target
                         Vector3 temp_view = new Vector3(Mathf.LerpAngle(current_view.x, target_view.x, rotation_status), Mathf.Lerp(current_view.y, target_view.y, rotation_status), Mathf.Lerp(current_view.z, target_view.z, rotation_status));
 
