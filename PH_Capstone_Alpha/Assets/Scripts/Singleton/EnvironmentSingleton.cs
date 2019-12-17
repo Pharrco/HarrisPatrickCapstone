@@ -6,7 +6,7 @@ public class EnvironmentSingleton : MonoBehaviour {
 
     public static EnvironmentSingleton singleton;
     [SerializeField]
-    public GameObject slime_spawner, directional_gorgon, dragon_blast;
+    public GameObject slime_spawner, directional_gorgon, dragon_blast, dragon_controller;
 
     // Use this for initialization
     void Awake()

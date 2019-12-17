@@ -6,7 +6,9 @@ public class LevelDat_1_1 : LevelBase {
 
     public LevelDat_1_1()
     {
-        Level_array = new int[,] {
+		tutorial_text = "Use WASD to move your character and neutralize all the points of concentrated magic.";
+
+		Level_array = new int[,] {
         { 3, 3, 3, 0 },
         { 3, 0, 3, 3 },
         { 3, 0, 0, 3 },
@@ -20,7 +22,7 @@ public class LevelDat_1_1 : LevelBase {
 
         Facing_start = 270;
 
-        Level_id = 1;
+        Level_id = 2;
     }
 
 }

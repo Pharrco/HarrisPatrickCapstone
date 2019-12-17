@@ -34,7 +34,7 @@ public class LevelDat_1_7 : LevelBase
 
 		Facing_start = 90;
 
-		Level_id = 7;
+		Level_id = 8;
 	}
 
 	public void Awake()

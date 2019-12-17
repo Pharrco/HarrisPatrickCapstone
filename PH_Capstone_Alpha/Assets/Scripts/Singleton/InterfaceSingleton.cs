@@ -10,7 +10,7 @@ public class InterfaceSingleton : MonoBehaviour {
 	[SerializeField]
 	public Sprite timer_image1, timer_image2, timer_image3, timer_image4, timer_image5, timer_imagepass, timer_imagefail, timer_imagepause;
 	[SerializeField]
-	public GameObject timerFrame_prefab;
+	public GameObject slimeTimerFrame_prefab, dragonTimerFrame_prefab;
 
 	// Use this for initialization
 	void Awake()

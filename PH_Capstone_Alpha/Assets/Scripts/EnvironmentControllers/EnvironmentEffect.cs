@@ -134,3 +134,21 @@ public class SwitchLight : EnvironmentEffect
 		}
 	}
 }
+
+public class DragonBoss : EnvironmentEffect
+{
+
+	int cycle_rate;
+
+	public DragonBoss(int n_cycle_rate)
+	{
+		cycle_rate = n_cycle_rate;
+	}
+
+	public override void Trigger()
+	{
+		GameObject n_object = GameObject.Instantiate(EnvironmentSingleton.singleton.dragon_controller);
+		n_object.GetComponent<DragonBossController>().Initialize(cycle_rate);
+		EnvironmentController.AddEnvironmentObject(n_object);
+	}
+}

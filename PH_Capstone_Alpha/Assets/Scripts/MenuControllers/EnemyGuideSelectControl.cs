@@ -39,7 +39,7 @@ public class EnemyGuideSelectControl : MonoBehaviour {
 		description_dictionary.Add("slime_cauldron", "Overflowing with the witch's hatred for all things good and sanitary, these pots of bad are just looking for an excuse to boil over into a whole pile of bad.\n\nTry to avoid stirring it up or block off its drip area. Don't forget to keep an eye on the kitchen timer to avoid burns.");
 		description_dictionary.Add("slime_simple", "A useless blob in both body and spirit, the slime's existence is dedicated to undoing the hard work of others. Take advantage of its obsessive dedication by depriving it of work and the moron will pop out of sheer stubbornness.\nInfrared seems to leave it slightly stupider than normal. Ultraviolet makes them spit like an angry llama, only with acid.");
 		description_dictionary.Add("gorgon_direct", "Medusa's little sisters aren't much to look at, but they manage to be stunners in their own way. Glance in their direction and you'll end up a lawn decoration, at least until you can tear your eyes away.");
-		description_dictionary.Add("reaper", "Reaper description");
+		description_dictionary.Add("reaper", "These cheating cheaters violate like 80% of the laws of physics with a sci-fi teleporter trick, a magic floating scythe, and an unhealthy obsession with moving in L-shapes. Their creepy Jack-o-Lantern eyes seem to be their big weakness. Switching to infrared leaves them blind in the dark. Ultraviolet does a decent job of blinding them, but that just tends to piss them off and make them start to attack at random.");
 
 		displayObj_dictionary.Add("true_chest", enemyDisp_TrueChest);
 		displayObj_dictionary.Add("false_chest", enemyDisp_FalseChest);

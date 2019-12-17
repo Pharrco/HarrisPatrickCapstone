@@ -8,6 +8,7 @@ public class MasterGameController : MonoBehaviour {
 
 	static MasterGameController instance;
 	GameSave save_file;
+	int max_level = 29;
 
 	// Use this for initialization
 	void Awake () {
@@ -20,10 +21,10 @@ public class MasterGameController : MonoBehaviour {
 
 			DontDestroyOnLoad(gameObject);
 
-			if (File.Exists(Application.persistentDataPath + "/savedGame.game"))
+			if (File.Exists(Application.persistentDataPath + "/save.gs"))
 			{
 				BinaryFormatter bf = new BinaryFormatter();
-				FileStream file = File.Open(Application.persistentDataPath + "/savedGame.game", FileMode.Open);
+				FileStream file = File.Open(Application.persistentDataPath + "/save.gs", FileMode.Open);
 				save_file = (GameSave)bf.Deserialize(file);
 				GameSave.loaded_save = save_file;
 				file.Close();
@@ -45,21 +46,29 @@ public class MasterGameController : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public static void SaveCurrent()
 	{
 		instance.save_file = GameSave.loaded_save;
 		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create(Application.persistentDataPath + "/savedGame.game");
-		Debug.Log(Application.persistentDataPath + "/savedGame.game");
+		FileStream file = File.Create(Application.persistentDataPath + "/save.gs");
+		Debug.Log(Application.persistentDataPath + "/save.gs");
 		bf.Serialize(file, instance.save_file);
 		file.Close();
 
 		Debug.Log("File Saved");
+	}
+
+	public void Update()
+	{
+		if (GameSave.loaded_save.GetLevelProgress() < max_level)
+		{
+			if (Input.GetKey(KeyCode.U) && Input.GetKey(KeyCode.L))
+			{
+				Debug.Log("Unlock activated");
+				GameSave.loaded_save.CompleteLevel(max_level);
+				SaveCurrent();
+			}
+		}
 	}
 }

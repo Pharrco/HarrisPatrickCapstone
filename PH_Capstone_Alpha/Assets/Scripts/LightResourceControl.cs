@@ -9,9 +9,9 @@ public class LightResourceControl : MonoBehaviour {
 
     static int light_resource_start;
     static int light_resource_level;
-    static int light_cost_white = 5;
-    static int light_cost_infrd = 2;
-    static int light_cost_ulvlt = 15;
+    static int light_cost_white = 3;
+    static int light_cost_infrd = 1;
+    static int light_cost_ulvlt = 7;
     static int light_cost_nopwr = 0;
     static int light_range_white = 1;
     static int light_range_infrd = 1;
@@ -228,20 +228,20 @@ public class LightResourceControl : MonoBehaviour {
 		// If the current game phase is the player's turn
 		if (PhaseController.GetCurrPhase() == GamePhase.PlayerTurn)
 		{
-			// On key press Alpha # 6
-			if (Input.GetKeyDown(KeyCode.Alpha6))
+			// On key press Alpha # 7
+			if ((Input.GetKeyDown(KeyCode.Alpha7)) || (Input.GetKeyDown(KeyCode.Keypad7)))
 			{
 				SetLightStatus(LightStatus.White);
 			}
 
-			// On key press Alpha # 7
-			if (Input.GetKeyDown(KeyCode.Alpha7))
+			// On key press Alpha # 8
+			if ((Input.GetKeyDown(KeyCode.Alpha8)) || (Input.GetKeyDown(KeyCode.Keypad8)))
 			{
 				SetLightStatus(LightStatus.Infrd);
 			}
 
-			// On key press Alpha # 8
-			if (Input.GetKeyDown(KeyCode.Alpha8))
+			// On key press Alpha # 9
+			if ((Input.GetKeyDown(KeyCode.Alpha9)) || (Input.GetKeyDown(KeyCode.Keypad9)))
 			{
 				SetLightStatus(LightStatus.Ulvlt);
 			}

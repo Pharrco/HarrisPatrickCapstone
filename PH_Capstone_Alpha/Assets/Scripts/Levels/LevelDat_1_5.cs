@@ -9,7 +9,9 @@ public class LevelDat_1_5 : LevelBase
 
     public LevelDat_1_5()
     {
-        Level_array = new int[,] {
+		tutorial_text = "Some treasure chests are more reluctant to be captured than others.";
+
+		Level_array = new int[,] {
         { 3, 3, 3, 4 },
         { 3, 4, 2, 1 },
         { 3, 3, 3, 2 },
@@ -29,7 +31,7 @@ public class LevelDat_1_5 : LevelBase
 
         Facing_start = 270;
 
-        Level_id = 5;
+        Level_id = 6;
     }
 
     public void Awake()

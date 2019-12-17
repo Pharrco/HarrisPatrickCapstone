@@ -26,8 +26,9 @@ public class ControlView : MonoBehaviour {
     [SerializeField]
     GameObject HUD_Camera;
 
+
     // Use this for initialization
-    void Start () {
+    public void Initialize () {
 
         // Get the main camera
         camera_main = Camera.main.gameObject;
@@ -47,7 +48,7 @@ public class ControlView : MonoBehaviour {
 		WallE.transform.position = new Vector3( -shift_center, -2f, (-shift_width) - shift_center);
 		WallW.transform.position = new Vector3(-shift_center, -2f, shift_width - shift_center);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 

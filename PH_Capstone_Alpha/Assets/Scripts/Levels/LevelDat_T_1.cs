@@ -11,13 +11,15 @@ public class LevelDat_T_1 : LevelBase {
 
     public LevelDat_T_1()
     {
+		tutorial_text = "ABCDEF";
+
         Level_array = new int[,] {
-        { 3, 3, 3, 4 },
-        { 3, 4, 2, 1 },
-        { 3, 3, 3, 2 },
-        { 3, 4, 3, 3 },
-		{ 3, 4, 3, 3 },
-		{ 3, 4, 3, 3 }
+        { 2, 2, 2, 2 },
+        { 2, 5, 2, 2 },
+        { 5, 2, 2, 5 },
+        { 2, 2, 5, 2 },
+		{ 5, 2, 2, 2 },
+		{ 2, 5, 2, 5 }
 		};
 
         Marker_list = new List<Vector2>() {
@@ -48,16 +50,17 @@ public class LevelDat_T_1 : LevelBase {
 
         Enemy_Spawn_List = new List<EnemySpawn>()
         {
-            new EnemySpawn( 2, 0, true_chest, Vector3.zero, 0),
-            new EnemySpawn( 1, 1, false_chest, Vector3.zero, 0),
-			new EnemySpawn( 2, 2, reaper, new Vector3(0, 0.1f, 0), 0)
+   //         new EnemySpawn( 2, 0, true_chest, Vector3.zero, 0),
+   //         new EnemySpawn( 1, 1, false_chest, Vector3.zero, 0),
+			//new EnemySpawn( 2, 2, reaper, new Vector3(0, 0.1f, 0), 0)
         };
 
         Environment_Effect_List = new List<EnvironmentEffect>()
         {
-            new SwitchSlimeSpawner( 3, 0, 0, 0, 1, false, false, Enumerators.SwitchColorType.Red),
-			new GorgonDirectionalSpawn(Enumerators.CompassDirect.South),
-			new SwitchLight(0, 3, false, Enumerators.SwitchColorType.Red)
+			new DragonBoss(3)
+			//new SwitchSlimeSpawner( 3, 0, 0, 0, 1, false, false, Enumerators.SwitchColorType.Red),
+			//new GorgonDirectionalSpawn(Enumerators.CompassDirect.South),
+			//new SwitchLight(0, 3, false, Enumerators.SwitchColorType.Red)
         };
     }
 

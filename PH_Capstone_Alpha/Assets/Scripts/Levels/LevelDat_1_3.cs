@@ -7,7 +7,9 @@ public class LevelDat_1_3 : LevelBase
 
     public LevelDat_1_3()
     {
-        Level_array = new int[,] {
+		tutorial_text = "Neutralizing chaotic magic (Orange) requires a spell that will injure you if you attempt to re-enter.";
+
+		Level_array = new int[,] {
         { 1, 2, 3, 4 },
         { 2, 0, 0, 3 },
         { 3, 0, 0, 2 },
@@ -24,7 +26,7 @@ public class LevelDat_1_3 : LevelBase
 
         Facing_start = 270;
 
-        Level_id = 3;
+        Level_id = 4;
     }
 
 }

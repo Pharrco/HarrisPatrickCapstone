@@ -18,11 +18,23 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/Menu_PlayGuide.unity
     guid: baf7b20fb2513924ea52813ed9bb751a
   - enabled: 1
+    path: Assets/Scenes/Menus/Menu_AchievementPage.unity
+    guid: f2fbb327f988e5c4f853e225ad185506
+  - enabled: 1
+    path: Assets/Scenes/Menus/Menu_Cinematic.unity
+    guid: 1d007afb6738b8843a7b02ccfa939dc4
+  - enabled: 1
     path: Assets/Scenes/TestA.unity
     guid: 1e608f90c41446840b38238c7f1489a0
   - enabled: 1
     path: Assets/Scenes/Menus/SceneSelect_Area1.unity
     guid: 7fca1d298dce8a54abc2b034670c5f69
+  - enabled: 1
+    path: Assets/Scenes/Cinematics/From Select/CineLevel_1_1.unity
+    guid: d7dc9018d57fcba4380ad119d32706c7
+  - enabled: 1
+    path: Assets/Scenes/Cinematics/From Menu/MenuCine_1_1.unity
+    guid: 8df836efb4d556c43a1327af308285a7
   - enabled: 1
     path: Assets/Scenes/PlayLevels/PlayLevel_1_1.unity
     guid: 846b7c4f42999674989ddc90cdcab57c
@@ -62,3 +74,51 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayLevels/PlayLevel_1_13.unity
     guid: 754cf0874af7ef34b852b2b3a1e5b58d
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_14.unity
+    guid: f27d91481cfeeeb4794793165462ba8f
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_15.unity
+    guid: b4e605c4681ad674cb70ccd2237a3a1c
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_16.unity
+    guid: da80653ff81827145a17705ebea87d87
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_17.unity
+    guid: 5658f22e7a87ac4408ae2c1d53a9cc00
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_18.unity
+    guid: 41e9d9d038d2fc74480e4b0b288517eb
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_19.unity
+    guid: 369bd3b21117e4d4684e0df37b4539d1
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_20.unity
+    guid: 033a4b4eda6c07840be2e6a02ec95bf4
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_21.unity
+    guid: 5540ba39a1d0d114dadb443aa0f65674
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_22.unity
+    guid: 25729d4d468222b4eb2ab2f7d8ce0d3a
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_23.unity
+    guid: 677746b932793a642947fdc60fa97ca8
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_24.unity
+    guid: 863955cc238459c449c814869832d410
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_25.unity
+    guid: 8320147dbc5e14b43b2d50603e6ed3a8
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_26.unity
+    guid: d73a8642076b02d4cab58479b2499f1c
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_27.unity
+    guid: 478ac5996d623fd4eb5a54af134ee18b
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_28.unity
+    guid: 37ce6a25c563da64a91152a5a6df7e82
+  - enabled: 1
+    path: Assets/Scenes/PlayLevels/PlayLevel_1_29.unity
+    guid: cd32310649225064babebe9cbc8ee983

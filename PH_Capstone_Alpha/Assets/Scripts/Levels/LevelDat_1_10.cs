@@ -6,6 +6,8 @@ public class LevelDat_1_10 : LevelBase
 {
 	public LevelDat_1_10()
 	{
+		tutorial_text = "The witch's cauldrons will spit out slimes that leave a magic trail. Not all the new magic must be neutralized.";
+
 		Level_array = new int[,] {
 		{ 2, 2, 1, 1, 2, 3 },
 		{ 3, 3, 0, 0, 0, 4 },
@@ -34,7 +36,7 @@ public class LevelDat_1_10 : LevelBase
 
 		Facing_start = 180;
 
-		Level_id = 10;
+		Level_id = 11;
 	}
 
 	public void Awake()

@@ -45,6 +45,13 @@ public class CinematicController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			SceneManager.LoadScene(GetComponent<CinematicBase>().next_level);
+			GameSave.loaded_save.CompleteLevel(GetComponent<CinematicBase>().Level_id);
+			MasterGameController.SaveCurrent();
+		}
+
         if (curr_event != null)
         {
 			if (pause_timer > 0)
@@ -78,7 +85,9 @@ public class CinematicController : MonoBehaviour {
 						}
 						else
 						{
-							curr_event = null;
+							SceneManager.LoadScene(GetComponent<CinematicBase>().next_level);
+							GameSave.loaded_save.CompleteLevel(GetComponent<CinematicBase>().Level_id);
+							MasterGameController.SaveCurrent();
 						}
 					}
 				}

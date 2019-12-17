@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneSelectCameraControl : MonoBehaviour {
 
-    //public static int levels_complete = 12;
     [SerializeField]
     int level_first, level_last;
     [SerializeField]
@@ -22,9 +21,16 @@ public class SceneSelectCameraControl : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        // Move to first camera anchor
-        transform.position = camera_anchors[0].position;
-        transform.rotation = camera_anchors[0].rotation;
+		curr_position = GameSave.loaded_save.GetLevelProgress();
+
+		if (curr_position >= level_last)
+		{
+			curr_position = level_last;
+		}
+
+		// Move to first camera anchor
+		transform.position = camera_anchors[curr_position].position;
+        transform.rotation = camera_anchors[curr_position].rotation;
 
         GameObject.Find("LevelTitleText").GetComponent<Text>().text = "Level 1-" + (curr_position + 1).ToString();
 

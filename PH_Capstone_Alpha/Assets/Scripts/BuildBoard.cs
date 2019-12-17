@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildBoard : MonoBehaviour {
 
@@ -145,8 +146,17 @@ public class BuildBoard : MonoBehaviour {
             }
         }
 
-        // Initialize the light grid
-        LightEffectControl.InitializeLightGrid(whiteLight_effect, nopwrLight_effect, infrdLight_effect, ulvltLight_effect);
+		if ((GetComponent<LevelBase>().tutorial_text == null) || (GetComponent<LevelBase>().tutorial_text == ""))
+		{
+			GameObject.Find("CinematicUI").SetActive(false);
+		}
+		else
+		{
+			GameObject.Find("CinematicUI").transform.Find("DialoguePanel/Message_text").GetComponent<Text>().text = GetComponent<LevelBase>().tutorial_text;
+		}
+
+		// Initialize the light grid
+			LightEffectControl.InitializeLightGrid(whiteLight_effect, nopwrLight_effect, infrdLight_effect, ulvltLight_effect);
 
         // Set light effect based on player start position
         LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y, LightStatus.White);
@@ -156,6 +166,8 @@ public class BuildBoard : MonoBehaviour {
         LightEffectControl.SetLightGridPoint((int)GetComponent<LevelBase>().Player_start.x, (int)GetComponent<LevelBase>().Player_start.y - 1, LightStatus.White);
 
 		SwitchNetworkController.UpdateAllSwitches();
+
+		GameObject.Find("ViewController").GetComponent<ControlView>().Initialize();
     }
 
     // Get the height stored in the board array
@@ -175,4 +187,9 @@ public class BuildBoard : MonoBehaviour {
     {
         return board_array.GetLength(1);
     }
+
+	public static int[,] GetBoardArray()
+	{
+		return board_array;
+	}
 }

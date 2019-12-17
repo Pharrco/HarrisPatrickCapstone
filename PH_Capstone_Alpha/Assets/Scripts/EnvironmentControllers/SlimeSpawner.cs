@@ -83,7 +83,7 @@ public class SlimeSpawner : BaseEnvironmentController
 		spawn_object = n_slime;
 		spawn_object.GetComponent<SimpleSlimeController>().spawn_source = this;
 
-		timer_panel = GameObject.Instantiate(InterfaceSingleton.singleton.timerFrame_prefab, GameObject.Find("TimerPanelArea").transform);
+		timer_panel = GameObject.Instantiate(InterfaceSingleton.singleton.slimeTimerFrame_prefab, GameObject.Find("TimerPanelArea").transform);
 		
 		UpdateTimer(moves_till_spawn);
 		ForceUpdate();

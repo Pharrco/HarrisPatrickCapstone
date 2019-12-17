@@ -14,7 +14,7 @@ public class CashControl : MonoBehaviour {
         // Reset temporary cash amounts
         level_cash = 0;
         play_cash = 0;
-        cash_text = GameObject.Find("HUD").GetComponent<Transform>().Find("CashText").GetComponent<Text>();
+        cash_text = GameObject.Find("PlayHUD").GetComponent<Transform>().Find("CashText").GetComponent<Text>();
         cash_text.text = "$" + play_cash;
 	}
 
@@ -60,6 +60,8 @@ public class CashControl : MonoBehaviour {
     public static void StoreLevelEndCash()
     {
 		GameSave.loaded_save.AddPlayerCash(level_cash);
+		GameSave.UpdateAchievement(AchievementType.GoldCollect, level_cash);
+		GameSave.UpdateAchievement(AchievementType.GoldHoard, GameSave.loaded_save.GetPlayerCash());
 		Debug.Log("Player now has $" + GameSave.loaded_save.GetPlayerCash().ToString());
     }
 

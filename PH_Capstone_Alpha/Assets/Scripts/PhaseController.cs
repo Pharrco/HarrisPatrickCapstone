@@ -58,11 +58,6 @@ public class PhaseController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			Debug.Log(curr_phase);
-		}
-
         // If the current game phase is the timed test phase
 		if (curr_phase == GamePhase.TimedTestPhase)
         {
@@ -80,7 +75,7 @@ public class PhaseController : MonoBehaviour {
             }
         }
 
-        if ((message_panel.planeDistance == 0.5f) && (Input.GetKeyDown(KeyCode.Return)))
+        if ((message_panel.planeDistance == 0.5f) && (Input.GetKeyDown(KeyCode.Space)))
         {
             EndMessagePause();
         }

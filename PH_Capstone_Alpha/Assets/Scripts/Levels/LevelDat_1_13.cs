@@ -6,6 +6,8 @@ public class LevelDat_1_13 : LevelBase
 {
 	public LevelDat_1_13()
 	{
+		tutorial_text = "Looking in the gorgon's direction will cause you to turn to stone and limit your movements. Turn away to break the spell.";
+
 		Level_array = new int[,] {
 		{ 2, 0, 3, 3, 2, 3 },
 		{ 3, 0, 2, 0, 0, 3 },
@@ -33,7 +35,7 @@ public class LevelDat_1_13 : LevelBase
 
 		Facing_start = 180;
 
-		Level_id = 13;
+		Level_id = 14;
 	}
 
 	public void Awake()

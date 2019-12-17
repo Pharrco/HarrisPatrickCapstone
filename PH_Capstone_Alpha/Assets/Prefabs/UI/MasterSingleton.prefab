@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1917209348087086}
+  m_IsPrefabParent: 1
+--- !u!1 &1917209348087086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4878126339703624}
+  - component: {fileID: 114514100636691484}
+  - component: {fileID: 114730241642977378}
+  - component: {fileID: 114658559600425648}
+  m_Layer: 0
+  m_Name: MasterSingleton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4878126339703624
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1917209348087086}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.3500805, y: -77.44136, z: 7.087469}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114514100636691484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1917209348087086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e245d0fb2103be45aec750177857d2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slime_spawner: {fileID: 1428120173236240, guid: fe3e709493ab4c24a96b2bd4275c2c70,
+    type: 2}
+  directional_gorgon: {fileID: 1292024834741766, guid: 329f39a2b12cf2345a56fd23f91bd7fa,
+    type: 2}
+  dragon_blast: {fileID: 0}
+  dragon_controller: {fileID: 1244375934424800, guid: 5819d64f153f7504fbf38544819eb7df,
+    type: 2}
+--- !u!114 &114658559600425648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1917209348087086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc8109705c165b34bac07df6bdf79f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy_turn_icon: {fileID: 21300000, guid: 7331c33860a6b44f3a88548533319276, type: 3}
+  player_turn_icon: {fileID: 21300000, guid: 64ed8522d16f54ac19372380109a204d, type: 3}
+  ally_turn_icon: {fileID: 0}
+  environment_turn_icon: {fileID: 0}
+  pause_turn_icon: {fileID: 0}
+  chargeAble_icon: {fileID: 21300000, guid: c52d704fc25ab7b4d921281b762fdd8c, type: 3}
+  chargeUnable_icon: {fileID: 21300000, guid: 311ae103a78d56845b8237fc9b146e2a, type: 3}
+  timer_image1: {fileID: 21300000, guid: ed497004a0c17f8488e07435489a5b0c, type: 3}
+  timer_image2: {fileID: 21300000, guid: 3b7e06814c1922c4089e1accee66e4e8, type: 3}
+  timer_image3: {fileID: 21300000, guid: f780fe3a2937ff04c943c7146c6ac0cc, type: 3}
+  timer_image4: {fileID: 21300000, guid: 5dd5c050e3a962b48b1c9053165c453d, type: 3}
+  timer_image5: {fileID: 21300000, guid: 2e929f2c76fac7e4da55b064f6977722, type: 3}
+  timer_imagepass: {fileID: 21300000, guid: 3df2f0a571b7a2e4d90e05c93f8af4b0, type: 3}
+  timer_imagefail: {fileID: 21300000, guid: 8ffacd0b30db38242912ad4017df260b, type: 3}
+  timer_imagepause: {fileID: 0}
+  slimeTimerFrame_prefab: {fileID: 1734414844479850, guid: 7af295534bcbdd54db1f085d9540da0f,
+    type: 2}
+  dragonTimerFrame_prefab: {fileID: 1553396125305044, guid: 8b3d4b6b14193954d915c8e9b73b762a,
+    type: 2}
+--- !u!114 &114730241642977378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1917209348087086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b3f215bc046a145a66ab1fbcd8eff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  false_chest: {fileID: 1794932051877776, guid: db2b2043dc2ef024f90f9b92ed168a01,
+    type: 2}
+  true_chest: {fileID: 1806146324260482, guid: b2beadd3715be8748933779c7e31066a, type: 2}
+  simple_slime: {fileID: 1584241556790264, guid: d4e3a80496471694f933d7bad0ea99e8,
+    type: 2}
+  reaper: {fileID: 1098365677881212, guid: b2f5e0cbf9709104f88939d1266cfa69, type: 2}
+  red_switch: {fileID: 1872277385769774, guid: 6c6f2c03fec9ac24984bef9374921f72, type: 2}
+  blue_switch: {fileID: 0}
+  green_switch: {fileID: 0}
+  purple_switch: {fileID: 0}
+  red_endPoint: {fileID: 1679860926796682, guid: ea29df7385acee247b9f82573b802eb1,
+    type: 2}
+  blue_endPoint: {fileID: 0}
+  green_endPoint: {fileID: 0}
+  purple_endPoint: {fileID: 0}
